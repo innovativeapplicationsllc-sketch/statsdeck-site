@@ -51,53 +51,69 @@
 <main>
   <div class="wrap">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: [DATE — set on publish]</p>
+    <p class="updated">Last updated: June 18, 2026</p>
 
-    <div class="review-flag">
-      <strong>Draft for review.</strong> This is a working draft to satisfy the submission requirement.
-      Have it reviewed before publishing, and confirm every statement matches what the server actually does.
-    </div>
+    <p>StatsDeck ("we," "our") is an add-on (an MCP connector) for Claude that helps you analyze
+      players, weigh matchups, and make smarter fantasy football decisions using NFL statistics and,
+      if you connect one, your fantasy league data. This policy explains what we collect, how we use
+      it, where we store it, how long we keep it, who we share it with, and how to contact us.</p>
 
-    <p>StatsDeck ("we," "our") is an add-on (an MCP connector) for Claude that answers fantasy
-      football questions using NFL statistics and, if you connect one, your fantasy league data.
-      This policy explains what we collect and why.</p>
+    <h2>Signing in</h2>
+    <p>You sign in through single sign-on, handled by our authentication provider, Clerk, which manages
+      the login and holds your account email. StatsDeck uses only a pseudonymous account identifier to
+      recognize you across sessions — it does not read, use, or store your email address.</p>
 
     <h2>What we collect</h2>
     <ul>
-      <li><strong>Account email and ID.</strong> When you connect StatsDeck, you sign in with Google.
-        We store your email address and a unique account identifier so we can recognize you across sessions.</li>
-      <li><strong>Usage events.</strong> We record which StatsDeck features you use and when, tied to your
-        account ID, so we can keep the service reliable and understand what's useful.</li>
+      <li><strong>Account identifier.</strong> A pseudonymous identifier from your sign-in, used to
+        recognize you across sessions and to associate your saved settings with you.</li>
+      <li><strong>Activity timestamps.</strong> We record when you use StatsDeck, associated with your
+        account identifier, to count active users and keep the service reliable. We do not record what
+        you ask, which features or tools you use, or any of your conversation content.</li>
       <li><strong>League data you choose to connect.</strong> If you link a fantasy league (e.g. Sleeper),
         we read public league information — your roster, league scoring settings, and available players —
-        to answer your questions. We do not collect login passwords for these platforms.</li>
+        to answer your questions, and we save this as your profile so the service remembers your league.
+        We do not collect login passwords for these platforms.</li>
     </ul>
 
     <h2>What we don't do</h2>
     <ul>
+      <li>We do not store your email address.</li>
       <li>We do not sell your personal information.</li>
       <li>We do not post, change, or delete anything in your fantasy leagues — StatsDeck only reads.</li>
       <li>We do not provide betting odds or lines, and we do not collect payment card details directly
-        (any future paid plan is handled by a third-party payment processor).</li>
+        (any future paid plan would be handled by a third-party payment processor).</li>
     </ul>
 
     <h2>How we use your information</h2>
-    <p>To provide and operate StatsDeck, answer your questions accurately, keep the service secure and
-      reliable, and — only if you opt in — to send you occasional product updates. Transactional messages
-      related to your account may be sent regardless of marketing opt-in.</p>
+    <p>To provide and operate StatsDeck, answer your questions accurately under your league's scoring,
+      keep the service secure and reliable, and understand how many people are actively using it. We do
+      not use your information for advertising.</p>
 
-    <h2>Marketing email</h2>
-    <p>We will only send marketing or promotional email if you explicitly opt in. You can withdraw consent
-      at any time using the unsubscribe link in any such email.</p>
+    <h2>Where we store it &amp; how long</h2>
+    <p>Your saved profile — your scoring preference and any connected league's settings — is stored by
+      our hosting provider (Railway), associated with your account identifier, and kept while you use the
+      service. When you disconnect your league, your saved profile is deleted. Activity records are
+      retained while the service is in use. We do not store payment details or conversation content.</p>
 
-    <h2>Data sharing</h2>
-    <p>We share data only with service providers that help us run StatsDeck (for example, hosting,
-      authentication, and email delivery), and only as needed to provide the service. NFL statistics are
-      sourced from nflverse (licensed CC-BY 4.0).</p>
+    <h2>Who we share data with</h2>
+    <p>We share data only with the service providers that help us run StatsDeck, and only as needed to
+      operate it:</p>
+    <ul>
+      <li><strong>Clerk</strong> — handles sign-in and authentication, and holds your account email.</li>
+      <li><strong>Railway</strong> — hosts the service, stores your saved profile, and keeps operational
+        logs that include your account identifier.</li>
+      <li><strong>Sleeper</strong> — when you connect a league, we read its public information; we do not
+        send Sleeper any login or password.</li>
+      <li><strong>nflverse</strong> — our source of NFL statistics (licensed CC-BY 4.0); we do not send
+        them any user data.</li>
+    </ul>
+    <p>We do not sell your personal information.</p>
 
-    <h2>Data retention &amp; your choices</h2>
-    <p>We keep your account information while your account is active. You can request access to, correction
-      of, or deletion of your data by emailing us. We will respond within a reasonable timeframe.</p>
+    <h2>Your choices</h2>
+    <p>You can delete your saved profile at any time by disconnecting your league in StatsDeck. You can
+      also request access to, correction of, or deletion of your data by emailing us, and we'll respond
+      within a reasonable timeframe.</p>
 
     <h2>Contact</h2>
     <p>Questions or requests: <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a></p>
