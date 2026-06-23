@@ -220,6 +220,13 @@ a:hover{color:var(--brand-dark)}
   border-radius:8px;padding:9px 13px;display:inline-block;
   word-break:break-all;margin:4px 0 2px;
 }
+.step-link{
+  display:inline-block;margin:4px 0 2px;
+  font-family:'Saira Condensed',sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;font-size:.95rem;
+  color:var(--brand);
+}
+.step-link:hover{color:var(--brand-dark)}
 .step-shot{
   grid-column:1 / -1;margin-top:6px;
 }
@@ -331,17 +338,16 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 <!-- ========== HERO ========== -->
 <section class="hero" id="top">
   <div class="wrap">
-    <!-- flat-design football icon -->
+    <!-- flat-design football icon (style D) -->
     <svg class="ball" viewBox="0 0 100 100" role="img" aria-label="Football" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="50" cy="50" rx="44" ry="27" transform="rotate(-30 50 50)" fill="#8A4B22"/>
-      <ellipse cx="50" cy="50" rx="44" ry="27" transform="rotate(-30 50 50)" fill="none" stroke="#5E3115" stroke-width="3"/>
-      <ellipse cx="18.5" cy="68" rx="6.5" ry="4" transform="rotate(-30 18.5 68)" fill="#FFF8EC"/>
-      <ellipse cx="81.5" cy="32" rx="6.5" ry="4" transform="rotate(-30 81.5 32)" fill="#FFF8EC"/>
-      <g stroke="#FFF8EC" stroke-width="3.4" stroke-linecap="round">
-        <line x1="39" y1="61" x2="61" y2="39"/>
-        <line x1="44.5" y1="52.5" x2="55.5" y2="47.5" transform="rotate(-30 50 50)"/>
-        <line x1="44.5" y1="49.5" x2="55.5" y2="44.5" transform="rotate(-30 50 50)"/>
-        <line x1="44.5" y1="55.5" x2="55.5" y2="50.5" transform="rotate(-30 50 50)"/>
+      <title>Football</title>
+      <g transform="rotate(-35 50 50)">
+        <path d="M50 26 C72 26 88 38 88 50 C88 62 72 74 50 74 C28 74 12 62 12 50 C12 38 28 26 50 26 Z" fill="#8A4B22" stroke="#5E3115" stroke-width="3"/>
+        <line x1="34" y1="50" x2="66" y2="50" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="40" y1="44" x2="40" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="46" y1="43" x2="46" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="54" y1="43" x2="54" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="60" y1="44" x2="60" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/>
       </g>
     </svg>
 
@@ -352,7 +358,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
 
     <h1>Your fantasy football <span class="hl">edge</span>, inside Claude.</h1>
-    <p class="hero-sub">StatsDeck unlocks the power of Claude for fantasy football — real analytics, computed for your roster and your league's scoring. Explore and formulate your strategies.</p>
+    <p class="hero-sub">StatsDeck unlocks the power of Claude for fantasy football — real analytics, computed for your roster and league. Explore and formulate your strategies.</p>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
@@ -375,6 +381,82 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         <h3 class="free-head">StatsDeck is free during the private beta</h3>
         <p>Claude has a free plan that's plenty to start. Heavier users can upgrade for more — but you don't need a paid plan to try StatsDeck.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== GET STARTED / 4 STEPS ========== -->
+<section class="block" id="start">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Get started</span>
+      <h2 class="big">Join the private beta.</h2>
+      <p>Up and running in four steps — no app to download. StatsDeck connects to Claude right from your browser, phone or desktop.</p>
+    </div>
+
+    <div class="steps">
+
+      <!-- STEP 1 -->
+      <div class="step">
+        <div class="idx">1</div>
+        <div class="step-body">
+          <h3>Get Claude</h3>
+          <p>StatsDeck runs inside Claude, Anthropic's AI assistant. If you don't have it yet, create a free account — web or phone.</p>
+          <a class="step-link" href="https://claude.ai" target="_blank" rel="noopener">Get Claude →</a>
+          <div class="step-shot">
+            <div class="ph phone">
+              <span class="ph-label">[screenshot]<br/>iPhone: claude.ai sign-up</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div class="idx">2</div>
+        <div class="step-body">
+          <h3>Connect StatsDeck</h3>
+          <p>In Claude, open <strong>Settings → Connectors → Add custom connector</strong> and paste the StatsDeck URL. Sign in once with Google or email — no password to create.</p>
+          <span class="url-chip">https://app.statsdeck.ai/mcp</span>
+          <div class="step-shot">
+            <div class="ph phone">
+              <span class="ph-label">[screenshot]<br/>iPhone: Add custom connector → paste URL → sign in</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div class="idx">3</div>
+        <div class="step-body">
+          <h3>Connect your league</h3>
+          <div class="leagues">
+            <span class="league"><span class="name">Sleeper</span><span class="status live">Live now</span></span>
+            <span class="league"><span class="name">ESPN</span><span class="status soon">Coming soon</span></span>
+            <span class="league"><span class="name">Yahoo</span><span class="status soon">Coming soon</span></span>
+          </div>
+          <div class="step-shot">
+            <div class="ph phone">
+              <span class="ph-label">[screenshot]<br/>iPhone: "Connect my Sleeper league" chat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step">
+        <div class="idx">4</div>
+        <div class="step-body">
+          <h3>Start strategizing</h3>
+          <div class="step-shot">
+            <div class="ph phone">
+              <span class="ph-label">[screenshot]<br/>iPhone: "Who do I start at flex this week?" answer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -403,70 +485,6 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         <h3>Knows your roster</h3>
         <p>Connect your league and ask about your actual team and your waiver wire. Start/sit and matchup calls in the context of who you really own.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== GET STARTED / 3 STEPS ========== -->
-<section class="block" id="start">
-  <div class="wrap">
-    <div class="sec-head center">
-      <span class="eyebrow">Get started</span>
-      <h2 class="big">Join the private beta.</h2>
-      <p>Up and running in three steps — no app to download. StatsDeck connects to Claude right from your browser, phone or desktop.</p>
-    </div>
-
-    <div class="steps">
-
-      <!-- STEP 1 -->
-      <div class="step">
-        <div class="idx">1</div>
-        <div class="step-body">
-          <h3>Add StatsDeck to Claude</h3>
-          <p>New to Claude? This step gets you both at once — a Claude account and StatsDeck wired in. In Claude, open <strong>Settings → Connectors → Add custom connector</strong>, paste the StatsDeck URL, and sign in once.</p>
-          <span class="url-chip">https://app.statsdeck.ai/mcp</span>
-          <p>You'll sign in with Google or email — no password to create. StatsDeck only ever reads stats and league data; it never posts or changes anything in your league.</p>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: Add custom connector → paste URL → sign in</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2 -->
-      <div class="step">
-        <div class="idx">2</div>
-        <div class="step-body">
-          <h3>Connect your league</h3>
-          <p>Tell StatsDeck your league and it reads your real roster and your exact scoring — so every answer is about <em>your</em> team, not a generic top-100 list. Just give Claude your Sleeper username and it pulls up your leagues.</p>
-          <div class="leagues">
-            <span class="league"><span class="name">Sleeper</span><span class="status live">Live now</span></span>
-            <span class="league"><span class="name">ESPN</span><span class="status soon">Coming soon</span></span>
-            <span class="league"><span class="name">Yahoo</span><span class="status soon">Coming soon</span></span>
-          </div>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: "Connect my Sleeper league" chat</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3 -->
-      <div class="step">
-        <div class="idx">3</div>
-        <div class="step-body">
-          <h3>Start strategizing</h3>
-          <p>That's the whole setup. Now just ask. Start/sit calls, waiver targets, matchup reads, recent-form trends — all in plain English, all computed against your league. Claude does the talking; StatsDeck does the math.</p>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: "Who do I start at flex this week?" answer</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
