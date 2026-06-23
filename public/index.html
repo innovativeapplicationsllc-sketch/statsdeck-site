@@ -108,7 +108,9 @@ a:hover{color:var(--brand-dark)}
   color:var(--gold-dark);background:#FBF3D6;
   border:1px solid #F0E3AE;border-radius:999px;
   padding:5px 12px;white-space:nowrap;
+  transition:background .18s ease,border-color .18s ease;
 }
+.beta-pill:hover{color:var(--gold-dark);background:#FBEFC2;border-color:#E6D596}
 .nav-cta{
   font-family:'Saira Condensed',sans-serif;font-weight:600;
   text-transform:uppercase;letter-spacing:.08em;font-size:.92rem;
@@ -159,6 +161,7 @@ a:hover{color:var(--brand-dark)}
   padding:22px 22px;background:var(--paper);
 }
 .wcard h3{font-size:1.18rem;margin-bottom:6px}
+.wcard h3.free-head{color:var(--verified)}
 .wcard p{margin:0;color:var(--ink-soft);font-size:.97rem}
 .wcard .tag{
   font-family:'Saira Condensed',sans-serif;font-weight:600;
@@ -177,6 +180,7 @@ a:hover{color:var(--brand-dark)}
 .sec-head{margin-bottom:42px;max-width:60ch}
 .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
 .sec-head h2{font-size:clamp(1.7rem,3.6vw,2.6rem);margin-top:10px}
+.sec-head h2.big{font-size:clamp(2.2rem,5vw,3.6rem)}
 .sec-head p{color:var(--ink-soft);margin:14px 0 0;font-size:1.05rem}
 
 /* ---------- pillars ---------- */
@@ -318,7 +322,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       <span class="fb" style="display:none">StatsDeck<span class="ai">AI</span></span>
     </a>
     <div class="nav-right">
-      <span class="beta-pill">Private beta</span>
+      <a class="beta-pill" href="#start">Private beta</a>
       <a class="nav-cta" href="#start">Add to Claude</a>
     </div>
   </div>
@@ -348,13 +352,12 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
 
     <h1>Your fantasy football <span class="hl">edge</span>, inside Claude.</h1>
-    <p class="hero-sub">StatsDeck unlocks the power of Claude for fantasy football — real analytics, computed against your league's exact scoring and your real roster. Ask in plain English, strategize like you've got an analyst on call.</p>
+    <p class="hero-sub">StatsDeck unlocks the power of Claude for fantasy football — real analytics, computed for your roster and your league's scoring. Explore and formulate your strategies.</p>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
       <a class="btn btn-ghost" href="#why">See what it does</a>
     </div>
-    <p class="hero-note"><strong>Free to start.</strong> Works inside the Claude you already use — or set up in minutes if you're new.</p>
   </div>
 </section>
 
@@ -369,9 +372,8 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       </div>
       <div class="wcard">
         <span class="tag">What it costs</span>
-        <h3>Free to get going</h3>
+        <h3 class="free-head">StatsDeck is free during the private beta</h3>
         <p>Claude has a free plan that's plenty to start. Heavier users can upgrade for more — but you don't need a paid plan to try StatsDeck.</p>
-        <span class="free">StatsDeck is free during the private beta</span>
       </div>
     </div>
   </div>
@@ -382,7 +384,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   <div class="wrap">
     <div class="sec-head center">
       <span class="eyebrow">Why StatsDeck</span>
-      <h2>Three things plain AI can't do for your team.</h2>
+      <h2>Get your edge for Sunday.</h2>
       <p>Anyone can recite last year's box score. StatsDeck does the part that actually decides your matchup.</p>
     </div>
     <div class="pillars">
@@ -409,9 +411,9 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 <section class="block" id="start">
   <div class="wrap">
     <div class="sec-head center">
-      <span class="eyebrow">Join the private beta</span>
-      <h2>Up and running in three steps.</h2>
-      <p>No app to download. StatsDeck connects to Claude right from your browser — phone or desktop. Here's the whole flow.</p>
+      <span class="eyebrow">Get started</span>
+      <h2 class="big">Join the private beta.</h2>
+      <p>Up and running in three steps — no app to download. StatsDeck connects to Claude right from your browser, phone or desktop.</p>
     </div>
 
     <div class="steps">
@@ -521,7 +523,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 <!-- ========== CLOSER ========== -->
 <section class="closer">
   <div class="wrap">
-    <h2>Get your edge before Sunday.</h2>
+    <h2>Set a smarter lineup.</h2>
     <p>Add StatsDeck to Claude and start strategizing with answers that know your league and your roster.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
