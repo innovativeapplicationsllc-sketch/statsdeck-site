@@ -199,10 +199,10 @@ a:hover{color:var(--brand-dark)}
 .pillar p{margin:0;color:var(--ink-soft);font-size:.97rem}
 
 /* ---------- connect carousel ---------- */
-.carousel{max-width:520px;margin:40px auto 0;text-align:center}
+.carousel{max-width:640px;margin:40px auto 0;text-align:center}
 .carousel-stage{
-  position:relative;width:100%;max-width:480px;margin:0 auto;
-  aspect-ratio:1 / 1;                 /* square — images are 1100x1100; never collapses on slow load */
+  position:relative;width:100%;max-width:600px;margin:0 auto;
+  aspect-ratio:1 / 1;                 /* square — images are 960x960 edge-to-edge; never collapses on slow load */
   border:1px solid var(--line);border-radius:var(--radius);
   background:var(--paper-2);overflow:hidden;
 }
@@ -213,7 +213,9 @@ a:hover{color:var(--brand-dark)}
 .carousel-caption{
   font-family:'Inter',system-ui,sans-serif;
   color:var(--ink-soft);font-size:1rem;
-  margin:16px auto 0;min-height:1.5em; /* stable height so nav doesn't shift between slides */
+  /* min-height reserves space for the TALLEST caption (two-line slide 5 + the URL chip) so the
+     nav row stays put across all 7 slides — short captions just sit with a little space below. */
+  margin:16px auto 0;min-height:4em;
 }
 .carousel-nav{
   display:flex;align-items:center;justify-content:center;gap:16px;
@@ -227,6 +229,26 @@ a:hover{color:var(--brand-dark)}
 .btn:disabled,.btn:disabled:hover{
   opacity:.38;cursor:default;transform:none;box-shadow:none;
 }
+/* caption link + the MCP-URL chip with inline copy button */
+.carousel-caption a{color:var(--brand);font-weight:600;text-decoration:none}
+.carousel-caption a:hover{text-decoration:underline}
+.url-copy{
+  display:inline-flex;align-items:center;gap:6px;vertical-align:middle;
+  font-family:'JetBrains Mono',monospace;font-size:.82rem;
+  background:var(--field);color:var(--gold);
+  border-radius:8px;padding:5px 9px;
+  word-break:break-all;
+}
+.url-copy-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:none;border:none;cursor:pointer;padding:2px;
+  background:transparent;color:var(--gold);line-height:0;
+  border-radius:5px;transition:color .15s ease;
+}
+.url-copy-btn:hover{color:#fff}
+.url-copy-btn svg{width:15px;height:15px;display:block}
+.url-copy-btn.copied{color:var(--brand);font-family:'Saira Condensed',sans-serif;
+  font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
 
 /* ---------- phone screenshots ---------- */
 .shots{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -292,6 +314,11 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   .shots{grid-template-columns:1fr}
   .step{grid-template-columns:1fr;gap:14px}
   .ball{width:62px;height:62px}
+  /* Carousel-scoped: bleed ~16px past the shared .wrap 24px side padding (keeps an ~8px
+     breathing margin off the viewport edges) so the stage renders noticeably larger on phones.
+     The stage's 600px cap never bites here (phones are < 600px wide) — it fills this width. */
+  .carousel{width:calc(100% + 32px);max-width:calc(100% + 32px);margin-left:-16px;margin-right:-16px}
+  .carousel-stage{max-width:none}
 }
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -339,7 +366,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
 
     <h1>Your fantasy football <span class="hl">edge</span>, inside Claude.</h1>
-    <p class="hero-sub">Bring your strategies to life.</p>
+    <p class="hero-sub">Use the power of AI to manage your fantasy team.</p>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
@@ -362,9 +389,9 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       <div class="carousel-stage">
         <img id="carousel-img" class="carousel-img"
              src="/img/connect/1.png" alt="Connect StatsDeck step 1 of 7"
-             width="1100" height="1100" />
+             width="960" height="960" />
       </div>
-      <p class="carousel-caption" id="carousel-caption">Step 1</p>
+      <p class="carousel-caption" id="carousel-caption">First go to <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai</a> and sign in. It's free!</p>
       <div class="carousel-nav">
         <button type="button" class="btn btn-ghost carousel-back" id="carousel-back" aria-label="Previous step">Back</button>
         <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 7</span>
@@ -485,8 +512,25 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   // ---------- connect carousel: linear 7-step stepper (no wrap), vanilla ----------
   (function () {
     var TOTAL = 7;
-    // Captions are placeholders — final strings get swapped here later.
-    var CAPTIONS = ["Step 1", "Step 2", "Step 3", "Step 4", "Step 5", "Step 6", "Step 7"];
+    var MCP_URL = "https://app.statsdeck.ai/mcp";
+    // Clipboard ("copy") icon — inline so it rides in the static caption HTML.
+    var COPY_ICON =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="9" y="9" width="13" height="13" rx="2"/>' +
+      '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    // Captions are STATIC, code-controlled HTML (no user input) — rendered via innerHTML.
+    var CAPTIONS = [
+      'First go to <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai</a> and sign in. It\'s free!',
+      'Open the side menu &gt; <strong>Customize</strong>',
+      'Scroll sideways &amp; tap <strong>Connectors</strong>',
+      'Add Custom Connector',
+      'Name: StatsDeck<br>MCP Server: <span class="url-copy">' + MCP_URL +
+        '<button type="button" class="url-copy-btn" aria-label="Copy URL" data-copy="' + MCP_URL +
+        '">' + COPY_ICON + '</button></span>',
+      'Connect &gt; Continue with Google or Email',
+      'Connected! A great way to start is by connecting your league →'
+    ];
 
     var root = document.getElementById("connect-carousel");
     if (!root) return;
@@ -503,7 +547,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       img.src = "/img/connect/" + n + ".png";
       img.alt = "Connect StatsDeck step " + n + " of " + TOTAL;
       img.loading = i === 0 ? "eager" : "lazy";
-      caption.textContent = CAPTIONS[i];
+      caption.innerHTML = CAPTIONS[i];   // static, code-controlled HTML (link/bold/copy button)
       counter.textContent = n + " / " + TOTAL;
       back.disabled = i === 0;          // no Back on slide 1
       next.disabled = i === TOTAL - 1;  // no dead-end Next on slide 7
@@ -514,6 +558,31 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     });
     next.addEventListener("click", function () {
       if (i < TOTAL - 1) { i++; render(); }
+    });
+
+    // Copy-to-clipboard for the MCP URL (caption 5). EVENT DELEGATION — one listener on the
+    // persistent caption element, so it survives the innerHTML re-render that recreates the
+    // button on every slide change (no re-wiring, no duplicate handlers, no leak).
+    caption.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest(".url-copy-btn");
+      if (!btn || btn.dataset.busy) return;
+      var url = btn.getAttribute("data-copy");
+      function copied() {
+        btn.dataset.busy = "1";
+        btn.classList.add("copied");
+        btn.textContent = "Copied!";
+        setTimeout(function () {
+          btn.classList.remove("copied");
+          btn.innerHTML = COPY_ICON;
+          delete btn.dataset.busy;
+        }, 1500);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(copied, function () { /* denied — URL stays selectable */ });
+        }
+        // else: no clipboard API — the URL text is still visible to select manually.
+      } catch (_) { /* never throw from a copy click */ }
     });
 
     render();
