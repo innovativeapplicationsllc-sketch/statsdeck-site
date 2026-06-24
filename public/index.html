@@ -198,54 +198,35 @@ a:hover{color:var(--brand-dark)}
 .pillar h3{font-size:1.22rem;margin-bottom:8px}
 .pillar p{margin:0;color:var(--ink-soft);font-size:.97rem}
 
-/* ---------- steps ---------- */
-.steps{display:grid;grid-template-columns:1fr;gap:20px}
-.step{
-  display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;
+/* ---------- connect carousel ---------- */
+.carousel{max-width:520px;margin:40px auto 0;text-align:center}
+.carousel-stage{
+  position:relative;width:100%;max-width:480px;margin:0 auto;
+  aspect-ratio:1 / 1;                 /* square — images are 1100x1100; never collapses on slow load */
   border:1px solid var(--line);border-radius:var(--radius);
-  padding:26px 26px;background:var(--paper-2);
+  background:var(--paper-2);overflow:hidden;
 }
-.step .idx{
-  font-family:'Saira Condensed',sans-serif;font-weight:700;
-  font-size:1.5rem;color:#fff;background:var(--brand);
-  width:46px;height:46px;border-radius:11px;
-  display:flex;align-items:center;justify-content:center;flex:none;
+.carousel-img{
+  display:block;width:100%;height:100%;
+  object-fit:contain;                 /* letterbox rather than crop/jump between slides */
 }
-.step-body h3{font-size:1.3rem;margin-bottom:6px}
-.step-body p{margin:0 0 10px;color:var(--ink-soft)}
-.step-body p:last-child{margin-bottom:0}
-.url-chip{
-  font-family:'JetBrains Mono',monospace;font-size:.9rem;
-  background:var(--field);color:var(--gold);
-  border-radius:8px;padding:9px 13px;display:inline-block;
-  word-break:break-all;margin:4px 0 2px;
+.carousel-caption{
+  font-family:'Inter',system-ui,sans-serif;
+  color:var(--ink-soft);font-size:1rem;
+  margin:16px auto 0;min-height:1.5em; /* stable height so nav doesn't shift between slides */
 }
-.step-link{
-  display:inline-block;margin:4px 0 2px;
-  font-family:'Saira Condensed',sans-serif;font-weight:600;
-  text-transform:uppercase;letter-spacing:.06em;font-size:.95rem;
-  color:var(--brand);
+.carousel-nav{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  margin-top:14px;
 }
-.step-link:hover{color:var(--brand-dark)}
-.step-shot{
-  grid-column:1 / -1;margin-top:6px;
+.carousel-counter{
+  font-family:'JetBrains Mono',monospace;font-weight:500;
+  font-size:.92rem;color:var(--ink-soft);min-width:54px;
 }
-
-/* league status row */
-.leagues{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
-.league{
-  display:flex;align-items:center;gap:10px;
-  border:1px solid var(--line);border-radius:10px;
-  padding:10px 14px;background:var(--paper);font-size:.95rem;
+.carousel .btn{min-width:104px;justify-content:center}
+.btn:disabled,.btn:disabled:hover{
+  opacity:.38;cursor:default;transform:none;box-shadow:none;
 }
-.league .name{font-weight:600;color:var(--ink)}
-.status{
-  font-family:'Saira Condensed',sans-serif;font-weight:600;
-  font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;
-  border-radius:999px;padding:3px 10px;
-}
-.status.live{color:var(--verified);background:var(--verified-soft)}
-.status.soon{color:var(--ink-soft);background:#EFEDE6}
 
 /* ---------- phone screenshots ---------- */
 .shots{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -358,7 +339,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
 
     <h1>Your fantasy football <span class="hl">edge</span>, inside Claude.</h1>
-    <p class="hero-sub">StatsDeck unlocks the power of Claude for fantasy football — real analytics, computed for your roster and league. Explore and formulate your strategies.</p>
+    <p class="hero-sub">Bring your strategies to life.</p>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
@@ -367,96 +348,28 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   </div>
 </section>
 
-<!-- ========== WHAT IS CLAUDE / COST ========== -->
-<section class="whatis">
-  <div class="wrap">
-    <div class="whatis-grid">
-      <div class="wcard">
-        <span class="tag">New to this?</span>
-        <h3>What's Claude?</h3>
-        <p>Claude is the AI assistant from Anthropic — you chat with it in plain English, on the web or your phone. StatsDeck plugs straight in and gives Claude the football brains.</p>
-      </div>
-      <div class="wcard">
-        <span class="tag">What it costs</span>
-        <h3 class="free-head">StatsDeck is free during the private beta</h3>
-        <p>Claude has a free plan that's plenty to start. Heavier users can upgrade for more — but you don't need a paid plan to try StatsDeck.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== GET STARTED / 4 STEPS ========== -->
+<!-- ========== GET STARTED / CONNECT CAROUSEL ========== -->
 <section class="block" id="start">
   <div class="wrap">
     <div class="sec-head center">
       <span class="eyebrow">Get started</span>
       <h2 class="big">Join the private beta.</h2>
-      <p>Up and running in four steps — no app to download. StatsDeck connects to Claude right from your browser, phone or desktop.</p>
+      <p>StatsDeck is a Custom Connector for Claude.</p>
     </div>
 
-    <div class="steps">
-
-      <!-- STEP 1 -->
-      <div class="step">
-        <div class="idx">1</div>
-        <div class="step-body">
-          <h3>Get Claude</h3>
-          <p>StatsDeck runs inside Claude, Anthropic's AI assistant. If you don't have it yet, create a free account — web or phone.</p>
-          <a class="step-link" href="https://claude.ai" target="_blank" rel="noopener">Get Claude →</a>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: claude.ai sign-up</span>
-            </div>
-          </div>
-        </div>
+    <!-- Connect carousel: 7 slides, linear stepper (no wrap), vanilla JS below -->
+    <div class="carousel" id="connect-carousel" aria-roledescription="carousel" aria-label="How to connect StatsDeck">
+      <div class="carousel-stage">
+        <img id="carousel-img" class="carousel-img"
+             src="/img/connect/1.png" alt="Connect StatsDeck step 1 of 7"
+             width="1100" height="1100" />
       </div>
-
-      <!-- STEP 2 -->
-      <div class="step">
-        <div class="idx">2</div>
-        <div class="step-body">
-          <h3>Connect StatsDeck</h3>
-          <p>In Claude, open <strong>Settings → Connectors → Add custom connector</strong> and paste the StatsDeck URL. Sign in once with Google or email — no password to create.</p>
-          <span class="url-chip">https://app.statsdeck.ai/mcp</span>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: Add custom connector → paste URL → sign in</span>
-            </div>
-          </div>
-        </div>
+      <p class="carousel-caption" id="carousel-caption">Step 1</p>
+      <div class="carousel-nav">
+        <button type="button" class="btn btn-ghost carousel-back" id="carousel-back" aria-label="Previous step">Back</button>
+        <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 7</span>
+        <button type="button" class="btn btn-primary carousel-next" id="carousel-next" aria-label="Next step">Next Step</button>
       </div>
-
-      <!-- STEP 3 -->
-      <div class="step">
-        <div class="idx">3</div>
-        <div class="step-body">
-          <h3>Connect your league</h3>
-          <div class="leagues">
-            <span class="league"><span class="name">Sleeper</span><span class="status live">Live now</span></span>
-            <span class="league"><span class="name">ESPN</span><span class="status soon">Coming soon</span></span>
-            <span class="league"><span class="name">Yahoo</span><span class="status soon">Coming soon</span></span>
-          </div>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: "Connect my Sleeper league" chat</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 4 -->
-      <div class="step">
-        <div class="idx">4</div>
-        <div class="step-body">
-          <h3>Start strategizing</h3>
-          <div class="step-shot">
-            <div class="ph phone">
-              <span class="ph-label">[screenshot]<br/>iPhone: "Who do I start at flex this week?" answer</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -568,6 +481,43 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 
 <script>
   // logo fallback handled inline via onerror on each <img class="js-logo">
+
+  // ---------- connect carousel: linear 7-step stepper (no wrap), vanilla ----------
+  (function () {
+    var TOTAL = 7;
+    // Captions are placeholders — final strings get swapped here later.
+    var CAPTIONS = ["Step 1", "Step 2", "Step 3", "Step 4", "Step 5", "Step 6", "Step 7"];
+
+    var root = document.getElementById("connect-carousel");
+    if (!root) return;
+    var img = document.getElementById("carousel-img");
+    var caption = document.getElementById("carousel-caption");
+    var counter = document.getElementById("carousel-counter");
+    var back = document.getElementById("carousel-back");
+    var next = document.getElementById("carousel-next");
+
+    var i = 0; // current slide index, 0..6
+
+    function render() {
+      var n = i + 1;
+      img.src = "/img/connect/" + n + ".png";
+      img.alt = "Connect StatsDeck step " + n + " of " + TOTAL;
+      img.loading = i === 0 ? "eager" : "lazy";
+      caption.textContent = CAPTIONS[i];
+      counter.textContent = n + " / " + TOTAL;
+      back.disabled = i === 0;          // no Back on slide 1
+      next.disabled = i === TOTAL - 1;  // no dead-end Next on slide 7
+    }
+
+    back.addEventListener("click", function () {
+      if (i > 0) { i--; render(); }
+    });
+    next.addEventListener("click", function () {
+      if (i < TOTAL - 1) { i++; render(); }
+    });
+
+    render();
+  })();
 </script>
 </body>
 </html>
