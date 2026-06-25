@@ -314,6 +314,13 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   .shots{grid-template-columns:1fr}
   .step{grid-template-columns:1fr;gap:14px}
   .ball{width:62px;height:62px}
+  /* Mobile header de-crowd: let the bar wrap so the logo sits on its own line and the
+     pill + CTA drop below it (right-aligned), keeping "Add to Claude" on a single line.
+     justify-content:space-between (base rule) leaves a lone wrapped .nav-right at line-start,
+     so margin-left:auto pushes it back to the right edge. Desktop (>820px) is unaffected. */
+  .bar-inner{flex-wrap:wrap;row-gap:10px}
+  .nav-right{margin-left:auto}
+  .nav-cta{white-space:nowrap}
   /* Carousel-scoped: bleed ~16px past the shared .wrap 24px side padding (keeps an ~8px
      breathing margin off the viewport edges) so the stage renders noticeably larger on phones.
      The stage's 600px cap never bites here (phones are < 600px wide) — it fills this width. */
