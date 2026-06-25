@@ -99,6 +99,7 @@ a:hover{color:var(--brand-dark)}
   border-bottom:1px solid var(--line);
 }
 .bar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand-group{display:flex;align-items:center;gap:14px}
 .brand-mark{display:flex;align-items:center;gap:10px}
 .brand-mark img{height:42px;width:auto;display:block}
 .nav-right{display:flex;align-items:center;gap:14px}
@@ -314,12 +315,10 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   .shots{grid-template-columns:1fr}
   .step{grid-template-columns:1fr;gap:14px}
   .ball{width:62px;height:62px}
-  /* Mobile header de-crowd: let the bar wrap so the logo sits on its own line and the
-     pill + CTA drop below it (right-aligned), keeping "Add to Claude" on a single line.
-     justify-content:space-between (base rule) leaves a lone wrapped .nav-right at line-start,
-     so margin-left:auto pushes it back to the right edge. Desktop (>820px) is unaffected. */
-  .bar-inner{flex-wrap:wrap;row-gap:10px}
-  .nav-right{margin-left:auto}
+  /* Mobile header: stack the left group (logo over pill, left-aligned); button stays
+     top-right, paired with the logo row. Button label held to one line. */
+  .brand-group{flex-direction:column;align-items:flex-start;gap:8px}
+  .nav-right{align-self:flex-start}
   .nav-cta{white-space:nowrap}
   /* Carousel-scoped: bleed ~16px past the shared .wrap 24px side padding (keeps an ~8px
      breathing margin off the viewport edges) so the stage renders noticeably larger on phones.
@@ -339,12 +338,14 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 <!-- ========== TOP BAR ========== -->
 <header class="bar">
   <div class="wrap bar-inner">
-    <a class="brand-mark" href="#top" aria-label="StatsDeck home">
-      <img class="js-logo" src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" />
-      <span class="fb" style="display:none">StatsDeck<span class="ai">AI</span></span>
-    </a>
-    <div class="nav-right">
+    <div class="brand-group">
+      <a class="brand-mark" href="#top" aria-label="StatsDeck home">
+        <img class="js-logo" src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'" />
+        <span class="fb" style="display:none">StatsDeck<span class="ai">AI</span></span>
+      </a>
       <a class="beta-pill" href="#start">Private beta</a>
+    </div>
+    <div class="nav-right">
       <a class="nav-cta" href="#start">Add to Claude</a>
     </div>
   </div>
