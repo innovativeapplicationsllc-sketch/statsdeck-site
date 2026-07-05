@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect a private ESPN league — StatsDeck</title>
+<meta name="description" content="Step-by-step guide to connect your private ESPN fantasy football league to StatsDeck using a one-tap bookmarklet.">
+<link rel="icon" href="/favicon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F7F3; --paper-2:#FFFFFF;
+  --ink:#34373E; --ink-soft:#5C616B;
+  --line:#E6E3DB; --line-2:#D6D2C8;
+  --field:#2B2E34;
+  --brand:#2693BE; --brand-dark:#1F7CA1; --brand-soft:#E2F1F7;
+  --gold:#FFCA08; --gold-dark:#C99700;
+  --verified:#179E5C; --verified-soft:#E4F4EC;
+  --warn:#B9762A; --warn-soft:#F6ECDD;
+  --maxw:760px; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+a{color:var(--brand-dark); text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---- top bar (privacy.html subpage template) ---- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  background:rgba(248,247,243,.82); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
+.brand{display:flex; align-items:center; gap:10px}
+.brand img{height:34px; width:auto; display:block}
+.brand .wordmark{
+  font-family:'Saira Condensed',sans-serif; font-weight:700; font-size:1.35rem;
+  letter-spacing:.02em; color:var(--ink); text-transform:none;
+}
+.brand .wordmark b{color:var(--brand)}
+.topbar .back{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.85rem;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft);
+}
+
+/* ---- hero ---- */
+.hero{padding:56px 0 8px}
+.eyebrow{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.78rem;
+  text-transform:uppercase; letter-spacing:.18em; color:var(--brand-dark); margin:0 0 14px;
+}
+h1{
+  font-family:'Saira Condensed',sans-serif; font-weight:700;
+  font-size:clamp(2.1rem,5vw,3.1rem); line-height:1.05; letter-spacing:.01em;
+  margin:0 0 16px;
+}
+.lede{font-size:1.08rem; color:var(--ink-soft); margin:0; max-width:60ch}
+
+/* ---- sections ---- */
+.block{padding:40px 0; border-top:1px solid var(--line); margin-top:40px}
+.block:first-of-type{border-top:none; margin-top:24px}
+h2{
+  font-family:'Saira Condensed',sans-serif; font-weight:700;
+  font-size:clamp(1.5rem,3.4vw,2rem); line-height:1.1; margin:0 0 18px;
+}
+h3{
+  font-family:'Saira Condensed',sans-serif; font-weight:600;
+  font-size:1.2rem; margin:28px 0 10px;
+}
+p{margin:0 0 16px}
+
+/* ---- platform tabs ---- */
+.tabs{display:flex; gap:8px; margin:0 0 28px}
+.tab{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.9rem;
+  text-transform:uppercase; letter-spacing:.08em;
+  padding:11px 22px; border-radius:9px; cursor:pointer;
+  background:var(--paper-2); color:var(--ink-soft);
+  border:1px solid var(--line-2); transition:all .15s;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{
+  background:var(--brand); color:#fff; border-color:var(--brand);
+  box-shadow:0 4px 14px rgba(38,147,190,.28);
+}
+.panel[hidden]{display:none}
+
+/* ---- numbered steps ---- */
+.step{
+  display:flex; gap:18px; padding:22px 0; border-top:1px solid var(--line);
+}
+.step:first-child{border-top:none}
+.step-num{
+  flex:none; width:34px; height:34px; border-radius:50%;
+  background:var(--brand-soft); color:var(--brand-dark);
+  font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.step-body{flex:1; min-width:0}
+.step-body h4{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:1.12rem;
+  margin:4px 0 8px; color:var(--ink);
+}
+.step-body p{margin:0 0 12px; color:var(--ink-soft)}
+.step-body p:last-child{margin-bottom:0}
+
+/* ---- placeholder screenshot box (.ph from the site) ---- */
+.ph{
+  border-radius:10px; border:1px dashed var(--line-2);
+  background:
+    repeating-linear-gradient(-45deg,transparent,transparent 9px,rgba(214,210,200,.18) 9px,rgba(214,210,200,.18) 18px),
+    var(--paper-2);
+  min-height:200px; margin:14px 0;
+  display:flex; align-items:center; justify-content:center; text-align:center; padding:24px;
+}
+.ph span{
+  font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--ink-soft);
+  letter-spacing:.02em; max-width:36ch;
+}
+.ph.tall{min-height:340px}
+
+/* ---- bookmarklet copy chip (site's url-copy chip, dark field) ---- */
+.chip{
+  background:var(--field); border-radius:12px; padding:16px 18px;
+  display:flex; align-items:center; gap:14px; margin:12px 0 8px;
+}
+.chip code{
+  flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--gold);
+}
+.chip button{
+  flex:none; font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.8rem;
+  text-transform:uppercase; letter-spacing:.06em;
+  background:var(--brand); color:#fff; border:none; border-radius:8px;
+  padding:9px 16px; cursor:pointer; transition:background .15s;
+}
+.chip button:hover{background:var(--brand-dark)}
+.chip button.done{background:var(--verified)}
+.chip-note{font-size:.86rem; color:var(--ink-soft); margin:0 0 4px}
+
+/* ---- callout (privacy .review-flag pattern) ---- */
+.callout{
+  background:var(--paper-2); border:1px solid var(--line);
+  border-left:3px solid var(--brand); border-radius:0 10px 10px 0;
+  padding:18px 20px; margin:24px 0;
+}
+.callout.warn{border-left-color:var(--gold-dark)}
+.callout p{margin:0; color:var(--ink-soft); font-size:.96rem}
+.callout strong{color:var(--ink)}
+
+.pill{
+  display:inline-block; font-family:'JetBrains Mono',monospace; font-size:.82rem;
+  background:var(--brand-soft); color:var(--brand-dark);
+  padding:2px 8px; border-radius:6px;
+}
+
+/* ---- final "back to chat" ---- */
+.finish{
+  background:var(--verified-soft); border:1px solid #BFE6D0; border-radius:var(--radius);
+  padding:26px 24px; margin:8px 0 0; text-align:center;
+}
+.finish h3{margin:0 0 8px; color:var(--verified)}
+.finish p{margin:0; color:var(--ink-soft)}
+
+/* ---- footer ---- */
+.foot{border-top:1px solid var(--line); margin-top:56px; padding:32px 0 48px}
+.foot .wrap{display:flex; flex-direction:column; gap:14px}
+.foot .brand img{height:26px}
+.foot-meta{font-size:.85rem; color:var(--ink-soft); margin:0}
+.foot-links{display:flex; gap:20px; font-size:.9rem}
+.foot-links a{color:var(--ink-soft)}
+
+@media (max-width:560px){
+  .step{gap:13px}
+  .chip code{font-size:.74rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto; transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="wordmark" style="display:none">Stats<b>Deck</b></span>
+    </a>
+    <a class="back" href="/">&larr; Home</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">ESPN · Private league setup</p>
+      <h1>Connect your private ESPN league</h1>
+      <p class="lede">Private ESPN leagues need two session cookies before StatsDeck can read them. This one-tap tool grabs them for you — no copying long codes by hand. It takes about a minute.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <section class="block">
+      <h2>What you'll do</h2>
+      <p>You'll add a small "bookmarklet" — a bookmark that runs a tiny action instead of opening a page. When you tap it while signed in to ESPN, it copies your two credentials, ready to paste back into your StatsDeck chat. You only set it up once.</p>
+      <div class="callout">
+        <p><strong>Why this is safe:</strong> the bookmarklet reads only your two ESPN cookies and copies them to your clipboard. It sends nothing anywhere on its own — you stay in control, and you decide when to paste them into StatsDeck.</p>
+      </div>
+
+      <p style="margin-top:22px"><strong>Pick your device:</strong></p>
+      <div class="tabs" role="tablist" aria-label="Choose your device">
+        <button class="tab" id="tab-mobile" role="tab" aria-selected="true" aria-controls="panel-mobile">iPhone / Mobile</button>
+        <button class="tab" id="tab-desktop" role="tab" aria-selected="false" aria-controls="panel-desktop">Desktop browser</button>
+      </div>
+
+      <!-- ============ MOBILE PANEL (default) ============ -->
+      <div class="panel" id="panel-mobile" role="tabpanel" aria-labelledby="tab-mobile">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Copy the bookmarklet code</h4>
+            <p>Tap <em>Copy</em> below. You'll paste this in a moment when you create the bookmark.</p>
+            <p class="chip-note">The StatsDeck ESPN bookmarklet</p>
+            <div class="chip">
+              <code id="bm-code-m">javascript:(function(){…})();</code>
+              <button onclick="copyBm(this)" data-target="bm-code-m">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Add it as a bookmark in Safari</h4>
+            <p>Open Safari and go to <a href="https://fantasy.espn.com" target="_blank" rel="noopener">fantasy.espn.com</a>, signed in to your league. Tap the <strong>Share</strong> icon, then <strong>Add Bookmark</strong>, and Save. (Any page works — we'll fix the address next.)</p>
+            <div class="ph"><span>[ screenshot: Safari Share sheet → Add Bookmark ]</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Edit the bookmark and paste the code</h4>
+            <p>Tap the <strong>book</strong> icon → <strong>Edit</strong> → tap your new bookmark. Clear the web-address line and <strong>paste</strong> the code you copied in Step 1. Rename it something like <span class="pill">Get ESPN creds</span> and tap Done.</p>
+            <div class="ph"><span>[ screenshot: editing the bookmark, pasting the code into the URL field ]</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Run it on your league page</h4>
+            <p>While on <span class="pill">fantasy.espn.com</span> and signed in, open your bookmarks and tap <strong>Get ESPN creds</strong>. A box appears with your credentials text already selected — tap <strong>Copy</strong>.</p>
+            <div class="ph"><span>[ screenshot: the popup showing the ready-to-copy credentials text ]</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Paste it back into StatsDeck</h4>
+            <p>Return to your StatsDeck chat and <strong>paste</strong>. That's it — StatsDeck saves your credentials and connects your private league.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ DESKTOP PANEL ============ -->
+      <div class="panel" id="panel-desktop" role="tabpanel" aria-labelledby="tab-desktop" hidden>
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Show your bookmarks bar</h4>
+            <p>In Chrome or Edge, press <span class="pill">Ctrl+Shift+B</span> (Windows) or <span class="pill">&#8984;+Shift+B</span> (Mac) so the bookmarks bar is visible under the address bar.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Copy the bookmarklet code</h4>
+            <p>Click <em>Copy</em> below.</p>
+            <p class="chip-note">The StatsDeck ESPN bookmarklet</p>
+            <div class="chip">
+              <code id="bm-code-d">javascript:(function(){…})();</code>
+              <button onclick="copyBm(this)" data-target="bm-code-d">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Create the bookmark and paste the code</h4>
+            <p>Right-click the bookmarks bar → <strong>Add page…</strong>. Name it <span class="pill">Get ESPN creds</span>, clear the URL field, and <strong>paste</strong> the code. Save.</p>
+            <div class="ph"><span>[ screenshot: Add-bookmark dialog with the code pasted into the URL field ]</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Run it on your league page</h4>
+            <p>Go to <a href="https://fantasy.espn.com" target="_blank" rel="noopener">fantasy.espn.com</a>, signed in to your league, then click <strong>Get ESPN creds</strong> on the bookmarks bar. Your credentials text is copied (or shown in a box to copy).</p>
+            <div class="ph"><span>[ screenshot: the &quot;Copied&quot; confirmation after clicking the bookmarklet ]</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Paste it back into StatsDeck</h4>
+            <p>Return to your StatsDeck chat and <strong>paste</strong>. StatsDeck saves your credentials and connects your private league.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="finish">
+        <h3>That's the whole setup</h3>
+        <p>Once you paste your credentials into StatsDeck, it verifies them and connects your league. You won't need to do this again unless your ESPN session expires.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Keeping your credentials safe</h2>
+      <p>Your SWID and espn_s2 cookies are session keys for your ESPN account. Treat them like a password: only paste them into your StatsDeck chat, and if you ever want to invalidate them, log out of ESPN and back in — that issues fresh cookies.</p>
+      <div class="callout warn">
+        <p><strong>Cookies expire.</strong> ESPN rotates these periodically. If StatsDeck ever says it can't read your private league anymore, just run the bookmarklet again to grab a fresh pair.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="wordmark" style="display:none">Stats<b>Deck</b></span>
+    </a>
+    <p class="foot-meta">StatsDeck is an independent fantasy analytics tool and is not affiliated with or endorsed by ESPN.</p>
+    <div class="foot-links">
+      <a href="/privacy.html">Privacy</a>
+      <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a>
+    </div>
+  </div>
+</footer>
+
+<!--
+  Bookmarklet source, stored as LITERAL text (not an escaped JS string) to avoid
+  backslash-escaping bugs. The browser reads .textContent verbatim, so the \s in the
+  regex stays a single backslash exactly as the tested bookmarklet requires.
+  If the canonical bookmarklet changes, edit ONLY the text between these tags.
+-->
+<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\s*'+n+'\s*=\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);});}else{window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);}})();</script>
+
+<script>
+// ---- platform tabs ----
+(function(){
+  var tabs=[document.getElementById('tab-mobile'),document.getElementById('tab-desktop')];
+  var panels={ 'tab-mobile':'panel-mobile','tab-desktop':'panel-desktop' };
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){
+        var sel=(x===t);
+        x.setAttribute('aria-selected',sel?'true':'false');
+        document.getElementById(panels[x.id]).hidden=!sel;
+      });
+    });
+  });
+})();
+
+// ---- bookmarklet: read verbatim from the text/plain block, feed both chips ----
+var BM = document.getElementById('bm-source').textContent.trim();
+['bm-code-m','bm-code-d'].forEach(function(id){
+  var el=document.getElementById(id); if(el) el.textContent=BM;
+});
+
+function copyBm(btn){
+  var text=document.getElementById('bm-source').textContent.trim();
+  function ok(){ var o=btn.textContent; btn.textContent='Copied'; btn.classList.add('done'); setTimeout(function(){btn.textContent=o; btn.classList.remove('done');},1800); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok,function(){window.prompt('Copy the bookmarklet code:',text);});
+  } else { window.prompt('Copy the bookmarklet code:',text); }
+}
+</script>
+</body>
+</html>
