@@ -124,7 +124,7 @@ p{margin:0 0 16px}
 .carousel-caption{
   font-family:'Inter',system-ui,sans-serif;
   color:var(--ink-soft); font-size:1rem; line-height:1.5;
-  text-align:left; max-width:60ch; margin:16px auto 0;   /* left-aligned, capped for readability, grows with content */
+  text-align:center; max-width:60ch; margin:16px auto 0;   /* centered, capped for readability, grows with content */
 }
 .carousel-caption strong{color:var(--ink); font-weight:600}
 .carousel-caption em{font-style:italic}
@@ -241,8 +241,8 @@ p{margin:0 0 16px}
 <main>
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">ESPN · Private league setup</p>
-      <h1>Connect your private ESPN league</h1>
+      <p class="eyebrow">ESPN · League setup</p>
+      <h1>Connect your ESPN league</h1>
       <p class="lede">StatsDeck supports both <strong>public and private</strong> ESPN leagues. For a public league, all you need is your <strong>league ID</strong>. For a private league, you'll also need your <strong>session cookie</strong> — we cover that below. StatsDeck never changes your team or league; it only pulls in the data so you and Claude can strategize together.</p>
     </div>
   </section>
@@ -323,7 +323,7 @@ p{margin:0 0 16px}
   backslashes ( (^|;)\s*  and  \s*=\s* ) survive verbatim. Both copy chips read this single
   block via .textContent — never hardcode the bookmarklet a second time. Edit ONLY here.
 -->
-<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\s*'+n+'\s*=\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);});}else{window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);}})();</script>
+<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);});}else{window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);}})();</script>
 
 <script>
 // ---- Carousel A (mobile): two-set segmented control, safari + chrome ----
@@ -338,28 +338,28 @@ p{margin:0 0 16px}
   var CAPS = {
     safari: [
       `In <strong>Safari</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
-      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it (the number after <code>leagueId=</code>, not including the <code>&amp;</code>). <strong>Public league?</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> <strong>Private league?</strong> Keep going for your session cookie.`,
+      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it. It's the number after leagueId=, not including the &amp;).<br><br><strong>For a public league:</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps).`,
       `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Tap the <strong>three-dot (overflow)</strong> icon.`,
-      `Tap <strong>Add to Bookmarks</strong> to save the new bookmark.`,
-      `Now we'll <strong>edit it</strong> — open your bookmarks and find the one you just made.`,
-      `Tap the <strong>three-dot (overflow)</strong> icon to reach the edit option.`,
-      `Select <strong>Edit</strong>.`,
-      `<strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save</strong>.`,
+      `Tap <strong>Add to bookmarks</strong> to save the new bookmark.`,
+      `Now we'll <strong>edit it</strong> — open your bookmarks and find the one you just made. Tap the three dots (overflow) to get to the edit option.`,
+      `Select <strong>Edit</strong>`,
+      `Replace the bookmark's address (URL) with the code below — fully remove the original, paste this in, then save.`,
       `Back on your ESPN team page, open your bookmarks and <strong>tap the bookmark</strong> you made. It grabs your session cookie and copies it to your clipboard.`,
-      `Home stretch — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> It'll see the league is private and ask for your cookies; long-press the chat field and <strong>paste</strong>. That's it — you only do this once, since these cookies don't currently expire.`
+      `Home stretch — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em><br><br>It'll see the league is private and ask for your cookies; long-press the chat field and paste.`,
+      `That's it — you only do this once, since these cookies don't currently expire. All set, you can now complete the league connection.<br><br>Now that your league is connected, go ahead and dig into all the things you can do with StatsDeck (learn more below).`
     ],
     chrome: [
       `In <strong>Chrome</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
       `Your <strong>league ID</strong> is in the URL — tap the address bar to see it (the number after <code>leagueId=</code>, not including the <code>&amp;</code>). <strong>Public league?</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> <strong>Private league?</strong> Keep going for your session cookie.`,
       `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Tap the <strong>three-dot (overflow)</strong> icon.`,
       `Tap <strong>Add to Bookmarks</strong> to save the new bookmark.`,
-      `Open your bookmarks, find the one you just made, and <strong>long-press it</strong> for more options — then select <strong>Edit</strong>.`,
-      `<strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save</strong>.`,
-      `Back on your ESPN team page, open your bookmarks and <strong>tap the bookmark</strong> you made. It grabs your session cookie and copies it to your clipboard.`,
-      `Home stretch — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> It'll see the league is private and ask for your cookies; long-press the chat field and <strong>paste</strong>. That's it — you only do this once, since these cookies don't currently expire.`
+      `Open your bookmarks, find the one you just made, and <strong>long-press</strong> it for more options — then select <strong>Edit.</strong><br><br><strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
+      `Now back on your <strong>ESPN team page</strong>, navigate to your bookmarks and <strong>open the bookmark we made</strong>. It grabs the session cookie and copies it to your clipboard`,
+      `Home stretch — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em><br><br>It'll see the league is private and ask for your cookies; long-press the chat field and paste.`,
+      `That's it — you only do this once, since these cookies don't currently expire.<br><br>Now that your league is connected, go ahead and dig into all the things you can do with StatsDeck (learn more below).`
     ]
   };
-  var PASTE_STEP = { safari: 8, chrome: 6 };   // step where the bookmarklet chip appears
+  var PASTE_STEP = { safari: 7, chrome: 5 };   // step where the bookmarklet chip appears (the "code below" step)
 
   var root = document.getElementById('espn-carousel');
   if (!root) return;
@@ -426,15 +426,15 @@ p{margin:0 0 16px}
 // ---- Carousel B (desktop): single set, independent state machine ----
 (function(){
   var COUNT = 5;         // desktop-1 … desktop-5
-  var PASTE_STEP = 4;    // step where the bookmarklet chip appears
+  var PASTE_STEP = 3;    // step where the bookmarklet chip appears (the "code below" step)
 
   // Per-step caption HTML (index 0 = step 1). Fixed literals — safe for innerHTML.
   var CAPS = [
     `In <strong>Chrome</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>). Your <strong>league ID</strong> is in the URL (the number after <code>leagueId=</code>, not including the <code>&amp;</code>). <strong>Public league?</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> <strong>Private league?</strong> Keep going for your session cookie.`,
     `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Click the <strong>three-dot</strong> menu (top-right), then <strong>Bookmark this tab</strong>.`,
-    `Now we'll <strong>edit it</strong> — open your bookmarks, right-click the one you just made (<strong>two-finger tap on Mac</strong>), and select <strong>Edit</strong>.`,
-    `<strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save</strong>.`,
-    `Home stretch — back on your ESPN team page, open your bookmarks and <strong>click the bookmark</strong> you made to copy your cookie. Then return to Claude, say <em>"Please connect my ESPN league [your league ID],"</em> and <strong>paste</strong> when asked. That's it — you only do this once, since these cookies don't currently expire.`
+    `Now we'll <strong>edit it</strong> — open your bookmarks, <strong>right-click</strong> the one you just made (two-finger tap on Mac), and select <strong>Edit.</strong><br><br><strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
+    `Now back on your <strong>ESPN team page</strong>, navigate to your bookmarks and <strong>open the bookmark we made</strong>. This will automatically grab the session cookie and copies it to your clipboard.`,
+    `Home stretch — back on your ESPN team page, open your bookmarks and <strong>click the bookmark</strong> you made to copy your cookie. Then return to Claude, say <em>"Please connect my ESPN league [your league ID],"</em> and paste the cookie when asked.<br><br>That's it — you only do this once, since these cookies don't currently expire. Now that your league is connected, go ahead and dig into all the things you can do with StatsDeck (learn more below).`
   ];
 
   var root = document.getElementById('desktop-carousel');
