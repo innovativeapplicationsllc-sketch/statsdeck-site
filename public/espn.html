@@ -123,8 +123,42 @@ p{margin:0 0 16px}
 }
 .carousel-caption{
   font-family:'Inter',system-ui,sans-serif;
-  color:var(--ink-soft);font-size:1rem;
-  margin:16px auto 0;min-height:2em;
+  color:var(--ink-soft); font-size:1rem; line-height:1.5;
+  text-align:left; max-width:60ch; margin:16px auto 0;   /* left-aligned, capped for readability, grows with content */
+}
+.carousel-caption strong{color:var(--ink); font-weight:600}
+.carousel-caption em{font-style:italic}
+.carousel-caption a{color:var(--brand-dark); font-weight:600}
+.carousel-caption code{
+  font-family:'JetBrains Mono',monospace; font-size:.85em;
+  background:var(--brand-soft); color:var(--brand-dark);
+  padding:1px 5px; border-radius:5px;
+}
+
+/* bookmarklet copy chip — dark field / gold mono, single-line truncate + copy button.
+   Reuses the home page's .url-copy-btn (button + copied state); the container is block-level
+   so a ~500-char bookmarklet truncates cleanly instead of wrapping into a blob. */
+.bm-chip{
+  display:flex; align-items:center; gap:10px;
+  max-width:60ch; margin:14px auto 0; padding:10px 12px;
+  background:var(--field); border-radius:10px; text-align:left;
+}
+.bm-chip[hidden]{display:none}     /* honor the hidden attribute over display:flex */
+.bm-code{
+  flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--gold);
+}
+.url-copy-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:none; border:none; cursor:pointer; padding:2px;
+  background:transparent; color:var(--gold); line-height:0;
+  border-radius:5px; transition:color .15s ease;
+}
+.url-copy-btn:hover{color:#fff}
+.url-copy-btn svg{width:16px; height:16px; display:block}
+.url-copy-btn.copied{
+  color:var(--brand); font-family:'Saira Condensed',sans-serif;
+  font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em; line-height:1;
 }
 .carousel-nav{
   display:flex;align-items:center;justify-content:center;gap:16px;
@@ -209,7 +243,7 @@ p{margin:0 0 16px}
     <div class="wrap">
       <p class="eyebrow">ESPN · Private league setup</p>
       <h1>Connect your private ESPN league</h1>
-      <p class="lede">Private ESPN leagues need two session cookies before StatsDeck can read them. This one-tap tool grabs them for you — no copying long codes by hand. It takes about a minute.</p>
+      <p class="lede">StatsDeck supports both <strong>public and private</strong> ESPN leagues. For a public league, all you need is your <strong>league ID</strong>. For a private league, you'll also need your <strong>session cookie</strong> — we cover that below. StatsDeck never changes your team or league; it only pulls in the data so you and Claude can strategize together.</p>
     </div>
   </section>
 
@@ -230,6 +264,10 @@ p{margin:0 0 16px}
       </div>
       <p class="enlarge-hint">Tap or click to enlarge</p>
       <p class="carousel-caption" id="carousel-caption">Step 1</p>
+      <div class="bm-chip" id="bm-chip" hidden>
+        <code class="bm-code" id="bm-code"></code>
+        <button type="button" class="url-copy-btn" id="bm-copy" aria-label="Copy bookmarklet code"></button>
+      </div>
       <div class="carousel-nav">
         <button type="button" class="btn btn-ghost carousel-back" id="carousel-back" aria-label="Previous step">Back</button>
         <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 10</span>
@@ -246,6 +284,10 @@ p{margin:0 0 16px}
       </div>
       <p class="enlarge-hint">Tap or click to enlarge</p>
       <p class="carousel-caption" id="d-carousel-caption">Step 1</p>
+      <div class="bm-chip" id="d-bm-chip" hidden>
+        <code class="bm-code" id="d-bm-code"></code>
+        <button type="button" class="url-copy-btn" id="d-bm-copy" aria-label="Copy bookmarklet code"></button>
+      </div>
       <div class="carousel-nav">
         <button type="button" class="btn btn-ghost" id="d-carousel-back" aria-label="Previous step">Back</button>
         <span class="carousel-counter" id="d-carousel-counter" aria-live="polite">1 / 5</span>
@@ -276,6 +318,13 @@ p{margin:0 0 16px}
   <img class="lightbox-img" id="lightbox-img" src="" alt="" />
 </div>
 
+<!--
+  Canonical ESPN bookmarklet, stored as LITERAL text (not a JS string) so the regex
+  backslashes ( (^|;)\s*  and  \s*=\s* ) survive verbatim. Both copy chips read this single
+  block via .textContent — never hardcode the bookmarklet a second time. Edit ONLY here.
+-->
+<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\s*'+n+'\s*=\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);});}else{window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);}})();</script>
+
 <script>
 // ---- Carousel A (mobile): two-set segmented control, safari + chrome ----
 (function(){
@@ -284,6 +333,34 @@ p{margin:0 0 16px}
     chrome: { dir:'chrome', count:8  }
   };
 
+  // Per-set, per-step caption HTML (index 0 = step 1). Fixed literals — NOT user input —
+  // so caption.innerHTML is safe. Contains <strong>/<em>/<a>/<code>.
+  var CAPS = {
+    safari: [
+      `In <strong>Safari</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
+      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it (the number after <code>leagueId=</code>, not including the <code>&amp;</code>). <strong>Public league?</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> <strong>Private league?</strong> Keep going for your session cookie.`,
+      `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Tap the <strong>three-dot (overflow)</strong> icon.`,
+      `Tap <strong>Add to Bookmarks</strong> to save the new bookmark.`,
+      `Now we'll <strong>edit it</strong> — open your bookmarks and find the one you just made.`,
+      `Tap the <strong>three-dot (overflow)</strong> icon to reach the edit option.`,
+      `Select <strong>Edit</strong>.`,
+      `<strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save</strong>.`,
+      `Back on your ESPN team page, open your bookmarks and <strong>tap the bookmark</strong> you made. It grabs your session cookie and copies it to your clipboard.`,
+      `Home stretch — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> It'll see the league is private and ask for your cookies; long-press the chat field and <strong>paste</strong>. That's it — you only do this once, since these cookies don't currently expire.`
+    ],
+    chrome: [
+      `In <strong>Chrome</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
+      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it (the number after <code>leagueId=</code>, not including the <code>&amp;</code>). <strong>Public league?</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> <strong>Private league?</strong> Keep going for your session cookie.`,
+      `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Tap the <strong>three-dot (overflow)</strong> icon.`,
+      `Tap <strong>Add to Bookmarks</strong> to save the new bookmark.`,
+      `Open your bookmarks, find the one you just made, and <strong>long-press it</strong> for more options — then select <strong>Edit</strong>.`,
+      `<strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save</strong>.`,
+      `Back on your ESPN team page, open your bookmarks and <strong>tap the bookmark</strong> you made. It grabs your session cookie and copies it to your clipboard.`,
+      `Home stretch — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> It'll see the league is private and ask for your cookies; long-press the chat field and <strong>paste</strong>. That's it — you only do this once, since these cookies don't currently expire.`
+    ]
+  };
+  var PASTE_STEP = { safari: 8, chrome: 6 };   // step where the bookmarklet chip appears
+
   var root = document.getElementById('espn-carousel');
   if (!root) return;
   var img     = document.getElementById('carousel-img');
@@ -291,6 +368,7 @@ p{margin:0 0 16px}
   var counter = document.getElementById('carousel-counter');
   var back    = document.getElementById('carousel-back');
   var next    = document.getElementById('carousel-next');
+  var chip    = document.getElementById('bm-chip');
   var tabs    = [
     document.getElementById('tab-safari'),
     document.getElementById('tab-chrome')
@@ -305,8 +383,9 @@ p{margin:0 0 16px}
     img.src = '/img/espn/' + set.dir + '-' + n + '.jpg';
     img.alt = 'ESPN ' + current + ' step ' + n + ' of ' + set.count;
     img.loading = i === 0 ? 'eager' : 'lazy';
-    caption.textContent = 'Step ' + n;          // placeholder copy — swap real captions later
+    caption.innerHTML = CAPS[current][i];        // rich per-step caption (static, code-controlled)
     counter.textContent = n + ' / ' + set.count;
+    if (chip) chip.hidden = (n !== PASTE_STEP[current]);   // chip only on the paste step
     back.disabled = i === 0;                     // no Back on step 1
     next.disabled = i === set.count - 1;         // no dead-end Next on the last step
   }
@@ -346,7 +425,17 @@ p{margin:0 0 16px}
 
 // ---- Carousel B (desktop): single set, independent state machine ----
 (function(){
-  var COUNT = 5;  // desktop-1 … desktop-5
+  var COUNT = 5;         // desktop-1 … desktop-5
+  var PASTE_STEP = 4;    // step where the bookmarklet chip appears
+
+  // Per-step caption HTML (index 0 = step 1). Fixed literals — safe for innerHTML.
+  var CAPS = [
+    `In <strong>Chrome</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>). Your <strong>league ID</strong> is in the URL (the number after <code>leagueId=</code>, not including the <code>&amp;</code>). <strong>Public league?</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em> <strong>Private league?</strong> Keep going for your session cookie.`,
+    `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Click the <strong>three-dot</strong> menu (top-right), then <strong>Bookmark this tab</strong>.`,
+    `Now we'll <strong>edit it</strong> — open your bookmarks, right-click the one you just made (<strong>two-finger tap on Mac</strong>), and select <strong>Edit</strong>.`,
+    `<strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save</strong>.`,
+    `Home stretch — back on your ESPN team page, open your bookmarks and <strong>click the bookmark</strong> you made to copy your cookie. Then return to Claude, say <em>"Please connect my ESPN league [your league ID],"</em> and <strong>paste</strong> when asked. That's it — you only do this once, since these cookies don't currently expire.`
+  ];
 
   var root = document.getElementById('desktop-carousel');
   if (!root) return;
@@ -355,6 +444,7 @@ p{margin:0 0 16px}
   var counter = document.getElementById('d-carousel-counter');
   var back    = document.getElementById('d-carousel-back');
   var next    = document.getElementById('d-carousel-next');
+  var chip    = document.getElementById('d-bm-chip');
 
   var i = 0;  // current step index, 0-based
 
@@ -363,8 +453,9 @@ p{margin:0 0 16px}
     img.src = '/img/espn/desktop-' + n + '.jpg';
     img.alt = 'ESPN desktop step ' + n + ' of ' + COUNT;
     img.loading = 'lazy';                         // below the fold — lazy is fine
-    caption.textContent = 'Step ' + n;            // placeholder copy — swap real captions later
+    caption.innerHTML = CAPS[i];                  // rich per-step caption (static, code-controlled)
     counter.textContent = n + ' / ' + COUNT;
+    if (chip) chip.hidden = (n !== PASTE_STEP);   // chip only on the paste step
     back.disabled = i === 0;
     next.disabled = i === COUNT - 1;
   }
@@ -434,6 +525,50 @@ p{margin:0 0 16px}
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' || e.key === 'Esc') close();
   });
+})();
+
+// ---- Shared bookmarklet source: feed both copy chips + wire the copy buttons ----
+// Single source of truth = the #bm-source text/plain block. Both chips display it and
+// both copy actions read it verbatim (never a second hardcoded copy).
+(function(){
+  var srcEl = document.getElementById('bm-source');
+  if (!srcEl) return;
+  function BM(){ return srcEl.textContent.trim(); }   // read live each time — always verbatim
+
+  var COPY_ICON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<rect x="9" y="9" width="13" height="13" rx="2"/>' +
+    '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
+  function wire(codeId, btnId){
+    var code = document.getElementById(codeId);
+    var btn  = document.getElementById(btnId);
+    if (!code || !btn) return;
+    code.textContent = BM();          // visible (truncated) code = the source, verbatim
+    btn.innerHTML = COPY_ICON;
+    btn.addEventListener('click', function(){
+      if (btn.dataset.busy) return;
+      function copied(){
+        btn.dataset.busy = '1';
+        btn.classList.add('copied');
+        btn.textContent = 'Copied!';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.innerHTML = COPY_ICON;
+          delete btn.dataset.busy;
+        }, 1500);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(BM()).then(copied, function(){ /* denied — code stays visible */ });
+        }
+      } catch (_) { /* never throw from a copy click */ }
+    });
+  }
+
+  wire('bm-code', 'bm-copy');       // Carousel A chip
+  wire('d-bm-code', 'd-bm-copy');   // Carousel B chip
 })();
 </script>
 </body>
