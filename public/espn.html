@@ -119,6 +119,7 @@ p{margin:0 0 16px}
 .carousel-img{
   display:block;width:100%;height:100%;
   object-fit:contain;
+  cursor:zoom-in;
 }
 .carousel-caption{
   font-family:'Inter',system-ui,sans-serif;
@@ -137,6 +138,40 @@ p{margin:0 0 16px}
 .btn:disabled,.btn:disabled:hover{
   opacity:.38;cursor:default;transform:none;box-shadow:none;
 }
+
+/* subtle "enlarge" affordance beneath each stage */
+.enlarge-hint{
+  font-size:.8rem; color:var(--ink-soft);
+  margin:8px 0 0; text-align:center;
+}
+
+/* ---- shared tap/click-to-enlarge lightbox (one instance, both carousels) ---- */
+.lightbox{
+  position:fixed; inset:0; z-index:1000;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+  background:rgba(43,46,52,.92);          /* --field #2B2E34 @ .92 */
+  opacity:0; visibility:hidden;
+  transition:opacity .2s ease, visibility .2s ease;   /* skipped under prefers-reduced-motion (global rule) */
+  -webkit-tap-highlight-color:transparent;
+}
+.lightbox.is-open{opacity:1; visibility:visible}
+.lightbox-img{
+  max-width:100%; max-height:100%;
+  object-fit:contain;                     /* fit-to-screen, no crop, no zoom */
+  border-radius:8px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+.lightbox-close{
+  position:absolute; top:16px; right:16px;
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--paper); color:var(--ink);
+  border:1px solid var(--line-2); cursor:pointer;
+  font-family:'Saira Condensed',sans-serif; font-size:1.6rem; line-height:1;
+  transition:background .15s ease, transform .15s ease;
+}
+.lightbox-close:hover{background:#fff; transform:scale(1.05)}
 
 /* ---- footer ---- */
 .foot{border-top:1px solid var(--line); margin-top:56px; padding:32px 0 48px}
@@ -193,6 +228,7 @@ p{margin:0 0 16px}
         <img id="carousel-img" class="carousel-img"
              src="/img/espn/safari-1.jpg" alt="ESPN Safari step 1 of 10" />
       </div>
+      <p class="enlarge-hint">Tap or click to enlarge</p>
       <p class="carousel-caption" id="carousel-caption">Step 1</p>
       <div class="carousel-nav">
         <button type="button" class="btn btn-ghost carousel-back" id="carousel-back" aria-label="Previous step">Back</button>
@@ -208,6 +244,7 @@ p{margin:0 0 16px}
         <img id="d-carousel-img" class="carousel-img"
              src="/img/espn/desktop-1.jpg" alt="ESPN desktop step 1 of 5" />
       </div>
+      <p class="enlarge-hint">Tap or click to enlarge</p>
       <p class="carousel-caption" id="d-carousel-caption">Step 1</p>
       <div class="carousel-nav">
         <button type="button" class="btn btn-ghost" id="d-carousel-back" aria-label="Previous step">Back</button>
@@ -232,6 +269,12 @@ p{margin:0 0 16px}
     </div>
   </div>
 </footer>
+
+<!-- shared tap/click-to-enlarge lightbox — one instance, reused by both carousels -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" aria-hidden="true">
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close enlarged view">&times;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+</div>
 
 <script>
 // ---- Carousel A (mobile): two-set segmented control, safari + chrome ----
@@ -334,6 +377,63 @@ p{margin:0 0 16px}
   });
 
   render();
+})();
+
+// ---- Shared tap/click-to-enlarge lightbox (decoupled — reads live img src/alt) ----
+(function(){
+  var box      = document.getElementById('lightbox');
+  var boxImg   = document.getElementById('lightbox-img');
+  var closeBtn = document.getElementById('lightbox-close');
+  if (!box || !boxImg || !closeBtn) return;
+
+  var triggers = [
+    document.getElementById('carousel-img'),
+    document.getElementById('d-carousel-img')
+  ];
+
+  var lastFocus = null;    // the image that opened the lightbox (focus returns here)
+  var prevOverflow = '';   // body overflow to restore on close
+
+  function open(srcImg){
+    lastFocus = srcImg;
+    boxImg.src = srcImg.currentSrc || srcImg.src;   // whatever step is live right now
+    boxImg.alt = srcImg.alt || '';
+    prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';        // lock page scroll
+    box.classList.add('is-open');
+    box.setAttribute('aria-hidden', 'false');
+    closeBtn.focus();
+  }
+
+  function close(){
+    if (!box.classList.contains('is-open')) return;
+    box.classList.remove('is-open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = prevOverflow;    // restore scroll
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  }
+
+  triggers.forEach(function(t){
+    if (!t) return;
+    t.setAttribute('role', 'button');
+    t.setAttribute('tabindex', '0');
+    t.addEventListener('click', function(){ open(t); });
+    t.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();                          // Space must not scroll the page
+        open(t);
+      }
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  box.addEventListener('click', function(e){
+    if (e.target === box) close();                   // backdrop only — clicks on the image don't close
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Esc') close();
+  });
 })();
 </script>
 </body>
