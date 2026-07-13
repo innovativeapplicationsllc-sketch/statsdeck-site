@@ -51,7 +51,7 @@
 <main>
   <div class="wrap">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: June 19, 2026</p>
+    <p class="updated">Last updated: July 13, 2026</p>
 
     <p>StatsDeck ("we," "our") is an add-on (an MCP connector) for Claude that helps you analyze
       players, weigh matchups, and make smarter fantasy football decisions using NFL statistics and,
@@ -66,21 +66,30 @@
     <h2>What we collect</h2>
     <ul>
       <li><strong>Account identifier.</strong> A pseudonymous identifier from your sign-in, used to
-        recognize you across sessions and to associate your saved settings with you.</li>
-      <li><strong>Activity timestamps.</strong> We record when you use StatsDeck, associated with your
-        account identifier, to count active users and keep the service reliable. We do not record what
-        you ask, which features or tools you use, or any of your conversation content.</li>
-      <li><strong>League data you choose to connect.</strong> If you link a fantasy league (e.g. Sleeper),
-        we read public league information — your roster, league scoring settings, and available players —
-        to answer your questions, and we save this as your profile so the service remembers your league.
-        We do not collect login passwords for these platforms.</li>
+        recognize you across sessions and associate your saved settings with you.</li>
+      <li><strong>Activity data.</strong> We record when you use StatsDeck and counts of how features
+        are used, associated with your account identifier, to keep the service reliable and understand
+        how many people are active. We do not record what you ask, your prompts, or any of your
+        conversation content.</li>
+      <li><strong>League data you choose to connect.</strong> If you link a fantasy league (Sleeper or
+        ESPN), we read your roster, league scoring settings, and available players to answer your
+        questions, and we save this as your profile so the service remembers your league. This includes
+        connection details you provide, such as a Sleeper username or league ID.</li>
+      <li><strong>ESPN credentials (private leagues only).</strong> To read a private ESPN league,
+        StatsDeck needs your ESPN session cookies. We store them encrypted (AES-256-GCM) so you can
+        move between your private and public leagues — and come back later — without setting them up
+        again each time. They are used only to read your league, never to act on your ESPN account.
+        We do not collect passwords for any platform.</li>
     </ul>
 
     <h2>What we don't do</h2>
     <ul>
+      <li><strong>StatsDeck is read-only.</strong> We never post, change, add, or delete anything in
+        your fantasy leagues, and we never act on your connected accounts. We only read data to answer
+        your questions — you make every move yourself.</li>
       <li>We do not store your email address.</li>
       <li>We do not sell your personal information.</li>
-      <li>We do not post, change, or delete anything in your fantasy leagues — StatsDeck only reads.</li>
+      <li>We do not record your prompts or conversation content.</li>
       <li>We do not provide betting odds or lines, and we do not collect payment card details directly
         (any future paid plan would be handled by a third-party payment processor).</li>
     </ul>
@@ -91,29 +100,33 @@
       not use your information for advertising.</p>
 
     <h2>Where we store it &amp; how long</h2>
-    <p>Your saved profile — your scoring preference and any connected league's settings — is stored by
-      our hosting provider (Railway), associated with your account identifier, and kept while you use the
-      service. When you disconnect your league, your saved profile is deleted. Activity records are
-      retained while the service is in use. We do not store payment details or conversation content.</p>
+    <p>Your saved profile — scoring preferences and connected-league settings — and any encrypted ESPN
+      credentials are stored by our hosting provider (Railway), associated with your account identifier,
+      and kept while you use the service. Encrypted ESPN credentials persist so you don't have to
+      reconnect each time, until you ask us to delete them. Activity records are retained while the
+      service is in use. We do not store payment details or conversation content.</p>
 
     <h2>Who we share data with</h2>
     <p>We share data only with the service providers that help us run StatsDeck, and only as needed to
       operate it:</p>
     <ul>
       <li><strong>Clerk</strong> — handles sign-in and authentication, and holds your account email.</li>
-      <li><strong>Railway</strong> — hosts the service, stores your saved profile, and keeps operational
-        logs that include your account identifier.</li>
-      <li><strong>Sleeper</strong> — when you connect a league, we read its public information; we do not
-        send Sleeper any login or password.</li>
+      <li><strong>Railway</strong> — hosts the service and stores your saved profile, encrypted ESPN
+        credentials, and operational logs that include your account identifier.</li>
+      <li><strong>Sleeper / ESPN</strong> — when you connect a league, we read its data to answer your
+        questions; we never send Sleeper any credentials, and ESPN cookies are used only to read your
+        own league.</li>
       <li><strong>nflverse</strong> — our source of NFL statistics (licensed CC-BY 4.0); we do not send
         them any user data.</li>
     </ul>
     <p>We do not sell your personal information.</p>
 
     <h2>Your choices</h2>
-    <p>You can delete your saved profile at any time by disconnecting your league in StatsDeck. You can
-      also request access to, correction of, or deletion of your data by emailing us, and we'll respond
-      within a reasonable timeframe.</p>
+    <p>You can disconnect a league in StatsDeck at any time, which removes that league's saved profile.
+      To delete all of your stored data — including any encrypted ESPN credentials — email us at
+      <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a> and we'll take care of it within a
+      reasonable timeframe. You can also request access to or correction of your data at the same
+      address.</p>
 
     <h2>Contact</h2>
     <p>Questions or requests: <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a></p>
