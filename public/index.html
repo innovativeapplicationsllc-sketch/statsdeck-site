@@ -300,6 +300,16 @@ a:hover{color:var(--brand-dark)}
   color:var(--ink-soft);font-size:1.05rem;
 }
 
+/* ---------- get the Claude app (mobile only; shown in the max-width:820 media query) ---------- */
+.appget{display:none}
+.appget-note{
+  max-width:52ch;margin:0 auto;text-align:center;
+  color:var(--ink-soft);font-size:1.05rem;
+}
+.appget-badges{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:26px}
+.appget-badge{display:inline-flex}
+.appget-badge img{height:52px;width:auto;display:block}
+
 /* ---------- closer ---------- */
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
 .closer h2{font-size:clamp(2rem,5vw,3.4rem);max-width:18ch;margin:0 auto}
@@ -331,6 +341,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   /* keep the L/R pair together on mobile; tighten the gutter so each shot stays large */
   .showcase-pair{gap:12px}
   .showcase-row{margin-top:40px}
+  .appget{display:block}   /* "Get the Claude App" is mobile-only */
   .ball{width:62px;height:62px}
   /* Mobile header: stack the left group (logo over pill, left-aligned); button stays
      top-right, paired with the logo row. Button label held to one line. */
@@ -497,7 +508,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       <div class="cl-frame">
         <img class="connect-league-img" src="/img/connect-league/sleeper.png" alt="Connecting a Sleeper league in StatsDeck" loading="lazy" />
       </div>
-      <p class="cl-desc">Connecting Sleeper takes one step — just give Claude your Sleeper username and pick your league. StatsDeck reads your roster and your league's exact scoring, and you're ready to strategize.</p>
+      <p class="cl-desc"><strong>Connecting Sleeper takes one step</strong> — just give Claude your Sleeper username and pick your league.</p>
     </div>
 
     <div class="cl-panel" id="cl-panel-yahoo" role="region" aria-labelledby="cl-yahoo" hidden>
@@ -506,6 +517,24 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 
     <div class="cl-panel" id="cl-panel-noleague" role="region" aria-labelledby="cl-noleague" hidden>
       <p class="cl-desc">No league? No problem. You can use StatsDeck with Claude without connecting anything — talk through players, matchups, draft strategy, waiver ideas, and more, anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== GET THE CLAUDE APP (mobile only) ========== -->
+<section class="block appget" id="get-app">
+  <div class="wrap">
+    <div class="sec-head center">
+      <h2>Get the Claude App</h2>
+    </div>
+    <p class="appget-note">Already connected StatsDeck? Grab the Claude app to strategize on the go — just connect on the web first, then the app works great.</p>
+    <div class="appget-badges" id="appget-badges">
+      <a class="appget-badge" data-os="ios" href="https://apps.apple.com/us/app/claude-by-anthropic/id6473753684" target="_blank" rel="noopener">
+        <img src="/img/app/app-store.png" alt="Download on the App Store" />
+      </a>
+      <a class="appget-badge" data-os="android" href="https://play.google.com/store/apps/details?id=com.anthropic.claude&hl=en_US" target="_blank" rel="noopener">
+        <img src="/img/app/google-play.png" alt="Get it on Google Play" />
+      </a>
     </div>
   </div>
 </section>
@@ -567,7 +596,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         '<button type="button" class="url-copy-btn" aria-label="Copy URL" data-copy="' + MCP_URL +
         '">' + COPY_ICON + '</button></span>',
       'Connect &gt; Continue with Google or Email',
-      'Connected! A great way to start is by connecting your league →'
+      'Connected! A great way to start is by <a href="#connect-league">connecting your league →</a>'
     ];
 
     var root = document.getElementById("connect-carousel");
@@ -588,13 +617,31 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       caption.innerHTML = CAPTIONS[i];   // static, code-controlled HTML (link/bold/copy button)
       counter.textContent = n + " / " + TOTAL;
       back.disabled = i === 0;          // no Back on slide 1
-      next.disabled = i === TOTAL - 1;  // no dead-end Next on slide 7
+      // Last step: Next stays ENABLED and becomes an active "Connect League" scroll affordance.
+      // Steps 1–6 keep the normal "Next Step" advance behavior.
+      if (i === TOTAL - 1) {
+        next.disabled = false;
+        next.textContent = "Connect League";
+        next.setAttribute("aria-label", "Connect your league");
+      } else {
+        next.disabled = false;
+        next.textContent = "Next Step";
+        next.setAttribute("aria-label", "Next step");
+      }
     }
 
     back.addEventListener("click", function () {
       if (i > 0) { i--; render(); }
     });
     next.addEventListener("click", function () {
+      if (i === TOTAL - 1) {            // last step: scroll to Connect My League, don't advance
+        var target = document.getElementById("connect-league");
+        if (target) {
+          var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        }
+        return;
+      }
       if (i < TOTAL - 1) { i++; render(); }
     });
 
@@ -700,6 +747,22 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         items.forEach(function (o) { setOpen(o, false); });  // close all (one-at-a-time)
         if (!isOpen) setOpen(item, true);                    // clicking an open one leaves it closed (toggle)
       });
+    });
+  })();
+
+  // ---------- Get the Claude App: OS-aware badge (hide the non-matching one; uncertain → show both) ----------
+  (function () {
+    var wrap = document.getElementById("appget-badges");
+    if (!wrap) return;
+    var ua = navigator.userAgent || "";
+    var isIOS = /iPhone|iPad|iPod/.test(ua) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);   // iPadOS reports a Mac UA
+    var isAndroid = /Android/.test(ua);
+    var os = isIOS ? "ios" : (isAndroid ? "android" : "both");
+    if (os === "both") return;   // uncertain/other → leave both badges (never show zero)
+    var hide = os === "ios" ? "android" : "ios";
+    Array.prototype.forEach.call(wrap.querySelectorAll('[data-os="' + hide + '"]'), function (el) {
+      el.style.display = "none";
     });
   })();
 </script>
