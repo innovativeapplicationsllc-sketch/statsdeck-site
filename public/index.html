@@ -237,7 +237,6 @@ a:hover{color:var(--brand-dark)}
   font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
 
 /* ---------- screenshot showcase ---------- */
-.showcase-hint{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:0 0 34px}
 .showcase-row{margin-top:52px}
 .showcase-row:first-of-type{margin-top:0}
 .showcase-row-head{
@@ -321,6 +320,13 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   .carousel{width:calc(100% + 32px);max-width:calc(100% + 32px);margin-left:-16px;margin-right:-16px}
   .carousel-stage{max-width:none}
 }
+/* ---- desktop-only polish (mobile ≤820px untouched above) ---- */
+@media(min-width:821px){
+  /* one shared middle-ground width so the WhyGood pair + connect-carousel align (~505→389 down, 600→800 up) */
+  .showcase-row{max-width:800px;margin-left:auto;margin-right:auto;margin-top:80px}
+  .carousel{max-width:800px}
+  .carousel-stage{max-width:800px}
+}
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
   html{scroll-behavior:auto}
@@ -381,8 +387,6 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 <!-- ========== SCREENSHOT SHOWCASE ========== -->
 <section class="block" id="see">
   <div class="wrap">
-    <p class="showcase-hint">Tap or click any screenshot to enlarge.</p>
-
     <div class="showcase-row">
       <h2 class="showcase-row-head">Rosters</h2>
       <div class="showcase-pair">
