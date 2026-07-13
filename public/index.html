@@ -184,21 +184,6 @@ a:hover{color:var(--brand-dark)}
 .sec-head h2.big{font-size:clamp(2.2rem,5vw,3.6rem)}
 .sec-head p{color:var(--ink-soft);margin:14px 0 0;font-size:1.05rem}
 
-/* ---------- pillars ---------- */
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.pillar{
-  border:1px solid var(--line);border-radius:var(--radius);
-  padding:26px 24px;background:var(--paper-2);
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-.pillar:hover{transform:translateY(-3px);box-shadow:0 16px 40px -26px rgba(17,32,46,.4)}
-.pillar .num{
-  font-family:'JetBrains Mono',monospace;font-weight:700;
-  font-size:.92rem;color:var(--brand);display:block;margin-bottom:14px;
-}
-.pillar h3{font-size:1.22rem;margin-bottom:8px}
-.pillar p{margin:0;color:var(--ink-soft);font-size:.97rem}
-
 /* ---------- connect carousel ---------- */
 .carousel{max-width:640px;margin:40px auto 0;text-align:center}
 .carousel-stage{
@@ -251,38 +236,47 @@ a:hover{color:var(--brand-dark)}
 .url-copy-btn.copied{color:var(--brand);font-family:'Saira Condensed',sans-serif;
   font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
 
-/* ---------- phone screenshots ---------- */
-.shots{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.shot{
+/* ---------- screenshot showcase ---------- */
+.showcase-hint{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:0 0 34px}
+.showcase-row{margin-top:52px}
+.showcase-row:first-of-type{margin-top:0}
+.showcase-row-head{
+  font-family:'Saira Condensed',sans-serif;font-weight:700;
+  font-size:clamp(1.6rem,3.6vw,2.5rem);line-height:1.1;letter-spacing:-0.01em;
+  color:var(--ink);margin:0 0 22px;padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.showcase-pair{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.showcase-img{
+  display:block;width:100%;height:auto;
   border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;background:var(--paper-2);
+  background:var(--paper-2);cursor:zoom-in;
 }
-.shot-cap{
-  font-family:'Saira Condensed',sans-serif;font-weight:600;
-  font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--brand);padding:16px 20px 0;
-}
-.shot-body{padding:6px 20px 20px}
-.shot-body h3{font-size:1.15rem;margin-bottom:6px}
-.shot-body p{margin:0;color:var(--ink-soft);font-size:.95rem}
 
-/* generic phone-frame placeholder */
-.ph{
-  position:relative;width:100%;
-  border-radius:12px;overflow:hidden;
-  border:1px solid var(--line-2);
-  background:
-    repeating-linear-gradient(45deg,#EEEBE2,#EEEBE2 14px,#E6E2D7 14px,#E6E2D7 28px);
+/* ---------- shared tap/click-to-enlarge lightbox (ported from espn.html) ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(43,46,52,.92);              /* --field #2B2E34 @ .92 */
+  opacity:0;visibility:hidden;
+  transition:opacity .2s ease,visibility .2s ease;   /* skipped under prefers-reduced-motion (global rule) */
+  -webkit-tap-highlight-color:transparent;
+}
+.lightbox.is-open{opacity:1;visibility:visible}
+.lightbox-img{
+  max-width:100%;max-height:100%;object-fit:contain;   /* fit-to-screen, no crop, no zoom */
+  border-radius:8px;box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+.lightbox-close{
+  position:absolute;top:16px;right:16px;
+  width:44px;height:44px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--line-2);cursor:pointer;
+  font-family:'Saira Condensed',sans-serif;font-size:1.6rem;line-height:1;
+  transition:background .15s ease,transform .15s ease;
 }
-.ph.phone{aspect-ratio:1/2;max-width:300px;margin:14px auto 0}
-.ph.phone-wide{aspect-ratio:9/16}
-.ph-label{
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;
-  color:#9A958A;background:rgba(248,247,243,.86);
-  border:1px solid var(--line-2);border-radius:7px;
-  padding:6px 10px;text-align:center;max-width:84%;
-}
+.lightbox-close:hover{background:#fff;transform:scale(1.05)}
 
 /* ---------- closer ---------- */
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
@@ -311,9 +305,10 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   .whatis-grid{grid-template-columns:1fr}
   .diff-grid{grid-template-columns:1fr}
   .diff-mid{border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
-  .pillars{grid-template-columns:1fr}
-  .shots{grid-template-columns:1fr}
   .step{grid-template-columns:1fr;gap:14px}
+  /* keep the L/R pair together on mobile; tighten the gutter so each shot stays large */
+  .showcase-pair{gap:12px}
+  .showcase-row{margin-top:40px}
   .ball{width:62px;height:62px}
   /* Mobile header: stack the left group (logo over pill, left-aligned); button stays
      top-right, paired with the logo row. Button label held to one line. */
@@ -378,7 +373,54 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
-      <a class="btn btn-ghost" href="#why">See what it does</a>
+      <a class="btn btn-ghost" href="#see">See what it does</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SCREENSHOT SHOWCASE ========== -->
+<section class="block" id="see">
+  <div class="wrap">
+    <p class="showcase-hint">Tap or click any screenshot to enlarge.</p>
+
+    <div class="showcase-row">
+      <h2 class="showcase-row-head">Rosters</h2>
+      <div class="showcase-pair">
+        <img class="showcase-img" src="/img/whygood/1l.jpg" alt="StatsDeck rosters — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/1r.jpg" alt="StatsDeck rosters — screenshot 2" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="showcase-row">
+      <h2 class="showcase-row-head">Start / Sit</h2>
+      <div class="showcase-pair">
+        <img class="showcase-img" src="/img/whygood/2l.jpg" alt="StatsDeck start/sit — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/2r.jpg" alt="StatsDeck start/sit — screenshot 2" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="showcase-row">
+      <h2 class="showcase-row-head">Matchups</h2>
+      <div class="showcase-pair">
+        <img class="showcase-img" src="/img/whygood/3l.jpg" alt="StatsDeck matchups — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/3r.jpg" alt="StatsDeck matchups — screenshot 2" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="showcase-row">
+      <h2 class="showcase-row-head">Trades</h2>
+      <div class="showcase-pair">
+        <img class="showcase-img" src="/img/whygood/4l.jpg" alt="StatsDeck trades — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/4r.jpg" alt="StatsDeck trades — screenshot 2" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="showcase-row">
+      <h2 class="showcase-row-head">All The Things</h2>
+      <div class="showcase-pair">
+        <img class="showcase-img" src="/img/whygood/5l.jpg" alt="StatsDeck — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/5r.jpg" alt="StatsDeck — screenshot 2" loading="lazy" />
+      </div>
     </div>
   </div>
 </section>
@@ -409,88 +451,11 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   </div>
 </section>
 
-<!-- ========== PILLARS ========== -->
-<section class="block" id="why">
-  <div class="wrap">
-    <div class="sec-head center">
-      <span class="eyebrow">Why StatsDeck</span>
-      <h2>Get your edge for Sunday.</h2>
-      <p>Anyone can recite last year's box score. StatsDeck does the part that actually decides your matchup.</p>
-    </div>
-    <div class="pillars">
-      <div class="pillar">
-        <span class="num">01</span>
-        <h3>Scoring you can trust</h3>
-        <p>Every answer is computed against your league's real rules — PPR, custom DST tiers, kicker distance bonuses — and checked against the source record. No silently dropped safeties.</p>
-      </div>
-      <div class="pillar">
-        <span class="num">02</span>
-        <h3>This week, not last year</h3>
-        <p>StatsDeck knows what's already played, what's been ingested, and what hasn't — and tells you "data as of" so you're never acting on stale or made-up numbers.</p>
-      </div>
-      <div class="pillar">
-        <span class="num">03</span>
-        <h3>Knows your roster</h3>
-        <p>Connect your league and ask about your actual team and your waiver wire. Start/sit and matchup calls in the context of who you really own.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== IN ACTION / CHAT SHOTS ========== -->
-<section class="block" id="see">
-  <div class="wrap">
-    <div class="sec-head center">
-      <span class="eyebrow">In action</span>
-      <h2>What it looks like inside Claude.</h2>
-      <p>You ask the way you'd ask a sharp friend. StatsDeck pulls the real numbers and shows its work.</p>
-    </div>
-
-    <div class="shots">
-      <div class="shot">
-        <div class="shot-cap">Start/sit with your real roster</div>
-        <div class="shot-body">
-          <h3>"Who do I start at flex this week?"</h3>
-          <p>Roster-aware comparison using your league's scoring and the upcoming defensive matchup.</p>
-          <div class="ph phone-wide"><span class="ph-label">[screenshot]<br/>start/sit chat</span></div>
-        </div>
-      </div>
-
-      <div class="shot">
-        <div class="shot-cap">Defense scoring, line by line</div>
-        <div class="shot-body">
-          <h3>Every point, itemized</h3>
-          <p>Each sack, turnover, return TD and safety counted — with the data-as-of timestamp.</p>
-          <div class="ph phone-wide"><span class="ph-label">[screenshot]<br/>DST breakdown chat</span></div>
-        </div>
-      </div>
-
-      <div class="shot">
-        <div class="shot-cap">Waiver targets from your league</div>
-        <div class="shot-body">
-          <h3>Players actually available</h3>
-          <p>Pulled against your league's real free agents — and whether they're a waiver claim or an add-now.</p>
-          <div class="ph phone-wide"><span class="ph-label">[screenshot]<br/>waiver chat</span></div>
-        </div>
-      </div>
-
-      <div class="shot">
-        <div class="shot-cap">Recent-form trend + usage</div>
-        <div class="shot-body">
-          <h3>Form and usage trends</h3>
-          <p>Target share, snaps and opportunity over recent weeks — the leading indicators.</p>
-          <div class="ph phone-wide"><span class="ph-label">[screenshot]<br/>form/usage chat</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ========== CLOSER ========== -->
 <section class="closer">
   <div class="wrap">
     <h2>Set a smarter lineup.</h2>
-    <p>Add StatsDeck to Claude and start strategizing with answers that know your league and your roster.</p>
+    <p>With StatsDeck for Claude</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
     </div>
@@ -513,6 +478,12 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
   </div>
 </footer>
+
+<!-- shared tap/click-to-enlarge lightbox — one instance, reused by all showcase images -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" aria-hidden="true">
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close enlarged view">&times;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+</div>
 
 <script>
   // logo fallback handled inline via onerror on each <img class="js-logo">
@@ -594,6 +565,57 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     });
 
     render();
+  })();
+
+  // ---------- shared tap/click-to-enlarge lightbox (ported from espn.html) ----------
+  (function () {
+    var box = document.getElementById("lightbox");
+    var boxImg = document.getElementById("lightbox-img");
+    var closeBtn = document.getElementById("lightbox-close");
+    if (!box || !boxImg || !closeBtn) return;
+
+    var triggers = document.querySelectorAll(".showcase-img");
+    var lastFocus = null;      // image that opened the lightbox (focus returns here)
+    var prevOverflow = "";     // body overflow to restore on close
+
+    function open(srcImg) {
+      lastFocus = srcImg;
+      boxImg.src = srcImg.currentSrc || srcImg.src;   // enlarge whatever was clicked
+      boxImg.alt = srcImg.alt || "";
+      prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";        // lock page scroll
+      box.classList.add("is-open");
+      box.setAttribute("aria-hidden", "false");
+      closeBtn.focus();
+    }
+    function close() {
+      if (!box.classList.contains("is-open")) return;
+      box.classList.remove("is-open");
+      box.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = prevOverflow;    // restore scroll
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      lastFocus = null;
+    }
+
+    Array.prototype.forEach.call(triggers, function (t) {
+      t.setAttribute("role", "button");
+      t.setAttribute("tabindex", "0");
+      t.addEventListener("click", function () { open(t); });
+      t.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();                          // Space must not scroll the page
+          open(t);
+        }
+      });
+    });
+
+    closeBtn.addEventListener("click", close);
+    box.addEventListener("click", function (e) {
+      if (e.target === box) close();                   // backdrop only — clicks on the image don't close
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" || e.key === "Esc") close();
+    });
   })();
 </script>
 </body>
