@@ -314,7 +314,7 @@ a:hover{color:var(--brand-dark)}
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
 .closer h2{font-size:clamp(2rem,5vw,3.4rem);max-width:18ch;margin:0 auto}
 .closer p{color:var(--ink-soft);font-size:1.1rem;max-width:50ch;margin:18px auto 0}
-.closer .cta-row{margin-top:28px}
+.closer .cta-row{margin-top:28px;flex-direction:column;align-items:center}   /* stack the two closer buttons */
 
 /* ---------- footer ---------- */
 footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0}
@@ -546,6 +546,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     <p>With StatsDeck for Claude</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#start">Add StatsDeck to Claude</a>
+      <a class="btn btn-ghost" href="#see">See what it does</a>
     </div>
   </div>
 </section>
