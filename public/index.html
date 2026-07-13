@@ -195,6 +195,7 @@ a:hover{color:var(--brand-dark)}
 .carousel-img{
   display:block;width:100%;height:100%;
   object-fit:contain;                 /* letterbox rather than crop/jump between slides */
+  cursor:zoom-in;                     /* clickable → shared lightbox */
 }
 .carousel-caption{
   font-family:'Inter',system-ui,sans-serif;
@@ -276,6 +277,28 @@ a:hover{color:var(--brand-dark)}
   transition:background .15s ease,transform .15s ease;
 }
 .lightbox-close:hover{background:#fff;transform:scale(1.05)}
+
+/* ---------- connect my league (2x2 buttons + accordion panel) ---------- */
+.cl-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  max-width:520px;margin:0 auto;
+}
+.cl-btn{width:100%;justify-content:center;padding:16px 20px;font-size:1.05rem}
+.cl-btn[aria-expanded="true"]{
+  background:var(--brand);color:#fff;border-color:var(--brand);
+}
+.cl-panel{margin-top:28px}
+.cl-panel[hidden]{display:none}
+.cl-frame{
+  max-width:420px;margin:0 auto;
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--paper-2);overflow:hidden;      /* mirrors .carousel-stage frame */
+}
+.connect-league-img{display:block;width:100%;height:auto;cursor:zoom-in}
+.cl-desc{
+  max-width:60ch;margin:20px auto 0;text-align:center;
+  color:var(--ink-soft);font-size:1.05rem;
+}
 
 /* ---------- closer ---------- */
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
@@ -435,7 +458,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     <div class="sec-head center">
       <span class="eyebrow">Get started</span>
       <h2 class="big">Join the private beta.</h2>
-      <p>StatsDeck is a Custom Connector for Claude.</p>
+      <p>StatsDeck is a Custom Connector for Claude, and it's <strong>free</strong>.</p>
     </div>
 
     <!-- Connect carousel: 7 slides, linear stepper (no wrap), vanilla JS below -->
@@ -451,6 +474,38 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 7</span>
         <button type="button" class="btn btn-primary carousel-next" id="carousel-next" aria-label="Next step">Next Step</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONNECT MY LEAGUE ========== -->
+<section class="block" id="connect-league">
+  <div class="wrap">
+    <div class="sec-head center">
+      <h2 class="big">Connect My League</h2>
+    </div>
+
+    <div class="cl-grid">
+      <button type="button" class="btn btn-ghost cl-btn" id="cl-sleeper" aria-expanded="false" aria-controls="cl-panel-sleeper">Sleeper</button>
+      <a class="btn btn-ghost cl-btn" href="/espn">ESPN</a>
+      <button type="button" class="btn btn-ghost cl-btn" id="cl-yahoo" aria-expanded="false" aria-controls="cl-panel-yahoo">Yahoo</button>
+      <button type="button" class="btn btn-ghost cl-btn" id="cl-noleague" aria-expanded="false" aria-controls="cl-panel-noleague">No League</button>
+    </div>
+
+    <!-- accordion panels: full width below the grid; one open at a time -->
+    <div class="cl-panel" id="cl-panel-sleeper" role="region" aria-labelledby="cl-sleeper" hidden>
+      <div class="cl-frame">
+        <img class="connect-league-img" src="/img/connect-league/sleeper.png" alt="Connecting a Sleeper league in StatsDeck" loading="lazy" />
+      </div>
+      <p class="cl-desc">Connecting Sleeper takes one step — just give Claude your Sleeper username and pick your league. StatsDeck reads your roster and your league's exact scoring, and you're ready to strategize.</p>
+    </div>
+
+    <div class="cl-panel" id="cl-panel-yahoo" role="region" aria-labelledby="cl-yahoo" hidden>
+      <p class="cl-desc">We're working on Yahoo league connections now. Until it's live, you can still use StatsDeck — just post screenshots to Claude of your roster, trade offers, or anything else you'd like a read on.</p>
+    </div>
+
+    <div class="cl-panel" id="cl-panel-noleague" role="region" aria-labelledby="cl-noleague" hidden>
+      <p class="cl-desc">No league? No problem. You can use StatsDeck with Claude without connecting anything — talk through players, matchups, draft strategy, waiver ideas, and more, anytime.</p>
     </div>
   </div>
 </section>
@@ -578,7 +633,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     var closeBtn = document.getElementById("lightbox-close");
     if (!box || !boxImg || !closeBtn) return;
 
-    var triggers = document.querySelectorAll(".showcase-img");
+    var triggers = document.querySelectorAll(".showcase-img, #carousel-img, .connect-league-img");
     var lastFocus = null;      // image that opened the lightbox (focus returns here)
     var prevOverflow = "";     // body overflow to restore on close
 
@@ -619,6 +674,32 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" || e.key === "Esc") close();
+    });
+  })();
+
+  // ---------- Connect My League: single-open accordion (Sleeper / Yahoo / No League) ----------
+  (function () {
+    var items = [
+      { btn: "cl-sleeper",  panel: "cl-panel-sleeper" },
+      { btn: "cl-yahoo",    panel: "cl-panel-yahoo" },
+      { btn: "cl-noleague", panel: "cl-panel-noleague" }
+    ].map(function (it) {
+      return { btn: document.getElementById(it.btn), panel: document.getElementById(it.panel) };
+    }).filter(function (it) { return it.btn && it.panel; });
+    if (!items.length) return;
+
+    function setOpen(item, open) {
+      item.btn.setAttribute("aria-expanded", open ? "true" : "false");
+      item.panel.hidden = !open;
+    }
+
+    items.forEach(function (item) {
+      // native <button> already fires click on Enter/Space, so keyboard works for free
+      item.btn.addEventListener("click", function () {
+        var isOpen = item.btn.getAttribute("aria-expanded") === "true";
+        items.forEach(function (o) { setOpen(o, false); });  // close all (one-at-a-time)
+        if (!isOpen) setOpen(item, true);                    // clicking an open one leaves it closed (toggle)
+      });
     });
   })();
 </script>
