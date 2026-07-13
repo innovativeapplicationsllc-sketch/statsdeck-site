@@ -612,7 +612,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a" id="faq-a10" role="region" aria-labelledby="faq-q10" hidden>
-          Claude is genuinely smart about football — it can reason about strategy, matchups, and trades better than most tools. But on its own, it's working from memory, without access to your league or current NFL data.<br><br>That's the gap StatsDeck fills. It pipes in your actual roster, your league's exact scoring settings, and current-week stats and matchups — so Claude's reasoning runs on real, up-to-date inputs instead of guesses. StatsDeck also adds proprietary models and algorithms for things like projections and matchup adjustments.<br><br>The result: not just answers, but an edge — real data and proprietary modeling behind every start, sit, and trade call.
+          Claude is genuinely smart about football — it can reason about strategy, matchups, and trades better than most tools. But on its own, it's working from memory, without access to your league or current NFL data.<br><br>That's the gap StatsDeck fills. It pipes in your actual roster and your league's exact scoring, then puts the full nflverse dataset behind every answer — hundreds of data points per player, refreshed through game days and backed by more than a decade of history. So Claude's reasoning runs on real, current data instead of guesses. StatsDeck also adds proprietary models and algorithms for things like projections and matchup adjustments.<br><br>The result: not just answers, but an edge — real data and proprietary modeling behind every start, sit, and trade call.
         </div>
       </div>
 
@@ -712,7 +712,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     <p class="foot-meta">NFL data via nflverse (CC-BY 4.0). StatsDeck is independent and not affiliated with the NFL or any league platform.</p>
     <div class="foot-links">
       <a href="/privacy.html">Privacy policy</a>
-      <a href="mailto:support@statsdeck.ai">Support</a>
+      <a href="#faq-q1">Support</a>
       <a href="#start">Add to Claude</a>
     </div>
   </div>
@@ -923,6 +923,27 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         items.forEach(function (o) { setOpen(o, false); });  // close all (one-at-a-time)
         if (!isOpen) setOpen(item, true);                    // clicking an open one leaves it closed (toggle)
       });
+    });
+
+    // Deep-link: #faq-qN (e.g. the footer Support link → #faq-q1) opens that item
+    // and scrolls to it. Unknown hashes are ignored. Single-open preserved.
+    function openFromHash(hash) {
+      var id = (hash || "").replace(/^#/, "");
+      if (!id) return;
+      var target = null;
+      items.forEach(function (it) { if (it.btn.id === id) target = it; });
+      if (!target) return;
+      items.forEach(function (o) { setOpen(o, false); });
+      setOpen(target, true);
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.btn.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    }
+    openFromHash(location.hash);   // arriving on the page with a #faq-q* hash already set
+    window.addEventListener("hashchange", function () { openFromHash(location.hash); });
+    // In-page clicks on #faq-q* links (footer Support): hashchange doesn't fire when the
+    // hash is already set, so open directly on click too.
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="#faq-q"]'), function (a) {
+      a.addEventListener("click", function () { openFromHash(a.getAttribute("href")); });
     });
   })();
 
