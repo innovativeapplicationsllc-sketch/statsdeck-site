@@ -454,40 +454,40 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     <div class="showcase-row">
       <h2 class="showcase-row-head">Rosters</h2>
       <div class="showcase-pair">
-        <img class="showcase-img" src="/img/whygood/1l.jpg" alt="StatsDeck rosters — screenshot 1" loading="lazy" />
-        <img class="showcase-img" src="/img/whygood/1r.jpg" alt="StatsDeck rosters — screenshot 2" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/1l.jpg" width="675" height="2110" alt="StatsDeck rosters — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/1r.jpg" width="670" height="2101" alt="StatsDeck rosters — screenshot 2" loading="lazy" />
       </div>
     </div>
 
     <div class="showcase-row">
       <h2 class="showcase-row-head">Start / Sit</h2>
       <div class="showcase-pair">
-        <img class="showcase-img" src="/img/whygood/2l.jpg" alt="StatsDeck start/sit — screenshot 1" loading="lazy" />
-        <img class="showcase-img" src="/img/whygood/2r.jpg" alt="StatsDeck start/sit — screenshot 2" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/2l.jpg" width="672" height="2187" alt="StatsDeck start/sit — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/2r.jpg" width="671" height="2185" alt="StatsDeck start/sit — screenshot 2" loading="lazy" />
       </div>
     </div>
 
     <div class="showcase-row">
       <h2 class="showcase-row-head">Matchups</h2>
       <div class="showcase-pair">
-        <img class="showcase-img" src="/img/whygood/3l.jpg" alt="StatsDeck matchups — screenshot 1" loading="lazy" />
-        <img class="showcase-img" src="/img/whygood/3r.jpg" alt="StatsDeck matchups — screenshot 2" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/3l.jpg" width="675" height="2390" alt="StatsDeck matchups — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/3r.jpg" width="669" height="2392" alt="StatsDeck matchups — screenshot 2" loading="lazy" />
       </div>
     </div>
 
     <div class="showcase-row">
       <h2 class="showcase-row-head">Trades</h2>
       <div class="showcase-pair">
-        <img class="showcase-img" src="/img/whygood/4l.jpg" alt="StatsDeck trades — screenshot 1" loading="lazy" />
-        <img class="showcase-img" src="/img/whygood/4r.jpg" alt="StatsDeck trades — screenshot 2" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/4l.jpg" width="673" height="3182" alt="StatsDeck trades — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/4r.jpg" width="674" height="3177" alt="StatsDeck trades — screenshot 2" loading="lazy" />
       </div>
     </div>
 
     <div class="showcase-row">
       <h2 class="showcase-row-head">All The Things</h2>
       <div class="showcase-pair">
-        <img class="showcase-img" src="/img/whygood/5l.jpg" alt="StatsDeck — screenshot 1" loading="lazy" />
-        <img class="showcase-img" src="/img/whygood/5r.jpg" alt="StatsDeck — screenshot 2" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/5l.jpg" width="664" height="2869" alt="StatsDeck — screenshot 1" loading="lazy" />
+        <img class="showcase-img" src="/img/whygood/5r.jpg" width="674" height="2865" alt="StatsDeck — screenshot 2" loading="lazy" />
       </div>
     </div>
   </div>
@@ -948,6 +948,32 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     // hash is already set, so open directly on click too.
     Array.prototype.forEach.call(document.querySelectorAll('a[href^="#faq-q"]'), function (a) {
       a.addEventListener("click", function () { openFromHash(a.getAttribute("href")); });
+    });
+  })();
+
+  // ---------- cross-page hash arrival: correct anchor drift from late image loads ----------
+  // Arriving with a #hash (e.g. /#faq from the espn page) jumps at parse time, before the
+  // tall showcase images stream in and push content down — so the landing drifts too high.
+  // Re-align once now, again when images finish (window.load), and one final catch-up for
+  // late/lazy loads. Corrections snap (behavior:instant — also satisfies reduced-motion);
+  // any user scroll input cancels remaining corrections so we never yank the page back.
+  (function () {
+    var id = (location.hash || "").replace(/^#/, "");
+    if (!id || !document.getElementById(id)) return;
+    var isFaqQ = /^faq-q\d+$/.test(id);   // FAQ deep-links center (matches openFromHash); sections align to start
+    var cancelled = false;
+    ["wheel", "touchmove", "keydown"].forEach(function (t) {
+      window.addEventListener(t, function () { cancelled = true; }, { passive: true });
+    });
+    function realign() {
+      if (cancelled) return;
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "instant", block: isFaqQ ? "center" : "start" });
+    }
+    realign();   // DOM fully parsed (script sits at end of body); FAQ item already opened above
+    window.addEventListener("load", function () {
+      realign();                  // images loaded — fix accumulated drift
+      setTimeout(realign, 250);   // single catch-up for anything that shifted just after load
     });
   })();
 
