@@ -187,12 +187,12 @@ code{
     <div class="wrap">
       <p class="eyebrow">StatsDeck</p>
       <h1>Documentation</h1>
-      <p class="lede">StatsDeck is a Model Context Protocol (MCP) connector that connects Claude to
-        your fantasy football leagues. With your roster and your league's exact scoring, plus
-        current-week stats, you and Claude can work together to find the best way to manage your
+      <p class="lede">StatsDeck is an MCP connector that gives Claude context on your fantasy
+        football leagues. By syncing your roster, current-week stats, and exact league scoring, it
+        allows you and Claude to collaborate seamlessly on the best strategies to manage your
         team.</p>
-      <p>StatsDeck also brings its own models and rankings to supplement your decision-making.</p>
-      <p>StatsDeck never supports betting, spreads, or Daily Fantasy Sports (DFS) content.</p>
+      <p>StatsDeck also brings its own models and rankings to supplement your decision-making.
+        StatsDeck never supports betting, spreads, or Daily Fantasy Sports (DFS) content.</p>
     </div>
   </section>
 
@@ -200,18 +200,17 @@ code{
 
     <section>
       <h2>What StatsDeck does</h2>
-      <p>Claude does the reasoning. StatsDeck supplies the facts and the modeling Claude reasons
-        over:</p>
+      <p>StatsDeck supplies the exact facts and league scoring models, giving Claude a precise
+        foundation to reason over and optimize your team.</p>
       <ul>
-        <li><strong>Your league.</strong> Your roster, your weekly opponent's roster, and every
-          other team in the league.</li>
-        <li><strong>Your scoring.</strong> PPR, half-PPR, standard, and custom settings. Every
-          points figure is computed under the scoring you actually play.</li>
-        <li><strong>Current-week data.</strong> Player production, snap counts and snap share,
-          official injury reports, team defense/DST, kickers, and the NFL schedule.</li>
-        <li><strong>Decisions.</strong> Start/sit between your players, the best players actually
-          available on your waiver wire, trade analysis from both sides, and a draft board tiered
-          under your exact scoring.</li>
+        <li><strong>Full League Sync:</strong> Tracks your roster, your opponent's lineup, and
+          every other team across your league.</li>
+        <li><strong>Exact Scoring Calibration:</strong> Computes every points figure under your
+          specific rules, supporting standard, PPR, half-PPR, or deep custom settings.</li>
+        <li><strong>Current Data:</strong> Feeds Claude player production, snap shares, injury
+          reports, defensive matchups, kickers, and schedules.</li>
+        <li><strong>Strategic Decisions:</strong> Generates optimized start/sit recommendations,
+          waiver wire targets, two-sided trade evaluations, and custom-tiered draft boards.</li>
       </ul>
     </section>
 
@@ -247,23 +246,21 @@ code{
       <p>Here are some good ones to start with:</p>
       <ol>
         <li><strong>"Can you pull my roster?"</strong><br>
-          StatsDeck returns a full team rundown, not a bare list: your starters and bench scored
-          under your league's exact scoring, your biggest strength, your biggest hole, and how your
-          roster is built. If a bench player is outscoring a starter at the same position, that
-          leads the response — StatsDeck tells you before you ask.</li>
+          A full team rundown, not a bare list: starters and bench scored under your league's
+          exact scoring, your biggest strength, your biggest hole, and how the roster is built. If
+          a bench player is outscoring a starter at the same position, that leads the response —
+          before you ask.</li>
         <li><strong>"How's my Week 1 matchup looking?"</strong><br>
-          StatsDeck returns both fantasy lineups side by side — yours and your opponent's — with
-          each side's starters and bench, your league record, and your platform's own projection
-          where it publishes one. Each skill-position player also carries an opponent adjustment:
-          their season average tempered by what that week's defense actually allows to their
-          position.</li>
+          Both fantasy lineups side by side, with starters, bench, your league record, and your
+          platform's own projection where it publishes one. Each skill-position player carries an
+          opponent adjustment: their season average tempered by what that week's defense actually
+          allows to their position.</li>
         <li><strong>"Who should I start, and why?"</strong><br>
-          StatsDeck returns a ranked call with the reasoning attached: each player's rank from
-          StatsDeck's recency-weighted form signal, their actual recent per-game points, and the
-          real NFL opponent they face that week. The rank and the points are deliberately two
-          separate numbers — the ranking is a strength signal, the points are what the player
-          actually scored. Ask how it's computed and Claude will walk you through the
-          weighting.</li>
+          A ranked call with the reasoning attached: each player's rank from StatsDeck's
+          recency-weighted form signal, their actual recent per-game points, and the real NFL
+          opponent they face that week. Rank and points are deliberately two separate numbers —
+          the ranking is a strength signal, the points are what the player actually scored. Ask
+          how it's computed and Claude walks you through the weighting.</li>
       </ol>
       <p>Others that work well to go deeper:</p>
       <ul>
@@ -283,29 +280,23 @@ code{
         members, so StatsDeck needs to read them as you.</p>
       <p>To do that, StatsDeck needs two values from your own ESPN session: <code>SWID</code> and
         <code>espn_s2</code>. These are the cookies your browser already holds when you're signed
-        in to ESPN. Step-by-step instructions, including a bookmarklet that reads the values out of
-        your own browser, are at <a href="/espn">statsdeck.ai/espn</a>.</p>
-      <p><strong>Why cookies, and why this is the normal way it's done.</strong> ESPN publishes no
-        public login for third-party tools — there's no OAuth, no API key, no developer program to
-        sign up for. Every tool that reads a private ESPN league does it the same way: with the
-        <code>SWID</code> and <code>espn_s2</code> values from the member's own session. This is
-        long-established practice, not a workaround StatsDeck invented. The widely used open-source
-        ESPN libraries have documented these exact two cookies for years — <code>ffscrapr</code>
-        (part of the same ffverse project family as nflverse, StatsDeck's stats source) publishes a
-        vignette on it, as does the <code>espn-api</code> Python library — and there are browser
-        extensions in the Chrome Web Store whose entire purpose is helping people find these two
-        values for third-party fantasy tools. If you've ever synced a private ESPN league to an
-        outside analyzer, this is what happened under the hood.</p>
-      <p><strong>What this means, plainly:</strong></p>
+        in to ESPN. Step-by-step instructions, including a bookmarklet that reads the values from
+        your browser, are at <a href="/espn">statsdeck.ai/espn</a>.</p>
+      <p><strong>Why cookies?</strong> ESPN offers no public login for third-party tools — no
+        OAuth, no API key, no developer program. So every tool that reads a private ESPN league
+        uses the same two values from your own session: <code>SWID</code> and <code>espn_s2</code>.
+        It's long-established practice, not a flow StatsDeck invented — the open-source ESPN
+        libraries have documented these cookies for years, including <code>ffscrapr</code> (same
+        ffverse family as nflverse, StatsDeck's stats source) and <code>espn-api</code>.</p>
+      <p><strong>Overview:</strong></p>
       <ul>
-        <li>These cookies let StatsDeck see exactly what you see on ESPN when signed in — nothing
-          more, and nothing belonging to anyone else.</li>
-        <li>They are stored encrypted (AES-256-GCM) and are used only to read your league on your
-          behalf.</li>
-        <li>They persist by design, so you can switch between your leagues without re-running the
-          bookmarklet each time.</li>
-        <li>They are never used to write anything to ESPN.</li>
-        <li>You can have them deleted at any time — see <strong>Your data</strong>, below.</li>
+        <li>StatsDeck sees exactly what you see on ESPN when signed in — nothing more, and nothing
+          belonging to anyone else.</li>
+        <li>Stored encrypted (AES-256-GCM), used only to read your league on your behalf.</li>
+        <li>They persist by design, so you can switch leagues without re-running the
+          bookmarklet.</li>
+        <li>Never used to write anything to ESPN.</li>
+        <li>Deleted at any time on request — see <strong>Your data</strong>, below.</li>
       </ul>
       <p>Sleeper leagues need none of this; Sleeper publishes a public read API.</p>
     </section>
@@ -506,9 +497,7 @@ code{
         <li><strong>Support:</strong> <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a></li>
         <li><strong>Security:</strong> Report suspected vulnerabilities to
           <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a> with "Security" in the
-          subject line. Reports are investigated and acknowledged. Please include enough detail to
-          reproduce the issue, and give us a reasonable window to respond before disclosing
-          publicly.</li>
+          subject line. Reports are investigated and acknowledged.</li>
       </ul>
     </section>
 
