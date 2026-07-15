@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation — StatsDeck</title>
+<meta name="description" content="How to add StatsDeck to Claude, connect your Sleeper or ESPN league, what every tool does, and exactly what StatsDeck reads and stores.">
+<link rel="canonical" href="https://statsdeck.ai/documentation">
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Documentation — StatsDeck">
+<meta property="og:description" content="How to add StatsDeck to Claude, connect your Sleeper or ESPN league, what every tool does, and exactly what StatsDeck reads and stores.">
+<meta property="og:url" content="https://statsdeck.ai/documentation">
+<meta property="og:image" content="https://statsdeck.ai/og-1200x630-v1.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="StatsDeck — fantasy football analytics inside Claude">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://statsdeck.ai/og-1200x630-v1.png">
+
+<link rel="icon" href="/favicon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F7F3; --paper-2:#FFFFFF;
+  --ink:#34373E; --ink-soft:#5C616B;
+  --line:#E6E3DB; --line-2:#D6D2C8;
+  --field:#2B2E34;
+  --brand:#2693BE; --brand-dark:#1F7CA1; --brand-soft:#E2F1F7;
+  --gold:#FFCA08; --gold-dark:#C99700;
+  --verified:#179E5C; --verified-soft:#E4F4EC;
+  --warn:#B9762A; --warn-soft:#F6ECDD;
+  --maxw:760px; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+a{color:var(--brand-dark); text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---- top bar (privacy.html subpage template) ---- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  background:rgba(248,247,243,.82); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
+.brand{display:flex; align-items:center; gap:10px}
+.brand img{height:34px; width:auto; display:block}
+.brand .wordmark{
+  font-family:'Saira Condensed',sans-serif; font-weight:700; font-size:1.35rem;
+  letter-spacing:.02em; color:var(--ink); text-transform:none;
+}
+.brand .wordmark b{color:var(--brand)}
+.topbar .back{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.85rem;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft);
+}
+
+/* ---- hero (espn.html interior treatment) ---- */
+.hero{padding:56px 0 8px}
+.eyebrow{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.78rem;
+  text-transform:uppercase; letter-spacing:.18em; color:var(--brand-dark); margin:0 0 14px;
+}
+h1{
+  font-family:'Saira Condensed',sans-serif; font-weight:700;
+  font-size:clamp(2.1rem,5vw,3.1rem); line-height:1.05; letter-spacing:.01em;
+  margin:0 0 16px;
+}
+.lede{font-size:1.08rem; color:var(--ink-soft); margin:0 0 16px; max-width:60ch}
+.hero p{color:var(--ink-soft); max-width:60ch}
+p{margin:0 0 16px}
+
+/* ---- document body type ---- */
+main{padding-bottom:24px}
+.doc{padding-top:8px;padding-bottom:40px}  /* top/bottom only — must not clobber .wrap's 24px gutter */
+.doc p,.doc li{color:var(--ink-soft); font-size:1rem}
+.doc strong{color:var(--ink)}
+.doc h2{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:1.5rem;
+  color:var(--ink); margin:0 0 12px; padding-top:40px; border-top:1px solid var(--line);
+}
+.doc section{margin-top:40px}
+.doc h3{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:1.25rem;
+  color:var(--ink); margin:30px 0 8px;
+}
+.doc ul,.doc ol{margin:10px 0 16px 22px; padding:0}
+.doc li{margin-bottom:8px}
+code{
+  font-family:'JetBrains Mono',monospace; font-size:.85em;
+  background:var(--brand-soft); color:var(--brand-dark);
+  padding:1px 5px; border-radius:5px;
+}
+
+/* ---- server URL chip (espn.html .bm-chip pattern) ---- */
+.bm-chip{
+  display:flex; align-items:center; gap:10px;
+  max-width:60ch; margin:14px 0 16px; padding:10px 12px;
+  background:var(--field); border-radius:10px; text-align:left;
+}
+.bm-code{
+  flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--gold);
+  background:none; padding:0; border-radius:0;
+}
+.url-copy-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:none; border:none; cursor:pointer; padding:2px;
+  background:transparent; color:var(--gold); line-height:0;
+  border-radius:5px; transition:color .15s ease;
+}
+.url-copy-btn:hover{color:#fff}
+.url-copy-btn svg{width:16px; height:16px; display:block}
+.url-copy-btn.copied{
+  color:var(--brand); font-family:'Saira Condensed',sans-serif;
+  font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em; line-height:1;
+}
+
+/* ---- tables (platform + data sources; stacks below 560px) ---- */
+.doc-table{width:100%; border-collapse:collapse; margin:14px 0 16px; font-size:.95rem}
+.doc-table th{
+  font-family:'Saira Condensed',sans-serif; font-weight:600; font-size:.78rem;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft);
+  text-align:left; padding:8px 12px; border-bottom:1px solid var(--line-2);
+}
+.doc-table td{
+  padding:10px 12px; border-bottom:1px solid var(--line);
+  vertical-align:top; color:var(--ink-soft);
+}
+.doc-table td:first-child{color:var(--ink)}
+@media (max-width:560px){
+  .doc-table thead{display:none}
+  .doc-table tr{display:block; border-bottom:1px solid var(--line); padding:10px 0}
+  .doc-table td{display:block; border:none; padding:2px 0}
+}
+
+/* ---- tool cards (index.html .wcard pattern) ---- */
+.tool-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0 8px}
+.tool-card{
+  border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px 18px; background:var(--paper-2);
+}
+.tool-card code{font-size:.85rem; padding:2px 7px; border-radius:6px}
+.tool-card p{margin:10px 0 0; color:var(--ink-soft); font-size:.93rem; line-height:1.55}
+@media (max-width:640px){.tool-grid{grid-template-columns:1fr}}
+
+/* ---- footer (espn.html pattern) ---- */
+.foot{border-top:1px solid var(--line); margin-top:56px; padding:32px 0 48px}
+.foot .wrap{display:flex; flex-direction:column; gap:14px}
+.foot .brand img{height:26px}
+.foot-meta{font-size:.85rem; color:var(--ink-soft); margin:0}
+.foot-links{display:flex; gap:20px; font-size:.9rem}
+.foot-links a{color:var(--ink-soft)}
+.foot-links a:hover{color:var(--brand)}
+
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto; transition:none}
+}
+:focus-visible{outline:2px solid var(--brand); outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="wordmark" style="display:none">Stats<b>Deck</b></span>
+    </a>
+    <a class="back" href="/">&larr; Home</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">StatsDeck</p>
+      <h1>Documentation</h1>
+      <p class="lede">StatsDeck is a Model Context Protocol (MCP) connector that connects Claude to
+        your fantasy football leagues. With your roster and your league's exact scoring, plus
+        current-week stats, you and Claude can work together to find the best way to manage your
+        team.</p>
+      <p>StatsDeck also brings its own models and rankings to supplement your decision-making.</p>
+      <p>StatsDeck never supports betting, spreads, or Daily Fantasy Sports (DFS) content.</p>
+    </div>
+  </section>
+
+  <div class="wrap doc">
+
+    <section>
+      <h2>What StatsDeck does</h2>
+      <p>Claude does the reasoning. StatsDeck supplies the facts and the modeling Claude reasons
+        over:</p>
+      <ul>
+        <li><strong>Your league.</strong> Your roster, your weekly opponent's roster, and every
+          other team in the league.</li>
+        <li><strong>Your scoring.</strong> PPR, half-PPR, standard, and custom settings. Every
+          points figure is computed under the scoring you actually play.</li>
+        <li><strong>Current-week data.</strong> Player production, snap counts and snap share,
+          official injury reports, team defense/DST, kickers, and the NFL schedule.</li>
+        <li><strong>Decisions.</strong> Start/sit between your players, the best players actually
+          available on your waiver wire, trade analysis from both sides, and a draft board tiered
+          under your exact scoring.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Getting started</h2>
+
+      <h3>1. Add the connector</h3>
+      <p>Add StatsDeck as a custom connector in Claude, using the server URL:</p>
+      <div class="bm-chip">
+        <code class="bm-code">https://app.statsdeck.ai/mcp</code>
+        <button type="button" class="url-copy-btn" id="url-copy" aria-label="Copy server URL"
+          data-copy="https://app.statsdeck.ai/mcp"></button>
+      </div>
+      <p>You'll be asked to sign in. Authentication uses OAuth 2.0.</p>
+
+      <h3>2. Connect your league</h3>
+      <p>Ask Claude to connect your league. StatsDeck supports:</p>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Platform</th><th>What you need</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Sleeper</strong></td><td>Your Sleeper username</td></tr>
+          <tr><td><strong>ESPN — public leagues</strong></td><td>Your league ID</td></tr>
+          <tr><td><strong>ESPN — private leagues</strong></td><td>Your league ID, plus your ESPN
+            session cookies (see below)</td></tr>
+        </tbody>
+      </table>
+      <p>You can connect one league at a time, and switch leagues whenever you like.</p>
+
+      <h3>3. Example prompts</h3>
+      <p>Visit <a href="/">statsdeck.ai</a> for example flows and screenshots.</p>
+      <p>Here are some good ones to start with:</p>
+      <ol>
+        <li><strong>"Can you pull my roster?"</strong><br>
+          StatsDeck returns a full team rundown, not a bare list: your starters and bench scored
+          under your league's exact scoring, your biggest strength, your biggest hole, and how your
+          roster is built. If a bench player is outscoring a starter at the same position, that
+          leads the response — StatsDeck tells you before you ask.</li>
+        <li><strong>"How's my Week 1 matchup looking?"</strong><br>
+          StatsDeck returns both fantasy lineups side by side — yours and your opponent's — with
+          each side's starters and bench, your league record, and your platform's own projection
+          where it publishes one. Each skill-position player also carries an opponent adjustment:
+          their season average tempered by what that week's defense actually allows to their
+          position.</li>
+        <li><strong>"Who should I start, and why?"</strong><br>
+          StatsDeck returns a ranked call with the reasoning attached: each player's rank from
+          StatsDeck's recency-weighted form signal, their actual recent per-game points, and the
+          real NFL opponent they face that week. The rank and the points are deliberately two
+          separate numbers — the ranking is a strength signal, the points are what the player
+          actually scored. Ask how it's computed and Claude will walk you through the
+          weighting.</li>
+      </ol>
+      <p>Others that work well to go deeper:</p>
+      <ul>
+        <li><strong>"I want to go deeper."</strong> Several tools have an advanced mode that widens
+          every player row with the underlying efficiency and opportunity drivers — EPA, CPOE, air
+          yards, target and air-yards share, WOPR, RACR/PACR, first downs — with a glossary the
+          first time you see them.</li>
+        <li><strong>"Make me a visualization."</strong> StatsDeck returns structured data, so
+          Claude can chart it, build a table, or lay out your week however you find it easiest to
+          read.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>ESPN private leagues</h2>
+      <p>Public ESPN leagues need only a league ID. Private leagues are visible only to signed-in
+        members, so StatsDeck needs to read them as you.</p>
+      <p>To do that, StatsDeck needs two values from your own ESPN session: <code>SWID</code> and
+        <code>espn_s2</code>. These are the cookies your browser already holds when you're signed
+        in to ESPN. Step-by-step instructions, including a bookmarklet that reads the values out of
+        your own browser, are at <a href="/espn">statsdeck.ai/espn</a>.</p>
+      <p><strong>Why cookies, and why this is the normal way it's done.</strong> ESPN publishes no
+        public login for third-party tools — there's no OAuth, no API key, no developer program to
+        sign up for. Every tool that reads a private ESPN league does it the same way: with the
+        <code>SWID</code> and <code>espn_s2</code> values from the member's own session. This is
+        long-established practice, not a workaround StatsDeck invented. The widely used open-source
+        ESPN libraries have documented these exact two cookies for years — <code>ffscrapr</code>
+        (part of the same ffverse project family as nflverse, StatsDeck's stats source) publishes a
+        vignette on it, as does the <code>espn-api</code> Python library — and there are browser
+        extensions in the Chrome Web Store whose entire purpose is helping people find these two
+        values for third-party fantasy tools. If you've ever synced a private ESPN league to an
+        outside analyzer, this is what happened under the hood.</p>
+      <p><strong>What this means, plainly:</strong></p>
+      <ul>
+        <li>These cookies let StatsDeck see exactly what you see on ESPN when signed in — nothing
+          more, and nothing belonging to anyone else.</li>
+        <li>They are stored encrypted (AES-256-GCM) and are used only to read your league on your
+          behalf.</li>
+        <li>They persist by design, so you can switch between your leagues without re-running the
+          bookmarklet each time.</li>
+        <li>They are never used to write anything to ESPN.</li>
+        <li>You can have them deleted at any time — see <strong>Your data</strong>, below.</li>
+      </ul>
+      <p>Sleeper leagues need none of this; Sleeper publishes a public read API.</p>
+    </section>
+
+    <section>
+      <h2>What StatsDeck will not do</h2>
+      <ul>
+        <li><strong>It never writes to your league.</strong> StatsDeck does not set lineups, submit
+          waiver claims, accept or propose trades, drop players, or change anything on your team.
+          There are no write calls to any fantasy platform anywhere in it.</li>
+        <li><strong>No betting, odds, or Daily Fantasy Sports (DFS).</strong> StatsDeck does not
+          produce spreads, win probabilities, odds, or daily-fantasy advice. Projections are
+          expressed as expected fantasy points and nothing else.</li>
+        <li><strong>It does not read your conversations.</strong> StatsDeck receives only the tool
+          calls Claude makes to it. It does not access your chat history, memory, or files.</li>
+      </ul>
+      <p>Four StatsDeck tools do change state, and it's worth being precise about which: connecting
+        a league, disconnecting a league, saving ESPN credentials, and setting your scoring. All
+        four write to <em>StatsDeck's own</em> stored settings for your account. None of them touch
+        your league.</p>
+    </section>
+
+    <section>
+      <h2>Tools</h2>
+      <p>Every tool below is available to Claude once StatsDeck is connected. You never call them
+        directly — you ask in plain language and Claude picks the right one.</p>
+
+      <h3>Connection</h3>
+      <div class="tool-grid">
+        <div class="tool-card"><code>connect_league</code>
+          <p>Links your Sleeper or ESPN league so every answer uses your real roster and exact
+            scoring</p></div>
+        <div class="tool-card"><code>disconnect_league</code>
+          <p>Unlinks your league. Asks you to confirm first, and always names the league before
+            anything changes</p></div>
+        <div class="tool-card"><code>save_espn_credentials</code>
+          <p>Stores your encrypted ESPN session cookies so StatsDeck can read your private
+            league</p></div>
+        <div class="tool-card"><code>get_scoring</code>
+          <p>Shows the scoring StatsDeck is currently using for you, and what else is
+            available</p></div>
+        <div class="tool-card"><code>set_scoring</code>
+          <p>Sets the scoring StatsDeck uses, so every points number matches your league</p></div>
+      </div>
+
+      <h3>Your league</h3>
+      <div class="tool-grid">
+        <div class="tool-card"><code>get_my_roster</code>
+          <p>Your team rundown — starters and bench scored, strengths, holes, roster construction,
+            and any bench player outscoring a starter</p></div>
+        <div class="tool-card"><code>get_league_team</code>
+          <p>The same rundown for any other team in your league</p></div>
+        <div class="tool-card"><code>get_fantasy_matchup</code>
+          <p>Your fantasy head-to-head for a week: both lineups, league record, and each player's
+            opponent adjustment</p></div>
+        <div class="tool-card"><code>get_available_players</code>
+          <p>Your waiver/free-agent board — the best players actually unrostered in your league,
+            with each one's add state and your FAAB or waiver priority</p></div>
+        <div class="tool-card"><code>get_trades</code>
+          <p>Pending offers and completed league trades, both sides scored under your
+            scoring</p></div>
+      </div>
+
+      <h3>Decisions</h3>
+      <div class="tool-grid">
+        <div class="tool-card"><code>start_sit</code>
+          <p>A ranked start/sit call between two or more of your players, with each one's real NFL
+            opponent</p></div>
+        <div class="tool-card"><code>draft_help</code>
+          <p>A draft board tiered under your exact scoring, so you can see the value cliffs. Goes
+            live during a connected draft</p></div>
+      </div>
+
+      <h3>NFL data</h3>
+      <div class="tool-grid">
+        <div class="tool-card"><code>get_player_stats</code>
+          <p>A player's production, with fantasy points computed under your scoring</p></div>
+        <div class="tool-card"><code>get_rankings</code>
+          <p>League-wide leaderboards by position and metric — who's actually producing, recently
+            or across seasons</p></div>
+        <div class="tool-card"><code>get_snap_counts</code>
+          <p>Snap counts and snap share for several players at once — the usage signal behind the
+            box score</p></div>
+        <div class="tool-card"><code>get_team_defense</code>
+          <p>Team defense/DST scoring with its components, and how generous a given opponent has
+            been to defenses</p></div>
+        <div class="tool-card"><code>get_kicker_stats</code>
+          <p>A kicker's game lines and distance splits, scored under your bands</p></div>
+        <div class="tool-card"><code>get_team_roster</code>
+          <p>An NFL team's real roster and depth chart</p></div>
+        <div class="tool-card"><code>get_injuries</code>
+          <p>The official weekly injury report</p></div>
+        <div class="tool-card"><code>get_schedule</code>
+          <p>The NFL game slate — a team's schedule, or a full week</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Technical details</h2>
+      <ul>
+        <li><strong>Server URL:</strong> <code>https://app.statsdeck.ai/mcp</code></li>
+        <li><strong>Transport:</strong> Streamable HTTP</li>
+        <li><strong>Authentication:</strong> OAuth 2.0</li>
+        <li><strong>Platforms:</strong> Sleeper; ESPN (public and private leagues)</li>
+        <li><strong>Data sources:</strong> nflverse (CC-BY 4.0) for NFL statistics; your connected
+          platform for league, roster, and matchup data</li>
+        <li><strong>Access:</strong> Read-only. StatsDeck makes no write calls to any fantasy
+          platform.</li>
+        <li><strong>Coverage:</strong> NFL — QB, RB, WR, TE, K, and team defenses</li>
+        <li><strong>Freshness:</strong> NFL statistics are refreshed nightly; roster and team data
+          daily. Time-sensitive answers carry a freshness stamp, so you can always see how current
+          the numbers are.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Where the data comes from</h2>
+      <p>StatsDeck is transparent about what it reads and on whose authority:</p>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Source</th><th>What it provides</th><th>Basis</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>nflverse</strong></td>
+            <td>NFL player and team statistics, snap counts, official injury reports,
+              schedules</td>
+            <td>Open data, CC-BY licensed, used with attribution</td>
+          </tr>
+          <tr>
+            <td><strong>Sleeper</strong></td>
+            <td>Your league, roster, matchups, and transactions</td>
+            <td>Sleeper's public, documented read API</td>
+          </tr>
+          <tr>
+            <td><strong>ESPN</strong></td>
+            <td>Your league, roster, matchups, and transactions</td>
+            <td>Read on your behalf, using your own signed-in session, for leagues you are a member
+              of</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>StatsDeck computes its own projections and rankings from nflverse data. It does not
+        resell, redistribute, or republish any third-party subscription data, and it does not use
+        any data source that prohibits this use.</p>
+      <p>All fantasy-platform access is <strong>read-only and user-authorized</strong>: StatsDeck
+        reads your league because you asked it to and because you are a member of that league. It
+        retrieves nothing you could not see yourself.</p>
+    </section>
+
+    <section>
+      <h2>Your data</h2>
+      <p>The full detail is in the <a href="/privacy">privacy policy</a>.</p>
+      <p>Overview:</p>
+      <ul>
+        <li>StatsDeck stores your connected league profile and your scoring settings.</li>
+        <li>For ESPN private leagues, it stores your encrypted session cookies.</li>
+        <li>It records which tools you use, to keep the service working. It does not store your
+          conversations.</li>
+      </ul>
+      <p><strong>Two levers, both yours:</strong></p>
+      <ul>
+        <li><strong>Disconnect a league</strong> — removes that league's saved profile.</li>
+        <li><strong>Email <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a></strong> —
+          deletes all stored data for your account, including any encrypted ESPN credentials.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Troubleshooting</h2>
+      <p><strong>"StatsDeck can't see my league."</strong><br>
+        For ESPN, check the league ID first — it's the <code>leagueId=</code> value in your ESPN
+        URL. If it's a private league, your saved session may no longer work. Re-run the
+        bookmarklet at <a href="/espn">statsdeck.ai/espn</a> and paste the fresh values. StatsDeck
+        tells you plainly when it believes your credentials have been rejected rather than failing
+        silently.</p>
+      <p><strong>"The points don't match my league app."</strong><br>
+        Ask Claude what scoring StatsDeck is using for you. Every response is labeled with the
+        scoring it used, and if you haven't connected a league yet, that label will say it's an
+        assumed default rather than your league. If your league is connected and the numbers still
+        disagree, that's worth reporting — scoring accuracy is the product.</p>
+      <p><strong>"It says I have no league connected."</strong><br>
+        StatsDeck won't error out at you here; it'll offer your options — connect a league, paste a
+        roster into the chat, or use the tools that don't need a league (player stats, rankings,
+        snap counts, schedules).</p>
+      <p><strong>"A player is missing, or has no projection."</strong><br>
+        Players with no NFL production yet — incoming rookies especially — can't be scored on
+        production that doesn't exist, and StatsDeck says so rather than inventing a number. A
+        veteran with recent games missing entirely is a bug worth reporting.</p>
+      <p><strong>"The connector won't connect."</strong><br>
+        Remove and re-add the connector in Claude. If it persists, email support with the
+        approximate time it happened.</p>
+    </section>
+
+    <section>
+      <h2>Support and security</h2>
+      <ul>
+        <li><strong>Support:</strong> <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a></li>
+        <li><strong>Security:</strong> Report suspected vulnerabilities to
+          <a href="mailto:support@statsdeck.ai">support@statsdeck.ai</a> with "Security" in the
+          subject line. Reports are investigated and acknowledged. Please include enough detail to
+          reproduce the issue, and give us a reasonable window to respond before disclosing
+          publicly.</li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="wordmark" style="display:none">Stats<b>Deck</b></span>
+    </a>
+    <p class="foot-meta">NFL data via nflverse (CC-BY 4.0). StatsDeck is independent and not affiliated with, endorsed by, or sponsored by Anthropic, ESPN, Sleeper, or the NFL. Claude is a trademark of Anthropic, PBC.</p>
+    <div class="foot-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/#faq-q1">Support</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Server-URL copy button — the home page's .url-copy-btn pattern (icon, copied state, never throws).
+  (function () {
+    var COPY_ICON =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="9" y="9" width="13" height="13" rx="2"/>' +
+      '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    var btn = document.getElementById("url-copy");
+    if (!btn) return;
+    btn.innerHTML = COPY_ICON;
+    btn.addEventListener("click", function () {
+      if (btn.dataset.busy) return;
+      var url = btn.getAttribute("data-copy");
+      function copied() {
+        btn.dataset.busy = "1";
+        btn.classList.add("copied");
+        btn.textContent = "Copied!";
+        setTimeout(function () {
+          btn.classList.remove("copied");
+          btn.innerHTML = COPY_ICON;
+          delete btn.dataset.busy;
+        }, 1500);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(copied, function () { /* denied — URL stays selectable */ });
+        }
+        // else: no clipboard API — the URL text is still visible to select manually.
+      } catch (_) { /* never throw from a copy click */ }
+    });
+  })();
+</script>
+</body>
+</html>
