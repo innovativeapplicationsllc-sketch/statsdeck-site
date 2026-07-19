@@ -343,6 +343,10 @@ a:hover{color:var(--brand-dark)}
 }
 .faq-a[hidden]{display:none}
 .faq-a strong{color:var(--ink);font-weight:600}
+.faq-a img{display:block;margin:14px 0;border:1px solid var(--line);border-radius:8px}
+.faq-a table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.95rem}
+.faq-a th,.faq-a td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+.faq-a th{color:var(--ink);font-weight:600}
 
 /* ---------- closer ---------- */
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
@@ -601,7 +605,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2" hidden>
-          StatsDeck is a custom connector that plugs into Claude. Think of it as a bolt-on toolkit that pipes in the NFL data, context, and league information Claude lacks out of the box — your roster, your league's exact scoring, current-week stats, and more.<br><br>StatsDeck also adds proprietary algorithms and models that supplement your decision-making, so you and Claude are working from the right inputs instead of guesses.
+          StatsDeck is a custom connector that plugs into <a href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>. Claude is Anthropic's AI assistant, built for deep reasoning and data analysis.<br><br>Think of StatsDeck as a bolt-on toolkit that pipes in the NFL data, context, and league information Claude lacks out of the box — your roster, your league's exact scoring, current-week stats, and more.<br><br>StatsDeck also adds proprietary algorithms and models that supplement your decision-making, so you and Claude are working from the right inputs instead of guesses.
         </div>
       </div>
 
@@ -672,6 +676,28 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         </button>
         <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8" hidden>
           No — StatsDeck is read-only. You and Claude strategize and plan together, but you always make the actual moves and set your lineup through your league's interface, just as you always have.<br><br>StatsDeck can even draft the trade-proposal message for you, but you're the one who sends it and manages your team. You stay in full control at every step.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" id="faq-q13" aria-expanded="false" aria-controls="faq-a13">
+          What Claude model should I use?
+          <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a" id="faq-a13" role="region" aria-labelledby="faq-q13" hidden>
+          When you chat with Claude, a model menu sits near the message box that lets you pick which Claude model answers you.
+          <img src="/img/faq/models.jpg" width="238" height="285" style="max-width:100%;height:auto" alt="Choosing a Claude model" loading="lazy" />
+          <table>
+            <thead>
+              <tr><th>Model</th><th>Good for</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Sonnet 5</strong> (default)</td><td>Fast and capable, and free for everyone — what Claude starts you on. StatsDeck runs well on it.</td></tr>
+              <tr><td><strong>Opus 4.8</strong> (paid plans)</td><td>A step up: deeper reasoning and richer visualizations.</td></tr>
+              <tr><td><strong>Fable 5</strong> (paid plans)</td><td>Anthropic's most powerful model — more than fantasy questions call for.</td></tr>
+            </tbody>
+          </table>
+          Claude starts everyone on <strong>Sonnet 5</strong> — the free, default model — and StatsDeck runs well on it, so you don't need to change anything to get going. On Claude's paid plans, <strong>Opus 4.8</strong> is a step up: deeper reasoning and richer visualizations.<br><br><strong>One note on limits:</strong> every Claude plan caps how much you can use over a rolling window, and heavier models spend that budget faster. Free-plan limits are the tightest, and Opus isn't available on the free tier — so if you're starting out free, Sonnet 5 is your model, and StatsDeck works well on it.
         </div>
       </div>
 
