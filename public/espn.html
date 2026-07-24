@@ -412,10 +412,16 @@ p{margin:0 0 16px}
   var current = 'safari';  // active set, default = Mobile: Safari
   var i = 0;               // current step index, 0-based, within the active set
 
+  // Cache-bust: these steps moved to versioned filenames to defeat a stale CDN edge entry
+  // (an in-place overwrite kept serving old bytes). Only these keys divert; every other
+  // step keeps the '<set.dir>-<n>.jpg' convention unchanged.
+  var IMG_OVERRIDES = { 'safari-9': 'safari-9-v2', 'chrome-7': 'chrome-7-v2' };
+
   function render(){
     var set = SETS[current];
     var n = i + 1;
-    img.src = '/img/espn/' + set.dir + '-' + n + '.jpg';
+    var key = set.dir + '-' + n;
+    img.src = '/img/espn/' + (IMG_OVERRIDES[key] || key) + '.jpg';
     img.alt = 'ESPN ' + current + ' step ' + n + ' of ' + set.count;
     img.loading = i === 0 ? 'eager' : 'lazy';
     caption.innerHTML = CAPS[current][i];        // rich per-step caption (static, code-controlled)
