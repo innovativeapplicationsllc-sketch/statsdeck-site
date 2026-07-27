@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Terminal redirect-only page: reached from the Yahoo OAuth callback, never
+     linked from anywhere on the site. noindex; no canonical, no OG (no share
+     case); NOTHING clickable except the copy button. -->
+<meta name="robots" content="noindex">
+<title>Yahoo reconnected — StatsDeck</title>
+<link rel="icon" href="/favicon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F7F3; --paper-2:#FFFFFF;
+  --ink:#34373E; --ink-soft:#5C616B;
+  --line:#E6E3DB; --line-2:#D6D2C8;
+  --field:#2B2E34;
+  --brand:#2693BE; --brand-dark:#1F7CA1; --brand-soft:#E2F1F7;
+  --gold:#FFCA08; --gold-dark:#C99700;
+  --verified:#179E5C; --verified-soft:#E4F4EC;
+  --warn:#B9762A; --warn-soft:#F6ECDD;
+  --maxw:760px; --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+
+/* ---- top bar (espn.html subpage template, identity only — the brand is a
+        SPAN, not a link: this page has one job and nothing else is clickable) ---- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  background:rgba(248,247,243,.82); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
+.brand{display:flex; align-items:center; gap:10px}
+.brand img{height:34px; width:auto; display:block}
+.brand .wordmark{
+  font-family:'Saira Condensed',sans-serif; font-weight:700; font-size:1.35rem;
+  letter-spacing:.02em; color:var(--ink); text-transform:none;
+}
+.brand .wordmark b{color:var(--brand)}
+
+/* ---- result card ---- */
+.hero{padding:64px 0 8px}
+h1{
+  font-family:'Saira Condensed',sans-serif; font-weight:700;
+  font-size:clamp(2.1rem,5vw,3.1rem); line-height:1.05; letter-spacing:.01em;
+  margin:0 0 16px;
+}
+.lede{font-size:1.08rem; color:var(--ink-soft); margin:0 0 16px; max-width:60ch}
+p{margin:0 0 16px}
+.closer{color:var(--ink-soft)}
+
+/* ---- message chip (documentation.html .bm-chip pattern) ---- */
+.bm-chip{
+  display:flex; align-items:center; gap:10px;
+  max-width:60ch; margin:14px 0 16px; padding:10px 12px;
+  background:var(--field); border-radius:10px; text-align:left;
+}
+.bm-code{
+  flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--gold);
+}
+.url-copy-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:none; border:none; cursor:pointer; padding:2px;
+  background:transparent; color:var(--gold); line-height:0;
+  border-radius:5px; transition:color .15s ease;
+}
+.url-copy-btn:hover{color:#fff}
+.url-copy-btn svg{width:16px; height:16px; display:block}
+.url-copy-btn.copied{
+  color:var(--brand); font-family:'Saira Condensed',sans-serif;
+  font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em; line-height:1;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand">
+      <img src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="wordmark" style="display:none">Stats<b>Deck</b></span>
+    </span>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Yahoo reconnected</h1>
+      <p class="lede">Your Yahoo account is linked again, and your league is still connected.</p>
+      <p>Head back to Claude and send this message to keep going:</p>
+      <div class="bm-chip">
+        <code class="bm-code">I reconnected my Yahoo account.</code>
+        <button type="button" class="url-copy-btn" id="url-copy" aria-label="Copy message"
+          data-copy="I reconnected my Yahoo account."></button>
+      </div>
+      <p class="closer">You can close this tab.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Message copy button — documentation.html's .url-copy-btn pattern (icon, copied state, never throws).
+  (function () {
+    var COPY_ICON =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="9" y="9" width="13" height="13" rx="2"/>' +
+      '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    var btn = document.getElementById("url-copy");
+    if (!btn) return;
+    btn.innerHTML = COPY_ICON;
+    btn.addEventListener("click", function () {
+      if (btn.dataset.busy) return;
+      var url = btn.getAttribute("data-copy");
+      function copied() {
+        btn.dataset.busy = "1";
+        btn.classList.add("copied");
+        btn.textContent = "Copied!";
+        setTimeout(function () {
+          btn.classList.remove("copied");
+          btn.innerHTML = COPY_ICON;
+          delete btn.dataset.busy;
+        }, 1500);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(copied, function () { /* denied — text stays selectable */ });
+        }
+        // else: no clipboard API — the message text is still visible to select manually.
+      } catch (_) { /* never throw from a copy click */ }
+    });
+  })();
+</script>
+</body>
+</html>
