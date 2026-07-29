@@ -373,7 +373,7 @@ p{margin:0 0 16px}
   var CAPS = {
     safari: [
       `In <strong>Safari</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
-      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it. It's the number after leagueId=, not including the &amp;.<br><br><strong>For a public league:</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps).`,
+      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it. It's the number after leagueId= and before the &amp;.<br><br><strong>For a public league:</strong> That's all you need — return to Claude and say <em>"Please connect my ESPN league [your league ID]."</em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps).`,
       `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Tap the <strong>three-dot (overflow)</strong> icon.`,
       `Tap <strong>Add to bookmarks</strong> to save the new bookmark.`,
       `Now we'll <strong>edit it</strong> — open your bookmarks and find the one you just made. Tap the three dots (overflow) to get to the edit option.`,
@@ -385,7 +385,7 @@ p{margin:0 0 16px}
     ],
     chrome: [
       `In <strong>Chrome</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
-      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it. It's the number after leagueId=, not including the &amp;.<br><br><strong>For a public league:</strong> That's all you need — return to Claude and say <em><strong>"Please connect my ESPN league [your league ID]."</strong></em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps).`,
+      `Your <strong>league ID</strong> is in the URL — tap the address bar to see it. It's the number after leagueId= and before the &amp;.<br><br><strong>For a public league:</strong> That's all you need — return to Claude and say <em><strong>"Please connect my ESPN league [your league ID]."</strong></em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps).`,
       `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Tap the <strong>three-dot (overflow)</strong> icon.`,
       `Tap <strong>Add to bookmarks</strong> to save the new bookmark.<br><br>After the new bookmark is created we want to <strong>edit it</strong>, so next navigate to the bookmarks to find the one we just created.`,
       `Now we'll <strong>edit the bookmark</strong> — Open your bookmarks, find the one you just made, and <strong>long-press</strong> it for more options — then select <strong>Edit.</strong><br><br>Replace the bookmark's address (URL) with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
@@ -471,7 +471,7 @@ p{margin:0 0 16px}
 
   // Per-step caption HTML (index 0 = step 1). Fixed literals — safe for innerHTML.
   var CAPS = [
-    `<strong>G</strong>o to your ESPN Fantasy Football <strong>team page and login</strong> (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>)<br><br>Your <strong>league ID</strong> is in the URL (page address) — It's the number after leagueId=, not including the &amp;.<br><br><strong>For a public league</strong>: This is all you need. Return to the Claude chat and say <em>"Please connect my ESPN league (give your league ID)"</em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps)`,
+    `Go to your ESPN Fantasy Football <strong>team page and login</strong> (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>)<br><br>Your <strong>league ID</strong> is in the URL (page address) — It's the number after leagueId= and before the &amp;.<br><br><strong>For a public league</strong>: This is all you need.<br>Return to the Claude chat and say <em>"Please connect my ESPN league (give your league ID)"</em><br><br><strong>For a private league:</strong> We also need your ESPN session cookie (next steps)`,
     `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Click the <strong>three-dot</strong> menu (top-right), then <strong>Bookmark this tab</strong>.`,
     `Now we'll <strong>edit it</strong> — open your bookmarks, <strong>right-click</strong> the one you just made (two-finger tap on Mac), and select <strong>Edit.</strong><br><br><strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
     `Now back on your <strong>ESPN team page</strong>, navigate to your bookmarks and <strong>open the bookmark we made</strong>. This will automatically grab the session cookie and copies it to your clipboard.`,
