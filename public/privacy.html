@@ -24,6 +24,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-68LC4BTCQ8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-68LC4BTCQ8');
+</script>
 <style>
   :root{--paper:#F8F7F3;--paper-2:#FFFFFF;--ink:#34373E;--ink-soft:#5C616B;--line:#E6E3DB;--line-2:#D6D2C8;--brand:#2693BE}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -99,6 +108,14 @@
         We do not collect passwords for any platform.</li>
     </ul>
 
+    <h2>Website analytics</h2>
+    <p>We use Google Analytics to measure how the statsdeck.ai website is used, such as which pages
+      people visit. This covers the website only. It is separate from the activity data above, which is
+      about your use of StatsDeck itself once you are signed in.</p>
+    <p>Google Analytics sets a cookie in your browser so that repeat visits can be told apart. It does
+      not identify you by name, and we do not connect it to your StatsDeck account. If you would rather
+      not be measured, most browsers let you block or clear cookies.</p>
+
     <h2>What we don't do</h2>
     <ul>
       <li><strong>StatsDeck is read-only.</strong> We never post, change, add, or delete anything in
@@ -128,8 +145,12 @@
       operate it:</p>
     <ul>
       <li><strong>Clerk</strong> — handles sign-in and authentication, and holds your account email.</li>
+      <li><strong>Google</strong> — provides Google Analytics, which measures how the statsdeck.ai
+        website is used, and Google Fonts, which serves the site's typefaces. Google receives website
+        visit data only, never your league data, your prompts, or your account email.</li>
       <li><strong>Railway</strong> — hosts the service and stores your saved profile, encrypted ESPN
         credentials, and operational logs that include your account identifier.</li>
+      <li><strong>Cloudflare</strong> — hosts and serves the statsdeck.ai website.</li>
       <li><strong>Sleeper / ESPN</strong> — when you connect a league, we read its data to answer your
         questions; we never send Sleeper any credentials, and ESPN cookies are used only to read your
         own league.</li>
