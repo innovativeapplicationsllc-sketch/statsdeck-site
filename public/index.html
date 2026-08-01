@@ -368,7 +368,7 @@ a:hover{color:var(--brand-dark)}
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
 .closer h2{font-size:clamp(2rem,5vw,3.4rem);max-width:18ch;margin:0 auto}
 .closer p{color:var(--ink-soft);font-size:1.1rem;max-width:50ch;margin:18px auto 0}
-.closer .cta-row{margin-top:28px;flex-direction:column;align-items:center}   /* stack the two closer buttons */
+.closer .cta-row{margin-top:28px;flex-direction:column;align-items:center;gap:36px}   /* stack the two closer buttons; gap 36px = base 12 + ~one line */
 
 /* ---------- footer ---------- */
 footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0}
@@ -731,18 +731,18 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         </button>
         <div class="faq-a" id="faq-a13" role="region" aria-labelledby="faq-q13" hidden>
           When you chat with Claude, a model menu sits near the message box that lets you pick which Claude model answers you.
-          <img src="/img/faq/models-2.jpg" width="305" height="373" style="max-width:100%;height:auto" alt="Choosing a Claude model" loading="lazy" />
+          <img src="/img/faq/models-menu-v2.jpg" width="305" height="441" style="max-width:100%;height:auto" alt="Choosing a Claude model" loading="lazy" />
           <table>
             <thead>
               <tr><th>Model</th><th>Good for</th></tr>
             </thead>
             <tbody>
-              <tr><td><strong>Sonnet 5</strong> (default)</td><td>Fast and capable, and free for everyone — what Claude starts you on. StatsDeck runs well on it.</td></tr>
-              <tr><td><strong>Opus 4.8</strong> (paid plans)</td><td>A step up: deeper reasoning and richer visualizations.</td></tr>
-              <tr><td><strong>Fable 5</strong> (paid plans)</td><td>Anthropic's most powerful model — more than fantasy questions call for.</td></tr>
+              <tr><td><strong>Sonnet</strong> (default)</td><td>Fast and capable, and free for everyone — what Claude starts you on. StatsDeck runs well on it.</td></tr>
+              <tr><td><strong>Opus</strong> (paid plans)</td><td>A step up: deeper reasoning and richer visualizations.</td></tr>
+              <tr><td><strong>Fable</strong> (paid plans)</td><td>Anthropic's most powerful model — more than fantasy questions call for.</td></tr>
             </tbody>
           </table>
-          Claude starts everyone on <strong>Sonnet 5</strong> — the free, default model — and StatsDeck runs well on it, so you don't need to change anything to get going. On Claude's paid plans, <strong>Opus 4.8</strong> is a step up: deeper reasoning and richer visualizations.<br><br><strong>One note on limits:</strong> every Claude plan caps how much you can use over a rolling window, and heavier models spend that budget faster. Free-plan limits are the tightest, and Opus isn't available on the free tier — so if you're starting out free, Sonnet 5 is your model, and StatsDeck works well on it.
+          Claude starts everyone on <strong>Sonnet</strong> — the free, default model — and StatsDeck runs well on it, so you don't need to change anything to get going. On Claude's paid plans, <strong>Opus</strong> is a step up: deeper reasoning and richer visualizations.<br><br><strong>One note on limits:</strong> every Claude plan caps how much you can use over a rolling window, and heavier models spend that budget faster. Free-plan limits are the tightest, and Opus isn't available on the free tier — so if you're starting out free, Sonnet is your model, and StatsDeck works well on it.
         </div>
       </div>
 
