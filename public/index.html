@@ -501,7 +501,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
              src="/img/connect/1.png" alt="Connect StatsDeck step 1 of 7"
              width="960" height="960" />
       </div>
-      <p class="carousel-caption" id="carousel-caption">First go to <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> and sign in — it's free!<br><br>Do this first step on the web, not the mobile app. Custom connectors can only be added from the website. Once StatsDeck is connected, you're free to use the Claude app too.</p>
+      <p class="carousel-caption" id="carousel-caption">First go to <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> and sign in — it's free!<br><br>Do this first step on the web, not the mobile app. The StatsDeck connector can only be added from the website. Once StatsDeck is connected, you're free to use the Claude app too.</p>
       <div class="carousel-nav">
         <button type="button" class="btn btn-ghost carousel-back" id="carousel-back" aria-label="Previous step">Back</button>
         <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 7</span>
@@ -811,6 +811,12 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   // ---------- connect carousel: linear 7-step stepper (no wrap), vanilla ----------
   (function () {
     var TOTAL = 7;
+    // Onboarding route switch. true = Claude connectors-directory flow (current).
+    // false = the original custom-connector flow: images 4.png-7.png with captions
+    // 'Add Custom Connector' / the MCP-URL copy chip / 'Connected! A great next step...'.
+    // Flip this one boolean to restore the custom-connector walkthrough; the old
+    // images and captions remain in the repo untouched.
+    var USE_DIRECTORY_FLOW = true;
     var MCP_URL = "https://app.statsdeck.ai/mcp";
     // Clipboard ("copy") icon — inline so it rides in the static caption HTML.
     var COPY_ICON =
@@ -820,7 +826,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
     // Captions are STATIC, code-controlled HTML (no user input) — rendered via innerHTML.
     var CAPTIONS = [
-      'First go to <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> and sign in — it\'s free!<br><br>Do this first step on the web, not the mobile app. Custom connectors can only be added from the website. Once StatsDeck is connected, you\'re free to use the Claude app too.',
+      'First go to <a href="https://claude.ai/" target="_blank" rel="noopener">Claude.ai</a> and sign in — it\'s free!<br><br>Do this first step on the web, not the mobile app. The StatsDeck connector can only be added from the website. Once StatsDeck is connected, you\'re free to use the Claude app too.',
       'Open the side menu &gt; <strong>Customize</strong>',
       'Scroll sideways &amp; tap <strong>Connectors</strong>',
       'Add Custom Connector',
@@ -830,6 +836,19 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       'Connect &gt; Continue with Google or Email',
       'Connected! A great next step is now to <a href="#connect-league">connect your league →</a>'
     ];
+
+    // Directory-flow overrides. Deliberately SPARSE: steps 1-3 are identical on both
+    // routes, so they appear in neither map and stay single-sourced above.
+    // Step number (1-based) -> image filename stem, directory flow only.
+    var IMG_OVERRIDES = { 4: '4-new', 5: '5-new', 6: '6-new', 7: '7-new' };
+
+    // CAPTIONS index (0-based) -> caption HTML, directory flow only.
+    // Note step 6 (index 5) keeps its existing caption; only its image changes.
+    var CAPTION_OVERRIDES = {
+      3: '<strong>Browse connectors</strong>',
+      4: 'Type <strong>StatsDeck</strong> then tap',
+      6: 'Connected! <strong>Tap X</strong> to return to the chat.<br><br>A great next step is now to <a href="#connect-league">connect your league →</a>'
+    };
 
     var root = document.getElementById("connect-carousel");
     if (!root) return;
@@ -843,10 +862,14 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
 
     function render() {
       var n = i + 1;
-      img.src = "/img/connect/" + n + ".png";
+      // Directory flow diverts only the steps present in the override maps; every other
+      // step keeps the original '<n>.png' / CAPTIONS[i] convention unchanged.
+      var stem = (USE_DIRECTORY_FLOW && IMG_OVERRIDES[n]) || String(n);
+      var cap = (USE_DIRECTORY_FLOW && CAPTION_OVERRIDES[i]) || CAPTIONS[i];
+      img.src = "/img/connect/" + stem + ".png";
       img.alt = "Connect StatsDeck step " + n + " of " + TOTAL;
       img.loading = i === 0 ? "eager" : "lazy";
-      caption.innerHTML = CAPTIONS[i];   // static, code-controlled HTML (link/bold/copy button)
+      caption.innerHTML = cap;           // static, code-controlled HTML (link/bold/copy button)
       counter.textContent = n + " / " + TOTAL;
       back.disabled = i === 0;          // no Back on slide 1
       // Last step: Next stays ENABLED and becomes an active "Connect League" scroll affordance.
