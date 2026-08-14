@@ -77,7 +77,7 @@
 <main>
   <div class="wrap">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: July 13, 2026</p>
+    <p class="updated">Last updated: August 14, 2026</p>
 
     <p>StatsDeck ("we," "our") is an add-on (an MCP connector) for Claude that helps you analyze
       players, weigh matchups, and make smarter fantasy football decisions using NFL statistics and,
@@ -86,8 +86,11 @@
 
     <h2>Signing in</h2>
     <p>You sign in through single sign-on, handled by our authentication provider, Clerk, which manages
-      the login and holds your account email. StatsDeck uses only a pseudonymous account identifier to
-      recognize you across sessions — it does not read, use, or store your email address.</p>
+      the login and holds your account email. StatsDeck uses a pseudonymous account identifier to
+      recognize you across sessions and does not store your email address. The one exception to email
+      use: when your account is first created, we receive your email from Clerk, immediately convert it
+      to a one-way hash, and send only that hash to Reddit for ad measurement (see "Ad measurement"
+      below). The plain email is never stored.</p>
 
     <h2>What we collect</h2>
     <ul>
@@ -116,6 +119,14 @@
       not identify you by name, and we do not connect it to your StatsDeck account. If you would rather
       not be measured, most browsers let you block or clear cookies.</p>
 
+    <h2>Ad measurement</h2>
+    <p>When you create a StatsDeck account, we send a one-way hashed (SHA-256) version of your email
+      address to Reddit's Conversions API so we can measure whether our advertising led to the signup.
+      This happens once, at account creation. The hash is used only for ad attribution — we never share
+      your plain email address, and no fantasy league data, activity data, or conversation content is
+      ever shared with advertisers. This is separate from Google Analytics above and does not involve
+      your browser or any cookie.</p>
+
     <h2>What we don't do</h2>
     <ul>
       <li><strong>StatsDeck is read-only.</strong> We never post, change, add, or delete anything in
@@ -131,7 +142,8 @@
     <h2>How we use your information</h2>
     <p>To provide and operate StatsDeck, answer your questions accurately under your league's scoring,
       keep the service secure and reliable, and understand how many people are actively using it. We do
-      not use your information for advertising.</p>
+      not use your information to target advertising. The only advertising-related use is the one-time
+      hashed-email signup measurement described under "Ad measurement."</p>
 
     <h2>Where we store it &amp; how long</h2>
     <p>Your saved profile — scoring preferences and connected-league settings — and any encrypted ESPN
@@ -151,6 +163,10 @@
       <li><strong>Railway</strong> — hosts the service and stores your saved profile, encrypted ESPN
         credentials, and operational logs that include your account identifier.</li>
       <li><strong>Cloudflare</strong> — hosts and serves the statsdeck.ai website.</li>
+      <li><strong>Reddit</strong> — when you create an account, receives a one-way hashed (SHA-256)
+        version of your email address, used solely to measure whether our ads led to signups. Reddit
+        never receives your plain email address, your league data, your activity data, or your
+        prompts.</li>
       <li><strong>Sleeper / ESPN</strong> — when you connect a league, we read its data to answer your
         questions; we never send Sleeper any credentials, and ESPN cookies are used only to read your
         own league.</li>
