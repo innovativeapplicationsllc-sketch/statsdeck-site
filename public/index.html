@@ -209,12 +209,14 @@ a:hover{color:var(--brand-dark)}
   border-radius:var(--radius);padding:34px 32px;
 }
 .announce-copy h2{font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 10px}
-.announce-sub{color:var(--brand);font-weight:600;font-size:1.12rem;margin:0 0 14px}
+/* p.announce-sub beats the .announce-copy p muted-color rule below (that
+   descendant selector out-specifies a lone class, so bare .announce-sub lost) */
+.announce-copy p.announce-sub{color:var(--brand);font-weight:600;font-size:1.12rem;margin:0 0 14px}
 .announce-copy p{margin:0 0 12px;color:var(--ink-soft)}
 .announce-copy p:last-child{margin-bottom:0}
 .announce-copy strong{color:var(--ink);font-weight:600}
 .announce-shot{margin:0}
-.announce-shot figcaption{margin-top:10px;font-size:.92rem;color:var(--ink-soft)}
+.announce-shot figcaption{margin-top:10px;font-size:.82rem;color:var(--ink-soft);text-align:center}
 @media(min-width:821px){
   .announce-card{flex-direction:row;align-items:center;gap:40px}
   .announce-shot{flex:0 0 40%;order:-1}   /* screenshot LEFT on desktop; text-first DOM stacks naturally on mobile */
@@ -511,11 +513,11 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         <h2>Beta Team Announcement 🏈</h2>
         <p class="announce-sub">Be sure to update StatsDeck often!</p>
         <p>We've been cranking out updates and improvements every night. Be sure to go to:</p>
-        <p>Claude.ai website: Customize &gt; Connectors &gt; StatsDeck &gt; and "<strong>Refresh Tools List</strong>" as shown.</p>
+        <p>Claude.ai website: Customize &gt; Connectors &gt; StatsDeck &gt; and "<strong>Refresh Tools List</strong>".</p>
       </div>
       <figure class="announce-shot">
         <img src="/img/announce/announce-refresh-v1.png" width="800" height="380" style="max-width:100%;height:auto" loading="lazy" alt="Where to find Refresh Tools List in Claude's connector settings" />
-        <figcaption>Refresh Tools List — do not disconnect</figcaption>
+        <figcaption>"Refresh tools list" — <em>do not disconnect</em></figcaption>
       </figure>
     </div>
   </div>
