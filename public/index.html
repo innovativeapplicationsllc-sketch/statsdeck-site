@@ -221,6 +221,12 @@ a:hover{color:var(--brand-dark)}
 /* inside a link, strong inherits the global a/a:hover brand blue instead of ink */
 .announce-copy a strong{color:inherit}
 .announce-shot{margin:0}
+.announce-zoom{background:none;border:0;padding:0;margin:0;display:block;width:100%;cursor:pointer}
+.announce-zoom img{cursor:pointer}
+.announce-lightbox{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75)}
+.announce-lightbox.open{display:flex}
+.announce-lightbox img{max-width:92vw;max-height:92vh;width:auto;height:auto;border-radius:var(--radius)}
+.announce-lightbox-close{position:fixed;top:14px;right:18px;background:none;border:0;color:var(--paper-2);font-size:2.4rem;line-height:1;padding:6px;cursor:pointer}
 .announce-shot figcaption{margin-top:10px;font-size:.82rem;color:var(--ink-soft);text-align:center}
 @media(min-width:821px){
   .announce-card{flex-direction:row;align-items:center;gap:40px}
@@ -539,12 +545,33 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
         <p><a href="https://claude.ai" target="_blank" rel="noopener"><strong>Claude.ai</strong></a> website: Customize &gt; Connectors &gt; StatsDeck &gt; <strong>Refresh Tools List</strong></p>
       </div>
       <figure class="announce-shot">
+        <button type="button" class="announce-zoom" id="announce-zoom" aria-label="View larger">
         <img src="/img/announce/announce-refresh-v1.png" width="800" height="380" style="max-width:100%;height:auto" loading="lazy" alt="Where to find Refresh Tools List in Claude's connector settings" />
+        </button>
         <figcaption>Refresh tools list — <em>do not disconnect</em></figcaption>
       </figure>
     </div>
+    <div class="announce-lightbox" id="announce-lightbox" role="dialog" aria-modal="true" aria-label="Refresh Tools List screenshot, enlarged">
+      <button type="button" class="announce-lightbox-close" id="announce-lightbox-close" aria-label="Close">&times;</button>
+      <img src="/img/announce/announce-refresh-v1.png" alt="Where to find Refresh Tools List in Claude's connector settings" />
+    </div>
   </div>
 </section>
+<script>
+(function(){
+  var box = document.getElementById('announce-lightbox');
+  var zoom = document.getElementById('announce-zoom');
+  var closeBtn = document.getElementById('announce-lightbox-close');
+  function open(){ box.classList.add('open'); document.body.style.overflow = 'hidden'; closeBtn.focus(); }
+  function close(){ box.classList.remove('open'); document.body.style.overflow = ''; zoom.focus(); }
+  zoom.addEventListener('click', open);
+  closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+  box.addEventListener('click', function(e){ if (e.target === box) close(); });   /* scrim tap closes; the image itself doesn't */
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && box.classList.contains('open')) close();
+  });
+})();
+</script>
 
 <!-- ========== GET STARTED / CONNECT CAROUSEL ========== -->
 <section class="block" id="start">
