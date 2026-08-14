@@ -389,6 +389,22 @@ a:hover{color:var(--brand-dark)}
 .faq-a th,.faq-a td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
 .faq-a th{color:var(--ink);font-weight:600}
 
+/* ---------- kickoff countdown ---------- */
+.countdown-card{
+  background:var(--paper-2);border:1px solid var(--line);
+  border-radius:var(--radius);padding:44px 32px;text-align:center;
+}
+.countdown-card h2{font-size:clamp(1.7rem,3.6vw,2.6rem);margin:0 0 18px}
+.countdown-ball{height:1em;width:1em;vertical-align:-0.12em}
+.countdown-matchup{font-size:clamp(1.4rem,3.2vw,2.2rem);margin:0 0 10px}
+.countdown-when{color:var(--ink-soft);font-size:1rem;margin:0 0 30px}
+.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:640px;margin:0 auto}
+.countdown-cell{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 8px}
+.countdown-num{font-size:clamp(2.2rem,5vw,3.4rem)}
+.countdown-label{color:var(--ink-soft);font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+.countdown-kickoff{grid-column:1/-1;font-size:clamp(2.2rem,5vw,3.4rem)}
+@media(max-width:820px){.countdown-grid{grid-template-columns:repeat(2,1fr)}}
+
 /* ---------- closer ---------- */
 .closer{padding:88px 0;border-top:1px solid var(--line);text-align:center}
 .closer h2{font-size:clamp(2rem,5vw,3.4rem);max-width:18ch;margin:0 auto}
@@ -811,6 +827,47 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
   </div>
 </section>
+
+<!-- ========== KICKOFF COUNTDOWN ========== -->
+<section class="block" id="kickoff">
+  <div class="wrap">
+    <div class="countdown-card">
+      <h2>Countdown to Kickoff <svg class="countdown-ball" viewBox="0 0 100 100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-35 50 50)"><path d="M50 26 C72 26 88 38 88 50 C88 62 72 74 50 74 C28 74 12 62 12 50 C12 38 28 26 50 26 Z" fill="#8A4B22" stroke="#5E3115" stroke-width="3"/><line x1="34" y1="50" x2="66" y2="50" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="40" y1="44" x2="40" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="46" y1="43" x2="46" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="54" y1="43" x2="54" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="60" y1="44" x2="60" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/></g></svg></h2>
+      <p class="display countdown-matchup">New England Patriots @ Seattle Seahawks</p>
+      <p class="countdown-when">Wednesday, September 9, 2026 · 5:20 PM PT / 8:20 PM ET · Lumen Field, Seattle</p>
+      <div class="countdown-grid" id="countdown-grid">
+        <div class="countdown-cell"><div class="display countdown-num" id="cd-days">--</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-cell"><div class="display countdown-num" id="cd-hours">--</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-cell"><div class="display countdown-num" id="cd-mins">--</div><div class="countdown-label">Minutes</div></div>
+        <div class="countdown-cell"><div class="display countdown-num" id="cd-secs">--</div><div class="countdown-label">Seconds</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var target = Date.UTC(2026, 8, 10, 0, 20, 0);   /* 2026-09-10T00:20:00Z — Sep 9, 5:20 PM PT kickoff */
+  var grid = document.getElementById('countdown-grid');
+  var el = {d:document.getElementById('cd-days'), h:document.getElementById('cd-hours'),
+            m:document.getElementById('cd-mins'), s:document.getElementById('cd-secs')};
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+  function tick(){
+    var left = target - Date.now();
+    if (left <= 0) {
+      grid.innerHTML = '<div class="display countdown-kickoff">Kickoff!</div>';
+      clearInterval(timer);
+      return;
+    }
+    var s = Math.floor(left / 1000);
+    el.d.textContent = Math.floor(s / 86400);
+    el.h.textContent = pad(Math.floor(s / 3600) % 24);
+    el.m.textContent = pad(Math.floor(s / 60) % 60);
+    el.s.textContent = pad(s % 60);
+  }
+  tick();
+  var timer = setInterval(tick, 1000);
+})();
+</script>
 
 <!-- ========== CLOSER ========== -->
 <section class="closer">
