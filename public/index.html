@@ -218,6 +218,8 @@ a:hover{color:var(--brand-dark)}
 .announce-copy p{margin:0 0 12px;color:var(--ink-soft)}
 .announce-copy p:last-child{margin-bottom:0}
 .announce-copy strong{color:var(--ink);font-weight:600}
+/* inside a link, strong inherits the global a/a:hover brand blue instead of ink */
+.announce-copy a strong{color:inherit}
 .announce-shot{margin:0}
 .announce-shot figcaption{margin-top:10px;font-size:.82rem;color:var(--ink-soft);text-align:center}
 @media(min-width:821px){
