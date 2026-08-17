@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>StatsDeck — Smarter Fantasy Football</title>
-<meta name="description" content="Fantasy football analytics inside Claude, computed on your league's real scoring and your real roster. Connect Sleeper or ESPN. Free beta." />
+<meta name="description" content="Fantasy football analytics inside Claude, computed on your league's real scoring and your real roster. Connect Sleeper, ESPN, or Yahoo. Free beta." />
 <link rel="canonical" href="https://statsdeck.ai/" />
 
 <!-- Open Graph / social -->
@@ -622,7 +622,10 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     </div>
 
     <div class="cl-panel" id="cl-panel-yahoo" role="region" aria-labelledby="cl-yahoo" hidden>
-      <p class="cl-desc">We're working on Yahoo league connections now. Until it's live, you can still use StatsDeck — just post screenshots to Claude of your roster, trade offers, or anything else you'd like a read on.</p>
+      <div class="cl-frame">
+        <img class="connect-league-img" src="/img/connect-league/yahoo-connect2.png" alt="Connecting a Yahoo league in StatsDeck" loading="lazy" />
+      </div>
+      <p class="cl-desc"><strong>Connecting Yahoo takes a quick sign-in</strong> &mdash; Claude gives you a link, you approve access with Yahoo, then pick your league.</p>
     </div>
 
     <div class="cl-panel" id="cl-panel-noleague" role="region" aria-labelledby="cl-noleague" hidden>
@@ -777,7 +780,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a" id="faq-a6" role="region" aria-labelledby="faq-q6" hidden>
-          StatsDeck supports <strong>Sleeper</strong> and <strong>ESPN</strong> (both public and private leagues) today, with <strong>Yahoo coming soon</strong>. It works with your league's exact scoring and handles common league types including redraft, dynasty, and best ball.<br><br>You don't even need a connected league to get value: without connecting anything, you can talk through players, matchups, draft strategy, waiver ideas, and more.<br><br>And if you're on Yahoo (or any platform) before it's fully supported, you can still use StatsDeck now — just post screenshots to Claude of your roster, trade offers, or anything else you'd like a read on.<br><br>Note: StatsDeck is built for season-long fantasy football — it does not support DFS, odds, or betting.<br><br>Note: your league's scoring settings are imported when you connect. If your commissioner changes the scoring later, ask Claude to disconnect and reconnect <strong>your league</strong> to pick up the new settings.
+          StatsDeck supports <strong>Sleeper</strong>, <strong>ESPN</strong> (both public and private leagues), and <strong>Yahoo</strong>. It works with your league's exact scoring and handles common league types including redraft, dynasty, and best ball.<br><br>You don't even need a connected league to get value: without connecting anything, you can talk through players, matchups, draft strategy, waiver ideas, and more.<br><br>And on any platform we don't support yet, you can still use StatsDeck now — just post screenshots to Claude of your roster, trade offers, or anything else you'd like a read on.<br><br>Note: StatsDeck is built for season-long fantasy football — it does not support DFS, odds, or betting.<br><br>Note: your league's scoring settings are imported when you connect. If your commissioner changes the scoring later, ask Claude to disconnect and reconnect <strong>your league</strong> to pick up the new settings.
         </div>
       </div>
 
@@ -918,7 +921,8 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       <span class="fb" style="display:none">StatsDeck<span class="ai">AI</span></span>
     </div>
     <p class="foot-meta">A stats tool, not a betting tool. StatsDeck serves matchup, usage and scoring data — never odds or lines.</p>
-    <p class="foot-meta">NFL data via nflverse (CC-BY 4.0). StatsDeck is independent and not affiliated with, endorsed by, or sponsored by Anthropic, ESPN, Sleeper, or the NFL. Claude is a trademark of Anthropic, PBC.</p>
+    <p class="foot-meta">NFL data via nflverse (CC-BY 4.0). StatsDeck is independent and not affiliated with, endorsed by, or sponsored by Anthropic, ESPN, Sleeper, Yahoo, or the NFL. Claude is a trademark of Anthropic, PBC.</p>
+    <p class="foot-meta"><a href="https://football.fantasysports.yahoo.com/">Fantasy data provided by Yahoo Fantasy</a></p>
     <div class="foot-links">
       <a href="/documentation">Documentation</a>
       <a href="/privacy">Privacy policy</a>

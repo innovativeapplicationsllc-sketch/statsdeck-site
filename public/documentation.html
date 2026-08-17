@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Documentation — StatsDeck</title>
-<meta name="description" content="How to add StatsDeck to Claude, connect your Sleeper or ESPN league, what every tool does, and exactly what StatsDeck reads and stores.">
+<meta name="description" content="How to add StatsDeck to Claude, connect your Sleeper, ESPN, or Yahoo league, what every tool does, and exactly what StatsDeck reads and stores.">
 <link rel="canonical" href="https://statsdeck.ai/documentation">
 
 <!-- Open Graph / social -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Documentation — StatsDeck">
-<meta property="og:description" content="How to add StatsDeck to Claude, connect your Sleeper or ESPN league, what every tool does, and exactly what StatsDeck reads and stores.">
+<meta property="og:description" content="How to add StatsDeck to Claude, connect your Sleeper, ESPN, or Yahoo league, what every tool does, and exactly what StatsDeck reads and stores.">
 <meta property="og:url" content="https://statsdeck.ai/documentation">
 <meta property="og:image" content="https://statsdeck.ai/og-1200x630-v1.png">
 <meta property="og:image:width" content="1200">
@@ -247,6 +247,7 @@ code{
           <tr><td><strong>ESPN — public leagues</strong></td><td>Your league ID</td></tr>
           <tr><td><strong>ESPN — private leagues</strong></td><td>Your league ID, plus your ESPN
             session cookies (see below)</td></tr>
+          <tr><td><strong>Yahoo</strong></td><td>Sign in with Yahoo and approve access</td></tr>
         </tbody>
       </table>
       <p>You can connect one league at a time, and switch leagues whenever you like.</p>
@@ -308,7 +309,7 @@ code{
         <li>Never used to write anything to ESPN.</li>
         <li>Deleted at any time on request — see <strong>Your data</strong>, below.</li>
       </ul>
-      <p>Sleeper leagues need none of this; Sleeper publishes a public read API.</p>
+      <p>Sleeper and Yahoo leagues need none of this: Sleeper publishes a public read API, and Yahoo uses a sign-in you approve.</p>
     </section>
 
     <section>
@@ -337,7 +338,7 @@ code{
       <h3>Connection</h3>
       <div class="tool-grid">
         <div class="tool-card"><code>connect_league</code>
-          <p>Links your Sleeper or ESPN league so every answer uses your real roster and exact
+          <p>Links your Sleeper, ESPN, or Yahoo league so every answer uses your real roster and exact
             scoring</p></div>
         <div class="tool-card"><code>disconnect_league</code>
           <p>Unlinks your league. Asks you to confirm first, and always names the league before
@@ -416,7 +417,7 @@ code{
         <li><strong>Server URL:</strong> <code>https://app.statsdeck.ai/mcp</code></li>
         <li><strong>Transport:</strong> Streamable HTTP</li>
         <li><strong>Authentication:</strong> OAuth 2.0</li>
-        <li><strong>Platforms:</strong> Sleeper; ESPN (public and private leagues)</li>
+        <li><strong>Platforms:</strong> Sleeper; ESPN (public and private leagues); Yahoo</li>
         <li><strong>Data sources:</strong> nflverse (CC-BY 4.0) for NFL statistics; your connected
           platform for league, roster, and matchup data</li>
         <li><strong>Access:</strong> Read-only. StatsDeck makes no write calls to any fantasy
@@ -453,6 +454,11 @@ code{
             <td>Your league, roster, matchups, and transactions</td>
             <td>Read on your behalf, using your own signed-in session, for leagues you are a member
               of</td>
+          </tr>
+          <tr>
+            <td><strong>Yahoo</strong></td>
+            <td>Your league, roster, matchups, and transactions</td>
+            <td>Read on your behalf through Yahoo's Fantasy Sports API, with your permission</td>
           </tr>
         </tbody>
       </table>
@@ -527,7 +533,8 @@ code{
       <img src="/logo.png" alt="StatsDeck" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
       <span class="wordmark" style="display:none">Stats<b>Deck</b></span>
     </a>
-    <p class="foot-meta">NFL data via nflverse (CC-BY 4.0). StatsDeck is independent and not affiliated with, endorsed by, or sponsored by Anthropic, ESPN, Sleeper, or the NFL. Claude is a trademark of Anthropic, PBC.</p>
+    <p class="foot-meta">NFL data via nflverse (CC-BY 4.0). StatsDeck is independent and not affiliated with, endorsed by, or sponsored by Anthropic, ESPN, Sleeper, Yahoo, or the NFL. Claude is a trademark of Anthropic, PBC.</p>
+    <p class="foot-meta"><a href="https://football.fantasysports.yahoo.com/">Fantasy data provided by Yahoo Fantasy</a></p>
     <div class="foot-links">
       <a href="/privacy">Privacy</a>
       <a href="/#faq-q1">Support</a>
