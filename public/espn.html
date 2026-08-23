@@ -464,8 +464,8 @@ p{margin:0 0 16px}
 // ---- Carousel A (mobile): two-set segmented control, safari + chrome ----
 (function(){
   var SETS = {
-    safari: { dir:'safari', count:10 },
-    chrome: { dir:'chrome', count:8  }
+    safari: { dir:'safari', count:9 },
+    chrome: { dir:'chrome', count:7 }
   };
 
   // Per-set, per-step caption HTML (index 0 = step 1). Fixed literals — NOT user input —
@@ -480,8 +480,7 @@ p{margin:0 0 16px}
       `Select <strong>Edit</strong>`,
       `Replace the bookmark's address (URL) with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
       `Back on your ESPN team page, open your bookmarks and <strong>tap the bookmark</strong> you made. It grabs your session cookie and copies it to your clipboard.`,
-      `Home stretch — return to Claude and say <em><strong>"Please connect my ESPN league [your league ID]."</strong></em><br><br>It'll see the league is private and ask for the cookie. <strong>Long-press the chat field and paste.</strong>`,
-      `That's it — you only do this once, since these cookies don't currently expire.<br><br>Now that your league is connected, go ahead and <a href="/#see">dig into all the things you can do with StatsDeck</a>.`
+      `Please return to Step 2 at the top of this page`
     ],
     chrome: [
       `In <strong>Chrome</strong>, go to your ESPN Fantasy Football <strong>team page</strong> and log in (<a href="https://fantasy.espn.com/" target="_blank" rel="noopener">fantasy.espn.com</a>).`,
@@ -490,8 +489,7 @@ p{margin:0 0 16px}
       `Tap <strong>Add to bookmarks</strong> to save the new bookmark.<br><br>After the new bookmark is created we want to <strong>edit it</strong>, so next navigate to the bookmarks to find the one we just created.`,
       `Now we'll <strong>edit the bookmark</strong> — Open your bookmarks, find the one you just made, and <strong>long-press</strong> it for more options — then select <strong>Edit.</strong><br><br>Replace the bookmark's address (URL) with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
       `Now back on your <strong>ESPN team page</strong>, navigate to your bookmarks and <strong>open the bookmark we made</strong>. It grabs the session cookie and copies it to your clipboard.`,
-      `Home stretch — return to Claude and say <em><strong>"Please connect my ESPN league [your league ID]."</strong></em><br><br>It'll see the league is private and ask for the cookie. <strong>Long-press the chat field and paste.</strong>`,
-      `That's it — you only do this once, since these cookies don't currently expire.<br><br>Now that your league is connected, go ahead and <a href="/#see">dig into all the things you can do with StatsDeck</a>.`
+      `Please return to Step 2 at the top of this page`
     ]
   };
   var PASTE_STEP = { safari: 7, chrome: 5 };   // step where the bookmarklet chip appears (the "code below" step)
@@ -512,10 +510,12 @@ p{margin:0 0 16px}
   var current = 'safari';  // active set, default = Mobile: Safari
   var i = 0;               // current step index, 0-based, within the active set
 
-  // Cache-bust: these steps moved to versioned filenames to defeat a stale CDN edge entry
-  // (an in-place overwrite kept serving old bytes). Only these keys divert; every other
-  // step keeps the '<set.dir>-<n>.jpg' convention unchanged.
-  var IMG_OVERRIDES = { 'safari-9': 'safari-9-v2', 'chrome-7': 'chrome-7-v2' };
+  // Cache-bust: these steps divert to versioned filenames (never overwrite an existing
+  // image filename — a stale CDN edge entry once kept serving old bytes). S96-b4: the
+  // final two steps of each set share the SAME new image; every other step keeps the
+  // '<set.dir>-<n>.jpg' convention unchanged.
+  var IMG_OVERRIDES = { 'safari-8': 'safari-8b', 'safari-9': 'safari-8b',
+                        'chrome-6': 'chrome-6b', 'chrome-7': 'chrome-6b' };
 
   function render(){
     var set = SETS[current];
@@ -575,8 +575,13 @@ p{margin:0 0 16px}
     `To grab your <strong>session cookie</strong>, we'll make a <strong>custom bookmark</strong> that copies it for you. Click the <strong>three-dot</strong> menu (top-right), then <strong>Bookmark this tab</strong>.`,
     `Now we'll <strong>edit it</strong> — open your bookmarks, <strong>right-click</strong> the one you just made (two-finger tap on Mac), and select <strong>Edit.</strong><br><br><strong>Replace the bookmark's address (URL)</strong> with the code below — fully remove the original, paste this in, then <strong>save.</strong>`,
     `Now back on your <strong>ESPN team page</strong>, navigate to your bookmarks and <strong>open the bookmark we made</strong>. This will automatically grab the session cookie and copies it to your clipboard.`,
-    `Home stretch — Return to Claude, say <em><strong>"Please connect my ESPN league [your league ID],"</strong></em> and paste the cookie when asked.<br><br>That's it — you only do this once, since these cookies don't currently expire. Now that your league is connected, go ahead and <a href="/#see">dig into all the things you can do with StatsDeck</a>.`
+    `Please return to Step 2 at the top of this page`
   ];
+
+  // S96-b4: per-step filename overrides (Carousel A's IMG_OVERRIDES idiom) — the final
+  // two steps share the SAME new image; cache-bust rule: never overwrite an existing
+  // image filename.
+  var IMG_OVERRIDES = { 4: 'desktop-4b', 5: 'desktop-4b' };
 
   var root = document.getElementById('desktop-carousel');
   if (!root) return;
@@ -591,7 +596,7 @@ p{margin:0 0 16px}
 
   function render(){
     var n = i + 1;
-    img.src = '/img/espn/desktop-' + n + '.jpg';
+    img.src = '/img/espn/' + (IMG_OVERRIDES[n] || 'desktop-' + n) + '.jpg';
     img.alt = 'ESPN desktop step ' + n + ' of ' + COUNT;
     img.loading = 'lazy';                         // below the fold — lazy is fine
     caption.innerHTML = CAPS[i];                  // rich per-step caption (static, code-controlled)
