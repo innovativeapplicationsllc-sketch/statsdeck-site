@@ -262,9 +262,9 @@ p{margin:0 0 16px}
 .foot-links a{color:var(--ink-soft)}
 
 /* ---- S96-b: numbered 3-step direct-entry block ---- */
-.steps{padding:20px 0 0}
+.steps{padding:20px 0 34px}
 .steps-lead{font-size:1.08rem; margin:0 0 18px}
-.steps-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px}
+.steps-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:34px}
 .step{display:flex; gap:14px; align-items:flex-start}
 .step-num{
   flex:none; width:30px; height:30px; border-radius:50%;
@@ -458,7 +458,7 @@ p{margin:0 0 16px}
   backslashes ( (^|;)\s*  and  \s*=\s* ) survive verbatim. Both copy chips read this single
   block via .textContent — never hardcode the bookmarklet a second time. Edit ONLY here.
 -->
-<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste it into the StatsDeck.ai/espn page when prompted:',msg);});}else{window.prompt('Copy this text, then paste it into the StatsDeck.ai/espn page when prompted:',msg);}})();</script>
+<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste it into the StatsDeck.ai/espn page when prompted.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste it into the StatsDeck.ai/espn page when prompted:',msg);});}else{window.prompt('Copy this text, then paste it into the StatsDeck.ai/espn page when prompted:',msg);}})();</script>
 
 <script>
 // ---- Carousel A (mobile): two-set segmented control, safari + chrome ----
