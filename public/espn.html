@@ -342,7 +342,7 @@ p{margin:0 0 16px}
           <div class="step-body" id="cookie-entry">
             <!-- State A — signed out (default) -->
             <div id="entry-signed-out">
-              <p>Sign in to StatsDeck below, using the same account you chose when you connected StatsDeck in Claude. Once you&rsquo;re signed in, you&rsquo;ll be prompted to paste and save your ESPN cookie.</p>
+              <p>Then sign in to StatsDeck using the button below, with the same account you chose when you connected StatsDeck in Claude. Once signed in, you&rsquo;ll be prompted to paste and save your ESPN cookie here.</p>
               <button type="button" class="btn btn-primary" id="entry-signin">SIGN IN</button>
               <p class="entry-error" id="entry-error-a" hidden></p>
             </div>
@@ -358,14 +358,14 @@ p{margin:0 0 16px}
             </div>
             <!-- State C — saved -->
             <div id="entry-saved" hidden>
-              <p class="entry-success">Cookie saved. Now return to Claude and say 'Please connect my ESPN league (give your league ID)'.</p>
+              <p class="entry-success">Cookie saved. Now return to Claude and say <strong>“Please connect my ESPN league <em>(league ID#)</em>”.</strong></p>
             </div>
           </div>
         </li>
         <li class="step">
           <span class="step-num" aria-hidden="true">3</span>
           <div class="step-body">
-            <p>Return to Claude, and with StatsDeck connected, say 'Please connect my ESPN league (give your league ID)'.</p>
+            <p>Return to Claude, and with StatsDeck connected, say <strong>“Please connect my ESPN league <em>(league ID#)</em>”.</strong></p>
           </div>
         </li>
       </ol>
@@ -458,7 +458,7 @@ p{margin:0 0 16px}
   backslashes ( (^|;)\s*  and  \s*=\s* ) survive verbatim. Both copy chips read this single
   block via .textContent — never hardcode the bookmarklet a second time. Edit ONLY here.
 -->
-<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);});}else{window.prompt('Copy this text, then paste into your StatsDeck chat:',msg);}})();</script>
+<script type="text/plain" id="bm-source">javascript:(function(){function g(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():'';}var s=g('SWID'),e=g('espn_s2');if(!s||!e){alert('Could not read ESPN cookies. Make sure you are on fantasy.espn.com and logged in.');return;}var msg='Please call the save_espn_credentials tool with these exact values — swid: '+s+' espn_s2: '+e;function done(){alert('Copied! Paste into your StatsDeck chat and send.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(done,function(){window.prompt('Copy this text, then paste it into the StatsDeck.ai/espn page when prompted:',msg);});}else{window.prompt('Copy this text, then paste it into the StatsDeck.ai/espn page when prompted:',msg);}})();</script>
 
 <script>
 // ---- Carousel A (mobile): two-set segmented control, safari + chrome ----
@@ -851,7 +851,9 @@ p{margin:0 0 16px}
   btnSave.addEventListener('click', save);
   lnkOut.addEventListener('click', function(e){
     e.preventDefault();
-    if (window.Clerk && Clerk.loaded){ Clerk.signOut(); }   // listener flips back to State A
+    // redirectUrl keeps the user on /espn (reload signed-out = initial state) —
+    // a bare signOut() navigates to the root domain.
+    if (window.Clerk && Clerk.loaded){ Clerk.signOut({ redirectUrl: '/espn' }); }
   });
 
   function initClerk(){
