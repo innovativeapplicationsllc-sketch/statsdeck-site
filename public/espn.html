@@ -258,6 +258,9 @@ p{margin:0 0 16px}
 .foot .wrap{display:flex; flex-direction:column; gap:14px}
 .foot .brand img{height:26px}
 .foot-meta{font-size:.85rem; color:var(--ink-soft); margin:0}
+/* S96-b5: the relocated never-modifies line — footer text convention, centered, its own
+   breathing room above the footer's border */
+.trust-line{text-align:center; margin:0 0 28px}
 .foot-links{display:flex; gap:20px; font-size:.9rem}
 .foot-links a{color:var(--ink-soft)}
 
@@ -319,7 +322,7 @@ p{margin:0 0 16px}
     <div class="wrap">
       <p class="eyebrow">ESPN · League setup</p>
       <h1>Connect your ESPN league</h1>
-      <p class="lede">StatsDeck supports both <strong>public and private</strong> ESPN leagues. For a public league, all you need is to give Claude your <strong>league ID</strong>. StatsDeck never modifies your team or league, it simply imports data so you and Claude can build your strategy.</p>
+      <p class="lede">StatsDeck supports both <strong>public and private</strong> ESPN leagues. For a public league, all you need is to give Claude your <strong>league ID</strong>.</p>
     </div>
   </section>
 
@@ -430,6 +433,12 @@ p{margin:0 0 16px}
     <a class="btn btn-ghost" href="/#faq">FAQ</a>
   </div>
 </section>
+
+<!-- S96-b5: the never-modifies line, relocated from the lede byte-identical — quiet
+     footer-convention text (.foot-meta), centered above the footer block -->
+<div class="wrap">
+  <p class="foot-meta trust-line">StatsDeck never modifies your team or league, it simply imports data so you and Claude can build your strategy.</p>
+</div>
 
 <footer class="foot">
   <div class="wrap">
