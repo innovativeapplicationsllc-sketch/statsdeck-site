@@ -33,6 +33,17 @@
 
   gtag('config', 'G-68LC4BTCQ8');
 </script>
+<!-- ClerkJS (S96-b direct entry) — official production script tag: src on the
+     clerk.statsdeck.ai frontend API host, publishable key on the data attribute.
+     async: the entry block resolves its state on the script's load event and
+     degrades to signed-out if the script never arrives. -->
+<script
+  async
+  crossorigin="anonymous"
+  id="clerk-js"
+  data-clerk-publishable-key="pk_live_Y2xlcmsuc3RhdHNkZWNrLmFpJA"
+  src="https://clerk.statsdeck.ai/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+  type="text/javascript"></script>
 <style>
 :root{
   --paper:#F8F7F3; --paper-2:#FFFFFF;
@@ -250,6 +261,36 @@ p{margin:0 0 16px}
 .foot-links{display:flex; gap:20px; font-size:.9rem}
 .foot-links a{color:var(--ink-soft)}
 
+/* ---- S96-b: numbered 3-step direct-entry block ---- */
+.steps{padding:20px 0 0}
+.steps-lead{font-size:1.08rem; margin:0 0 18px}
+.steps-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px}
+.step{display:flex; gap:14px; align-items:flex-start}
+.step-num{
+  flex:none; width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--brand); color:#fff;                 /* site blue circle, white number */
+  font-family:'Saira Condensed',sans-serif; font-weight:700; font-size:1.05rem;
+  margin-top:1px;
+}
+.step-body{flex:1; min-width:0}
+.step-body p{margin:0 0 12px}
+.step-body p:last-child{margin-bottom:0}
+.entry-textarea{
+  width:100%; min-height:88px; padding:10px 12px;
+  border:1px solid var(--line-2); border-radius:9px;
+  font-family:'Inter',system-ui,sans-serif; font-size:.95rem; color:var(--ink);
+  background:var(--paper-2); resize:vertical;
+}
+.entry-textarea:focus{outline:none; border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-soft)}
+.entry-error{color:#B3261E; font-size:.92rem; margin:8px 0 0}
+.entry-error[hidden]{display:none}
+.entry-actions{display:flex; align-items:center; gap:18px; margin-top:12px}
+.entry-signout{font-size:.88rem; color:var(--ink-soft); text-decoration:underline}
+.entry-signout:hover{color:var(--ink)}
+.entry-success{color:var(--verified); font-weight:600; margin:0}
+#entry-signed-out .btn{margin-top:2px}
+
 @media (max-width:560px){
   .tab,.tab-jump{padding:10px 8px; font-size:.82rem; letter-spacing:.03em}
   /* bleed the stage slightly past the .wrap padding so it renders larger on phones */
@@ -278,7 +319,56 @@ p{margin:0 0 16px}
     <div class="wrap">
       <p class="eyebrow">ESPN · League setup</p>
       <h1>Connect your ESPN league</h1>
-      <p class="lede">StatsDeck supports both <strong>public and private</strong> ESPN leagues. For a public league, all you need is your <strong>league ID</strong>. For a private league, you'll also need your <strong>session cookie</strong> — we cover that below. StatsDeck never modifies your team or league, it simply imports data so you and Claude can build your strategy.</p>
+      <p class="lede">StatsDeck supports both <strong>public and private</strong> ESPN leagues. For a public league, all you need is to give Claude your <strong>league ID</strong>. StatsDeck never modifies your team or league, it simply imports data so you and Claude can build your strategy.</p>
+    </div>
+  </section>
+
+  <!-- ============ S96-b: numbered 3-step direct-entry block ============
+       Step 2 is a three-state container (signed-out / signed-in paste form /
+       saved) driven by the entry script at the bottom of the page. The
+       screenshot walkthrough below is UNCHANGED — step 1 points into it. -->
+  <section class="steps">
+    <div class="wrap">
+      <p class="steps-lead"><strong>For private ESPN leagues, you&rsquo;ll also need your session cookie.</strong></p>
+      <ol class="steps-list">
+        <li class="step">
+          <span class="step-num" aria-hidden="true">1</span>
+          <div class="step-body">
+            <p>See the screenshots below for how to obtain your ESPN session cookie and get it copied to your clipboard.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">2</span>
+          <div class="step-body" id="cookie-entry">
+            <!-- State A — signed out (default) -->
+            <div id="entry-signed-out">
+              <p>Sign in to StatsDeck below, using the same account you chose when you connected StatsDeck in Claude. Once you&rsquo;re signed in, you&rsquo;ll be prompted to paste and save your ESPN cookie.</p>
+              <button type="button" class="btn btn-primary" id="entry-signin">SIGN IN</button>
+              <p class="entry-error" id="entry-error-a" hidden></p>
+            </div>
+            <!-- State B — signed in: paste form -->
+            <div id="entry-signed-in" hidden>
+              <p>Signed in as <strong id="entry-email"></strong> &mdash; this must match the account you chose when connecting StatsDeck in Claude.</p>
+              <textarea class="entry-textarea" id="entry-paste" placeholder="Paste what you copied from ESPN" spellcheck="false" autocomplete="off"></textarea>
+              <p class="entry-error" id="entry-error-b" hidden></p>
+              <div class="entry-actions">
+                <button type="button" class="btn btn-primary" id="entry-save">SAVE COOKIE</button>
+                <a href="#" class="entry-signout" id="entry-signout">Sign out</a>
+              </div>
+            </div>
+            <!-- State C — saved -->
+            <div id="entry-saved" hidden>
+              <p class="entry-success">Cookie saved. Now return to Claude and say 'Please connect my ESPN league (give your league ID)'.</p>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">3</span>
+          <div class="step-body">
+            <p>Return to Claude, and with StatsDeck connected, say 'Please connect my ESPN league (give your league ID)'.</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -620,6 +710,163 @@ p{margin:0 0 16px}
 
   wire('bm-code', 'bm-copy');       // Carousel A chip
   wire('d-bm-code', 'd-bm-copy');   // Carousel B chip
+})();
+</script>
+
+<!-- ---- S96-b: step-2 three-state cookie entry (signed-out / paste form / saved) ---- -->
+<script>
+(function(){
+  'use strict';
+  var API_URL = 'https://app.statsdeck.ai/espn/credentials';
+
+  // Ratified strings — byte-exact, do not reword. Server 4xx JSON error strings are
+  // shown verbatim (the backend copy is the ratified reject set).
+  var ERR_PARSE = 'That doesn’t look like the copied cookie text. Paste exactly what the bookmarklet put on your clipboard.';
+  var ERR_NET   = 'Couldn’t reach StatsDeck — please try again.';
+  var ERR_CLERK = 'Sign-in isn’t loading — please refresh the page.';
+
+  var elOut   = document.getElementById('entry-signed-out');
+  var elIn    = document.getElementById('entry-signed-in');
+  var elSaved = document.getElementById('entry-saved');
+  var elEmail = document.getElementById('entry-email');
+  var elPaste = document.getElementById('entry-paste');
+  var elErrA  = document.getElementById('entry-error-a');
+  var elErrB  = document.getElementById('entry-error-b');
+  var btnIn   = document.getElementById('entry-signin');
+  var btnSave = document.getElementById('entry-save');
+  var lnkOut  = document.getElementById('entry-signout');
+  if (!elOut || !elIn || !elSaved) return;
+
+  var saved = false;    // State C is terminal for the visit — listeners never override it
+  var current = null;   // 'A' | 'B' | 'C' — lets resolveState act only on real transitions
+
+  function clearErrors(){
+    [elErrA, elErrB].forEach(function(e){ if (e){ e.hidden = true; e.textContent = ''; } });
+  }
+  function showError(msg){
+    // one inline error node per state (A: under SIGN IN, B: under the textarea) so the
+    // message always lands in the visible block
+    var el = elIn.hidden ? elErrA : elErrB;
+    if (el){ el.textContent = msg; el.hidden = false; }
+  }
+  function show(state){
+    current = state;
+    elOut.hidden   = state !== 'A';
+    elIn.hidden    = state !== 'B';
+    elSaved.hidden = state !== 'C';
+  }
+
+  function primaryEmail(user){
+    if (!user) return '';
+    if (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress){
+      return user.primaryEmailAddress.emailAddress;
+    }
+    var list = user.emailAddresses || [];
+    return (list[0] && list[0].emailAddress) || '';
+  }
+
+  function resolveState(){
+    if (saved) return;
+    var target = (window.Clerk && Clerk.user) ? 'B' : 'A';
+    if (target === 'B'){
+      elEmail.textContent = primaryEmail(Clerk.user);   // textContent — never markup
+    }
+    // Transition-only: Clerk fires listeners on ticks that change nothing (token
+    // refresh, late load) — those must never wipe an error the user is reading or
+    // reset the form mid-typing.
+    if (target === current) return;
+    clearErrors();
+    show(target);
+  }
+
+  // ---- parse: the bookmarklet clipboard string, or a raw pasted pair ----
+  // SWID = value after a swid marker, else the first {…}-braced token, else a bare
+  // GUID (braces added server-side); espn_s2 = value after an espn_s2 marker, else
+  // the longest remaining opaque token (>= 20 chars). Whitespace trimmed; stray
+  // surrounding quotes / trailing sentence punctuation stripped. Both required.
+  function parsePaste(text){
+    var t = (text || '').trim();
+    if (!t) return null;
+    var swid = null, s2 = null, m;
+
+    m = t.match(/\bswid\s*[:=]\s*(\{[^}]*\}|\S+)/i);
+    if (m) swid = m[1];
+    m = t.match(/\bespn_s2\s*[:=]\s*(\S+)/i);
+    if (m) s2 = m[1];
+
+    if (!swid){
+      m = t.match(/\{[0-9A-Za-z-]{30,}\}/);            // first braced GUID-length token
+      if (m) swid = m[0];
+    }
+    if (!swid){                                         // bare GUID, no braces
+      m = t.match(/\b[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\b/);
+      if (m) swid = m[0];
+    }
+    if (!s2){
+      var cand = t.split(/\s+/).filter(function(tok){
+        return tok.length >= 20 && tok !== swid && tok.indexOf('{') === -1;
+      });
+      cand.sort(function(a, b){ return b.length - a.length; });
+      if (cand[0]) s2 = cand[0];
+    }
+
+    function clean(v){ return v ? v.replace(/^["']+|["'.,;]+$/g, '') : v; }
+    swid = clean(swid);
+    s2 = clean(s2);
+    if (!swid || !s2 || s2.length < 20) return null;
+    return { swid: swid, espn_s2: s2 };
+  }
+
+  function save(){
+    clearErrors();
+    var parsed = parsePaste(elPaste.value);
+    if (!parsed){ showError(ERR_PARSE); return; }
+    btnSave.disabled = true;                            // no double-submit while in flight
+    Promise.resolve()
+      .then(function(){ return Clerk.session.getToken(); })
+      .then(function(token){
+        return fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed)
+        });
+      })
+      .then(function(resp){
+        if (resp.ok){ saved = true; show('C'); return; }
+        // 4xx JSON {"error": ...} → the server's string verbatim; a bodyless 4xx
+        // (e.g. an expired-token 401) degrades to the retryable network copy.
+        return resp.json().then(
+          function(j){ showError(j && typeof j.error === 'string' ? j.error : ERR_NET); },
+          function(){ showError(ERR_NET); });
+      })
+      .catch(function(){ showError(ERR_NET); })
+      .then(function(){ btnSave.disabled = false; });
+  }
+
+  btnIn.addEventListener('click', function(){
+    clearErrors();
+    if (window.Clerk && Clerk.loaded){ Clerk.openSignIn(); }
+    else { showError(ERR_CLERK); }                      // ClerkJS never loaded — State A stays
+  });
+  btnSave.addEventListener('click', save);
+  lnkOut.addEventListener('click', function(e){
+    e.preventDefault();
+    if (window.Clerk && Clerk.loaded){ Clerk.signOut(); }   // listener flips back to State A
+  });
+
+  function initClerk(){
+    if (!window.Clerk || !window.Clerk.load) return;    // script never arrived → State A stays
+    Clerk.load().then(function(){
+      resolveState();
+      Clerk.addListener(function(){ resolveState(); }); // sign-in/out completions re-resolve
+    }).catch(function(){ /* load failed → State A stays; SIGN IN shows the fallback */ });
+  }
+  var clerkTag = document.getElementById('clerk-js');
+  if (window.Clerk) initClerk();
+  else if (clerkTag) clerkTag.addEventListener('load', initClerk);
+
+  // console-drivable hooks (local verification; harmless in prod)
+  window.__sdEntry = { show: show, parse: parsePaste, resolve: resolveState };
 })();
 </script>
 </body>
