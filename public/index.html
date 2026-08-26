@@ -202,6 +202,28 @@ a:hover{color:var(--brand-dark)}
 .sec-head h2.big{font-size:clamp(2.2rem,5vw,3.6rem)}
 .sec-head p{color:var(--ink-soft);margin:14px 0 0;font-size:1.05rem}
 
+/* ---------- beta announcement ---------- */
+.announce-card{
+  display:flex;flex-direction:column;gap:26px;
+  background:var(--paper-2);border:1px solid var(--line);
+  border-radius:var(--radius);padding:34px 32px;
+}
+.announce-copy h2{font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 10px}
+/* the hero's flat football (same vector, inline SVG — the site has no image-file
+   version of it), scaled to the heading's cap height */
+.announce-ball{height:1em;width:1em;vertical-align:-0.12em}
+/* p.announce-sub beats the .announce-copy p muted-color rule below (that
+   descendant selector out-specifies a lone class, so bare .announce-sub lost) */
+.announce-copy p.announce-sub{color:var(--brand);font-weight:600;font-size:1.12rem;margin:0 0 14px}
+.announce-copy p{margin:0 0 12px;color:var(--ink-soft)}
+.announce-copy p:last-child{margin-bottom:0}
+.announce-copy strong{color:var(--ink);font-weight:600}
+.announce-shot{margin:0}
+@media(min-width:821px){
+  .announce-card{flex-direction:row;align-items:center;gap:40px}
+  .announce-shot{flex:0 0 40%;order:-1}   /* image LEFT on desktop; text-first DOM stacks naturally on mobile */
+}
+
 /* ---------- connect carousel ---------- */
 .carousel{max-width:640px;margin:40px auto 0;text-align:center}
 .carousel-stage{
@@ -499,6 +521,22 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       <a class="plat-logo" href="#connect-league">
         <img src="/img/platform/yahoo-logo-v1.png" width="96" height="96" alt="Connect a Yahoo league" />
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BETA ANNOUNCEMENT ========== -->
+<section class="block" id="announcement">
+  <div class="wrap">
+    <div class="announce-card">
+      <div class="announce-copy">
+        <h2>Beta Team Announcement <svg class="announce-ball" viewBox="0 0 100 100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-35 50 50)"><path d="M50 26 C72 26 88 38 88 50 C88 62 72 74 50 74 C28 74 12 62 12 50 C12 38 28 26 50 26 Z" fill="#8A4B22" stroke="#5E3115" stroke-width="3"/><line x1="34" y1="50" x2="66" y2="50" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="40" y1="44" x2="40" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="46" y1="43" x2="46" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="54" y1="43" x2="54" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="60" y1="44" x2="60" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/></g></svg></h2>
+        <p class="announce-sub">StatsDeck is now the fastest-growing fantasy tool for 2026!</p>
+        <p><strong>New Feature:</strong> Check out the all new <strong>StatsDeck Times</strong> when viewing league standings. It's a full newspaper inside StatsDeck.</p>
+      </div>
+      <figure class="announce-shot">
+        <img src="/favicon-512.png" width="512" height="512" style="max-width:100%;height:auto" loading="lazy" alt="StatsDeck logo" />
+      </figure>
     </div>
   </div>
 </section>
