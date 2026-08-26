@@ -202,37 +202,6 @@ a:hover{color:var(--brand-dark)}
 .sec-head h2.big{font-size:clamp(2.2rem,5vw,3.6rem)}
 .sec-head p{color:var(--ink-soft);margin:14px 0 0;font-size:1.05rem}
 
-/* ---------- beta announcement ---------- */
-.announce-card{
-  display:flex;flex-direction:column;gap:26px;
-  background:var(--paper-2);border:1px solid var(--line);
-  border-radius:var(--radius);padding:34px 32px;
-}
-.announce-copy h2{font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 10px}
-/* the hero's flat football (same vector, inline SVG — the site has no image-file
-   version of it), scaled to the heading's cap height */
-.announce-ball{height:1em;width:1em;vertical-align:-0.12em}
-/* p.announce-sub beats the .announce-copy p muted-color rule below (that
-   descendant selector out-specifies a lone class, so bare .announce-sub lost) */
-.announce-copy p.announce-sub{color:var(--brand);font-weight:600;font-size:1.12rem;margin:0 0 14px}
-.announce-copy p{margin:0 0 12px;color:var(--ink-soft)}
-.announce-copy p:last-child{margin-bottom:0}
-.announce-copy strong{color:var(--ink);font-weight:600}
-/* inside a link, strong inherits the global a/a:hover brand blue instead of ink */
-.announce-copy a strong{color:inherit}
-.announce-shot{margin:0}
-.announce-zoom{background:none;border:0;padding:0;margin:0;display:block;width:100%;cursor:pointer}
-.announce-zoom img{cursor:pointer}
-.announce-lightbox{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75)}
-.announce-lightbox.open{display:flex}
-.announce-lightbox img{max-width:92vw;max-height:92vh;width:auto;height:auto;border-radius:var(--radius)}
-.announce-lightbox-close{position:fixed;top:14px;right:18px;background:none;border:0;color:var(--paper-2);font-size:2.4rem;line-height:1;padding:6px;cursor:pointer}
-.announce-shot figcaption{margin-top:10px;font-size:.82rem;color:var(--ink-soft);text-align:center}
-@media(min-width:821px){
-  .announce-card{flex-direction:row;align-items:center;gap:40px}
-  .announce-shot{flex:0 0 40%;order:-1}   /* screenshot LEFT on desktop; text-first DOM stacks naturally on mobile */
-}
-
 /* ---------- connect carousel ---------- */
 .carousel{max-width:640px;margin:40px auto 0;text-align:center}
 .carousel-stage{
@@ -534,45 +503,6 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
   </div>
 </section>
 
-<!-- ========== BETA ANNOUNCEMENT ========== -->
-<section class="block" id="announcement">
-  <div class="wrap">
-    <div class="announce-card">
-      <div class="announce-copy">
-        <h2>Beta Team Announcement <svg class="announce-ball" viewBox="0 0 100 100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-35 50 50)"><path d="M50 26 C72 26 88 38 88 50 C88 62 72 74 50 74 C28 74 12 62 12 50 C12 38 28 26 50 26 Z" fill="#8A4B22" stroke="#5E3115" stroke-width="3"/><line x1="34" y1="50" x2="66" y2="50" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="40" y1="44" x2="40" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="46" y1="43" x2="46" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="54" y1="43" x2="54" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="60" y1="44" x2="60" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/></g></svg></h2>
-        <p class="announce-sub">Be sure to update StatsDeck often!</p>
-        <p>We've been cranking out updates and improvements every night. Be sure to go to:</p>
-        <p><a href="https://claude.ai" target="_blank" rel="noopener"><strong>Claude.ai</strong></a> website: Customize &gt; Connectors &gt; StatsDeck &gt; <strong>Refresh Tools List</strong></p>
-      </div>
-      <figure class="announce-shot">
-        <button type="button" class="announce-zoom" id="announce-zoom" aria-label="View larger">
-        <img src="/img/announce/announce-refresh-v1.png" width="800" height="380" style="max-width:100%;height:auto" loading="lazy" alt="Where to find Refresh Tools List in Claude's connector settings" />
-        </button>
-        <figcaption>Refresh tools list — <em>do not disconnect</em></figcaption>
-      </figure>
-    </div>
-    <div class="announce-lightbox" id="announce-lightbox" role="dialog" aria-modal="true" aria-label="Refresh Tools List screenshot, enlarged">
-      <button type="button" class="announce-lightbox-close" id="announce-lightbox-close" aria-label="Close">&times;</button>
-      <img src="/img/announce/announce-refresh-v1.png" alt="Where to find Refresh Tools List in Claude's connector settings" />
-    </div>
-  </div>
-</section>
-<script>
-(function(){
-  var box = document.getElementById('announce-lightbox');
-  var zoom = document.getElementById('announce-zoom');
-  var closeBtn = document.getElementById('announce-lightbox-close');
-  function open(){ box.classList.add('open'); document.body.style.overflow = 'hidden'; closeBtn.focus(); }
-  function close(){ box.classList.remove('open'); document.body.style.overflow = ''; zoom.focus(); }
-  zoom.addEventListener('click', open);
-  closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
-  box.addEventListener('click', function(e){ if (e.target === box) close(); });   /* scrim tap closes; the image itself doesn't */
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && box.classList.contains('open')) close();
-  });
-})();
-</script>
-
 <!-- ========== GET STARTED / CONNECT CAROUSEL ========== -->
 <section class="block" id="start">
   <div class="wrap">
@@ -785,17 +715,6 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
       </div>
 
       <div class="faq-item">
-        <button type="button" class="faq-q" id="faq-q9" aria-expanded="false" aria-controls="faq-a9">
-          How do I keep StatsDeck up to date?
-          <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq-a9" role="region" aria-labelledby="faq-q9" hidden>
-          Just like an app, we're always shipping improvements and updates. Most arrive automatically with nothing needed from you. Occasionally a significant change requires a quick refresh to take effect — when that happens, StatsDeck will try to let you know right in the chat.<br><br>To make sure you're always up to date, periodically do the following:<br><br>On the <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai website</a>, go to:<br>Customize (Settings) &gt; Connectors &gt; StatsDeck &gt; click the three-dots next to "Disconnect" and choose <strong>Refresh Tools List</strong>.<br><br>Refresh Tools List is only available from the Claude.ai website. It is not available in the Claude mobile app.<br><br><em>Do not disconnect or remove the StatsDeck connector.</em><br><br>Your leagues and scoring stay saved, and ESPN private-league users won't need to re-enter their cookies.
-          <img src="/img/faq/faq-refresh-tools-v1.jpg" width="500" height="461" style="max-width:100%;height:auto" alt="Where to find Refresh Tools List in Claude's connector settings" loading="lazy" />
-        </div>
-      </div>
-
-      <div class="faq-item">
         <button type="button" class="faq-q" id="faq-q7" aria-expanded="false" aria-controls="faq-a7">
           Does StatsDeck support Daily Fantasy Sports (DFS)?
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
@@ -973,12 +892,12 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     // Directory-flow overrides. Deliberately SPARSE: steps 1-3 are identical on both
     // routes, so they appear in neither map and stay single-sourced above.
     // Step number (1-based) -> image filename stem, directory flow only.
-    var IMG_OVERRIDES = { 4: '4-new', 5: '5-new', 6: '6-new', 7: '7-new' };
+    var IMG_OVERRIDES = { 4: '4-new', 5: '5-new', 6: '6-new-aug26', 7: '7-new' };
 
     // CAPTIONS index (0-based) -> caption HTML, directory flow only.
     // Note step 6 (index 5) keeps its existing caption; only its image changes.
     var CAPTION_OVERRIDES = {
-      3: '<strong>Browse connectors</strong>',
+      3: '<strong>Browse Connectors</strong> <em>(On desktop click: Discover)</em>',
       4: 'Type <strong>StatsDeck</strong> then tap',
       6: 'Connected! <strong>Tap X</strong> to return to the chat.<br><br>A great next step is now to <a href="#connect-league">connect your league →</a>'
     };
