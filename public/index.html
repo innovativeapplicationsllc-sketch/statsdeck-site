@@ -396,6 +396,9 @@ a:hover{color:var(--brand-dark)}
 .faq-a table strong{white-space:nowrap}
 .faq-a th,.faq-a td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
 .faq-a th{color:var(--ink);font-weight:600}
+.faq-a .tool-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px 16px;margin:8px 0 18px}
+.faq-a .tool-cols:last-child{margin-bottom:0}
+.faq-a .tool-cols code{justify-self:start;font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--brand-soft);color:var(--brand-dark);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}
 
 /* ---------- playoff countdown ---------- */
 .countdown-card{
@@ -925,6 +928,37 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
             </tbody>
           </table>
           Claude starts everyone on <strong>Sonnet</strong> — the free, default model — and StatsDeck runs well on it, so you don't need to change anything to get going. On Claude's paid plans, <strong>Opus</strong> is a step up: deeper reasoning and richer visualizations.<br><br><strong>One note on limits:</strong> every Claude plan caps how much you can use over a rolling window, and heavier models spend that budget faster. Free-plan limits are the tightest, and Opus isn't available on the free tier — so if you're starting out free, Sonnet is your model, and StatsDeck works well on it.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" id="faq-q17" aria-expanded="false" aria-controls="faq-a17">
+          What if Claude says it can't find or load a StatsDeck tool?
+          <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a" id="faq-a17" role="region" aria-labelledby="faq-q17" hidden>
+          When we release an update to our servers, it can briefly disconnect active chat sessions. We schedule most updates late at night to keep disruption to a minimum.<br><br>Downtime during an update is usually <strong>less than 60 seconds.</strong> If this happens, <strong>wait about a minute, then start a new chat in Claude.</strong><br><br>Claude may also need to rediscover StatsDeck tools that have dropped out of the conversation. Just ask for what you need and mention StatsDeck, for example: “Use StatsDeck to get my roster.” Some Claude models, like Sonnet, may need a little more of a nudge. Naming the specific tool from the list below helps.<br><br>
+          <strong>League setup</strong>
+          <div class="tool-cols">
+            <code>connect_league</code><code>disconnect_league</code>
+            <code>save_espn_credentials</code><code>get_scoring</code>
+            <code>set_scoring</code>
+          </div>
+          <strong>Your team &amp; league</strong>
+          <div class="tool-cols">
+            <code>get_my_roster</code><code>get_league_team</code>
+            <code>get_fantasy_matchup</code><code>get_fantasy_schedule</code>
+            <code>get_standings</code><code>get_trades</code>
+            <code>get_available_players</code><code>start_sit</code>
+            <code>draft_help</code>
+          </div>
+          <strong>Players &amp; teams</strong>
+          <div class="tool-cols">
+            <code>get_player_stats</code><code>get_rankings</code>
+            <code>get_injuries</code><code>get_snap_counts</code>
+            <code>get_kicker_stats</code><code>get_team_defense</code>
+            <code>get_team_roster</code><code>get_schedule</code>
+          </div>
         </div>
       </div>
 
