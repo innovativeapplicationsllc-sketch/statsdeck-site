@@ -804,7 +804,7 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a" id="faq-a15" role="region" aria-labelledby="faq-q15" hidden>
-          <strong>Switching between your different leagues on StatsDeck is easy, including switching between platforms.</strong> In general, simply ask StatsDeck to disconnect your current league first, then ask to connect the next one.<br><br>
+          <strong>Switching between your different leagues on StatsDeck is easy, including switching between platforms.</strong> Just ask to connect to the league you want next.<br><br>
           <strong>StatsDeck supports:</strong>
           <ul>
             <li>Yahoo</li>
@@ -817,52 +817,14 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
             <li>The <strong>authentication step</strong> for <strong>ESPN private</strong> leagues and <strong>Yahoo</strong> is <strong>only required once</strong></li>
             <li>Switching between platforms and leagues after <strong>does not</strong> require you to repeat this step</li>
           </ul>
-          <br><br><strong>Switching Leagues &amp; Platforms</strong><br><br>
-          <strong style="color:var(--brand)">Sleeper:</strong>
+          <br><br><strong style="color:var(--brand)">Switching Leagues &amp; Platforms</strong><br><br>
+          To switch, just ask Claude to connect to the league you want — name the platform and the league ID (or your username for Sleeper). For example:
           <ul>
-            <li><strong>Switch to a different Sleeper league:</strong>
-              <ul>
-                <li>"Switch to my Sleeper league (league name)"</li>
-                <li>You can also ask it to list your Sleeper leagues</li>
-              </ul>
-            </li>
-            <li><strong>Switch to ESPN or Yahoo:</strong>
-              <ul>
-                <li>Ask Claude to <strong>disconnect</strong> your Sleeper league first. It will ask you to confirm to proceed.</li>
-                <li>Then ask Claude to connect to your ESPN or Yahoo league and provide the league ID</li>
-              </ul>
-            </li>
+            <li>"Connect to my ESPN league 12345678"</li>
+            <li>"Connect to my Sleeper league" (your username or league name)</li>
+            <li>"Connect to my Yahoo league 987654"</li>
           </ul>
-          <br><strong style="color:#c62828">ESPN:</strong>
-          <ul>
-            <li><strong>Switch to a different ESPN league:</strong>
-              <ul>
-                <li>"Switch to my ESPN league (league ID)"</li>
-                <li>You don't need to disconnect first, but you do need to provide the league ID</li>
-              </ul>
-            </li>
-            <li><strong>Switch to Sleeper or Yahoo:</strong>
-              <ul>
-                <li>Ask Claude to <strong>disconnect</strong> your ESPN league first. It will ask you to confirm to proceed.</li>
-                <li>Then ask Claude to connect to your Sleeper or Yahoo league</li>
-              </ul>
-            </li>
-          </ul>
-          <br><strong style="color:#c62828">Yahoo:</strong>
-          <ul>
-            <li><strong>Switch to a different Yahoo league:</strong>
-              <ul>
-                <li>You <strong>do need to disconnect</strong> your current league first</li>
-                <li>Then "Connect to my Yahoo league (league ID)"</li>
-              </ul>
-            </li>
-            <li><strong>Switch to Sleeper or ESPN:</strong>
-              <ul>
-                <li>Ask Claude to <strong>disconnect</strong> your Yahoo league first. It will ask you to confirm to proceed.</li>
-                <li>Then ask Claude to connect to your Sleeper or ESPN league</li>
-              </ul>
-            </li>
-          </ul>
+          There's no need to disconnect your current league first — connecting a new one switches you over automatically. If Claude ever seems stuck mid-switch, disconnecting is still available as a fallback: just ask to disconnect your current league, then connect to the new one.
         </div>
       </div>
 
