@@ -221,6 +221,9 @@ code{
           reports, defensive matchups, kickers, and schedules.</li>
         <li><strong>Strategic Decisions:</strong> Generates optimized start/sit recommendations,
           waiver wire targets, two-sided trade evaluations, and custom-tiered draft boards.</li>
+        <li><strong>StatsDeck Projections:</strong> A weekly projection for every player under your
+          league's scoring, factoring in recent workload trends, player availability and this
+          week's matchup. <a href="/#faq-q18">See how it works</a></li>
       </ul>
     </section>
 
@@ -259,19 +262,16 @@ code{
         <li><strong>"Can you pull my roster?"</strong><br>
           A full team rundown, not a bare list: starters and bench scored under your league's
           exact scoring, your biggest strength, your biggest hole, and how the roster is built. If
-          a bench player is outscoring a starter at the same position, that leads the response —
-          before you ask.</li>
-        <li><strong>"How's my Week 1 matchup looking?"</strong><br>
+          a bench player is projected to outscore a starter at the same spot, that swap leads the
+          response — before you ask.</li>
+        <li><strong>"How's my matchup looking this week?"</strong><br>
           Both fantasy lineups side by side, with starters, bench, your league record, and your
-          platform's own projection where it publishes one. Each skill-position player carries an
-          opponent adjustment: their season average tempered by what that week's defense actually
-          allows to their position.</li>
+          platform's own projection where it publishes one. Each player carries a StatsDeck
+          projection for the week, with live scores once games kick off.</li>
         <li><strong>"Who should I start, and why?"</strong><br>
-          A ranked call with the reasoning attached: each player's rank from StatsDeck's
-          recency-weighted form signal, their actual recent per-game points, and the real NFL
-          opponent they face that week. Rank and points are deliberately two separate numbers —
-          the ranking is a strength signal, the points are what the player actually scored. Ask
-          how it's computed and Claude walks you through the weighting.</li>
+          A ranked call with the reasoning attached: your players ranked by StatsDeck projection
+          for the week, with each one's last five games scored under your league's scoring and the
+          defense they face.</li>
       </ol>
       <p>Others that work well to go deeper:</p>
       <ul>
@@ -357,21 +357,21 @@ code{
       <div class="tool-grid">
         <div class="tool-card"><code>get_my_roster</code>
           <p>Your team rundown — starters and bench scored, strengths, holes, roster construction,
-            and any bench player outscoring a starter</p></div>
+            and any bench player projected to outscore a starter</p></div>
         <div class="tool-card"><code>get_league_team</code>
           <p>The same rundown for any other team in your league</p></div>
         <div class="tool-card"><code>get_fantasy_matchup</code>
-          <p>Your fantasy head-to-head for a week: both lineups, league record, and each player's
-            opponent adjustment</p></div>
+          <p>Your fantasy head-to-head for a week: both lineups, league record, each player's
+            StatsDeck projection, and live scores once games kick off</p></div>
         <div class="tool-card"><code>get_fantasy_schedule</code>
           <p>Your full season schedule: every week's opponent in one call, with the team's record
             and scores once games are played. Works for any team in the league.</p></div>
         <div class="tool-card"><code>get_standings</code>
           <p>Your league's standings: every team ordered best to worst, with each team's
-            record.</p></div>
+            record — plus the StatsDeck Times, a newspaper about your league.</p></div>
         <div class="tool-card"><code>get_available_players</code>
-          <p>Your waiver/free-agent board — the best players actually unrostered in your league,
-            with each one's add state and your FAAB or waiver priority</p></div>
+          <p>Your available-players board — the best players on no roster in your league, ranked
+            by StatsDeck projection, with your FAAB budget when your league uses one</p></div>
         <div class="tool-card"><code>get_trades</code>
           <p>Pending offers and completed league trades, both sides scored under your
             scoring</p></div>
@@ -380,8 +380,8 @@ code{
       <h3>Decisions</h3>
       <div class="tool-grid">
         <div class="tool-card"><code>start_sit</code>
-          <p>A ranked start/sit call between two or more of your players, with each one's real NFL
-            opponent</p></div>
+          <p>A start/sit call between two or more of your players, ranked by StatsDeck projection,
+            with each one's last five games and the defense they face</p></div>
         <div class="tool-card"><code>draft_help</code>
           <p>A draft board tiered under your exact scoring, so you can see the value cliffs. Goes
             live during a connected draft</p></div>
@@ -390,7 +390,8 @@ code{
       <h3>NFL data</h3>
       <div class="tool-grid">
         <div class="tool-card"><code>get_player_stats</code>
-          <p>A player's production, with fantasy points computed under your scoring</p></div>
+          <p>A player's production, with fantasy points computed under your scoring, plus a
+            StatsDeck projection for the upcoming week</p></div>
         <div class="tool-card"><code>get_rankings</code>
           <p>League-wide leaderboards by position and metric — who's actually producing, recently
             or across seasons</p></div>
@@ -508,7 +509,8 @@ code{
       <p><strong>"A player is missing, or has no projection."</strong><br>
         Players with no NFL production yet — incoming rookies especially — can't be scored on
         production that doesn't exist, and StatsDeck says so rather than inventing a number. A
-        veteran with recent games missing entirely is a bug worth reporting.</p>
+        player on bye has no projection that week, and a player who is Out, Doubtful or on IR
+        projects to 0. A veteran with recent games missing entirely is a bug worth reporting.</p>
       <p><strong>"The connector won't connect."</strong><br>
         Remove and re-add the connector in Claude. If it persists, email support with the
         approximate time it happened.</p>
