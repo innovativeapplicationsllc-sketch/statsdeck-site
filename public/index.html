@@ -545,8 +545,8 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
     <div class="announce-card">
       <div class="announce-copy">
         <h2>Beta Team Announcements <svg class="announce-ball" viewBox="0 0 100 100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-35 50 50)"><path d="M50 26 C72 26 88 38 88 50 C88 62 72 74 50 74 C28 74 12 62 12 50 C12 38 28 26 50 26 Z" fill="#8A4B22" stroke="#5E3115" stroke-width="3"/><line x1="34" y1="50" x2="66" y2="50" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="40" y1="44" x2="40" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="46" y1="43" x2="46" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="54" y1="43" x2="54" y2="57" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/><line x1="60" y1="44" x2="60" y2="56" stroke="#FFF8EC" stroke-width="3.5" stroke-linecap="round"/></g></svg></h2>
-        <p class="announce-sub">StatsDeck is now the fastest-growing fantasy tool for 2026!</p>
-        <p><strong>New Feature:</strong> Check out the new <strong>StatsDeck Times</strong> when viewing league standings. It's a full newspaper about your league inside StatsDeck.</p>
+        <p class="announce-sub">StatsDeck projections are smarter than ever</p>
+        <p>Every projection now factors in recent workload trends, player availability and this week's matchup, all under your league's scoring. <a href="#faq-q18" style="text-decoration:underline">See how it works</a></p>
         <p style="border-top:1px solid var(--line);margin:0 0 14px;padding-top:14px"></p>
         <p>We continue to ship <strong>updates and improvements ongoing</strong>. Please keep <a href="#faq-q1" style="text-decoration:underline">sharing your user reports, feedback and feature requests</a>.</p>
       </div>
@@ -752,6 +752,23 @@ footer{border-top:1px solid var(--line);background:var(--paper-2);padding:42px 0
             <li><strong>Depth charts and rosters</strong> refresh once a day.</li>
           </ul>
           One consequence worth knowing: if you check a player right after the earliest game of the day, that individual line may not be posted yet. It lands with a later refresh that day and is final overnight.<br><br>Two accuracy notes: the NFL issues official stat corrections through the following Wednesday, so a Thursday number is the most settled version of a given week. And any time you want to confirm how current your data is, just ask — every stats answer is stamped, and the model can tell you exactly what the data covers and when it was last refreshed, in your local time where it can.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" id="faq-q18" aria-expanded="false" aria-controls="faq-a18">
+          How does StatsDeck calculate projections?
+          <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a" id="faq-a18" role="region" aria-labelledby="faq-q18" hidden>
+          Every StatsDeck projection is built for your league and scored under your league's settings. Here are some elements of what goes into it:
+          <ul>
+            <li><strong>Recent form, weighted:</strong> recent games count more than older ones.</li>
+            <li><strong>Opponent adjusted:</strong> adjusted for how this week's opponent gives up fantasy points to the position, under your scoring.</li>
+            <li><strong>Workload trend:</strong> RB, WR and TE projections move with recent snap share. Losing work pulls the number down, and earning more snaps bumps it up.</li>
+            <li><strong>Availability:</strong> a player who is Out, Doubtful or on IR projects to 0. Questionable players keep their number, so that call stays yours.</li>
+          </ul>
+          Lineup swap suggestions compare projections head to head, so a starter who's on bye or ruled out shows up as a clear swap.<br><br>Every change to the projection is tested against past weeks and seasons before it ships.
         </div>
       </div>
 
